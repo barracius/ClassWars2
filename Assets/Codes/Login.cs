@@ -21,7 +21,6 @@ public class Login : MonoBehaviour
 
     public static string PlayerUsername;
     public static string PlayerPassword;
-    public static string PlayerEmail = null;
 
     public void OnSubmitLoginButton()
     {
@@ -32,8 +31,8 @@ public class Login : MonoBehaviour
 
     public void LoginToDatabase(string u, string p)
     {
-        FirebaseDatabase dbInstance = FirebaseDatabase.DefaultInstance;
-        dbInstance.GetReference("user").GetValueAsync().ContinueWith(task =>
+        var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
+        userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
@@ -48,7 +47,10 @@ public class Login : MonoBehaviour
                     IDictionary dictUser = (IDictionary) user.Value;
                     if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
                     {
-                        User userlogged = new User(dictUser["username"].ToString(), dictUser["password"].ToString(), dictUser["email"].ToString());
+                        User userlogged = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
+                            dictUser["email"].ToString());
+                        DataSaver.userlogged()
+                        
                     }
                 }
             }
