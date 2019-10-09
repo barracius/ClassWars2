@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "493071376487",
+    "firebase_url": "https://class-wars.firebaseio.com",
+    "project_id": "class-wars",
+    "storage_bucket": "class-wars.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493071376487:android:fd2c47d36efd705c15f4c2",
+        "android_client_info": {
+          "package_name": "com.PDSG6.ClassWars"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493071376487-c3hjbrr4ilbn8nql5lll6ht8enl5te8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDnzS6qEgcTwFuM1UO1j1AKiCHgeq11H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493071376487-c3hjbrr4ilbn8nql5lll6ht8enl5te8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "493071376487-2qa97iuf5hmthkalqu74n7nju1tckgto.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.PDSG6.ClassWars"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493071376487:android:c3ef5c6dc55fb68815f4c2",
+        "android_client_info": {
+          "package_name": "com.uandes.classwars"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493071376487-c3hjbrr4ilbn8nql5lll6ht8enl5te8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDnzS6qEgcTwFuM1UO1j1AKiCHgeq11H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493071376487-c3hjbrr4ilbn8nql5lll6ht8enl5te8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "493071376487-2qa97iuf5hmthkalqu74n7nju1tckgto.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.PDSG6.ClassWars"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
