@@ -40,11 +40,6 @@ public class Login : MonoBehaviour
 
     }
 
-    IEnumerator Wait()
-    {
-        yield return new WaitForSecondsRealtime(4);
-    }
-
     public void LoginToDatabase(string u, string p)
     {
         
