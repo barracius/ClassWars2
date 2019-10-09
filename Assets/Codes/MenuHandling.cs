@@ -25,4 +25,9 @@ public class MenuHandling : MonoBehaviour
 
     }
 
+    public void Logout_btn()
+    {
+
+    }
+
 }
