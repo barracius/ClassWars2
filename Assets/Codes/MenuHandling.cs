@@ -20,4 +20,9 @@ public class MenuHandling : MonoBehaviour
         cat.SetActive(false);
     }
 
+    public void Add_Friend()
+    {
+
+    }
+
 }
