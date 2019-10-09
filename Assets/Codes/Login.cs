@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Firebase.Database;
 using Firebase;
 using Firebase.Unity.Editor;
+using UnityEngine.SceneManagement;
 
 public class Login : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class Login : MonoBehaviour
 
     public static string PlayerUsername;
     public static string PlayerPassword;
+    public static bool parch = false;
 
     public void OnSubmitLoginButton()
     {
@@ -29,8 +31,23 @@ public class Login : MonoBehaviour
         LoginToDatabase(PlayerUsername, PlayerPassword);
     }
 
+    public void What()
+    {
+        Debug.Log("whot");
+        PlayerPrefs.SetInt("n",3);
+        Debug.Log(PlayerPrefs.GetInt("n").ToString());
+        SceneManager.LoadScene("Scenes/MenuScene");
+
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSecondsRealtime(4);
+    }
+
     public void LoginToDatabase(string u, string p)
     {
+        
         var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
         userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
         {
@@ -49,11 +66,22 @@ public class Login : MonoBehaviour
                     {
                         User userlogged = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
                             dictUser["email"].ToString());
-                        DataSaver.userlogged()
+                        Debug.Log("what");
                         
+                        parch = true;
+                        Debug.Log("whet");
                     }
                 }
             }
+            
+            
         });
+        Wait();
+        Debug.Log("whit");
+        if (parch)
+        {
+            Debug.Log("Whyt");
+            What();
+        }
     }
 }
