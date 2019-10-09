@@ -10,7 +10,6 @@ using Firebase.Unity.Editor;
 public class Login : MonoBehaviour
 {
     public DatabaseReference reference;
-
     private void Start()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
@@ -22,6 +21,7 @@ public class Login : MonoBehaviour
 
     public static string PlayerUsername;
     public static string PlayerPassword;
+    public static string PlayerEmail = null;
 
     public void OnSubmitLoginButton()
     {
@@ -55,4 +55,3 @@ public class Login : MonoBehaviour
         });
     }
 }
-
