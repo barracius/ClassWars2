@@ -8,6 +8,7 @@
       <e p="Assets" t="Include">
         <e p="Codes" t="Include">
           <e p="Character.cs" t="Include" />
+          <e p="Friendship.cs" t="Include" />
           <e p="GridManager.cs" t="Include" />
           <e p="Login.cs" t="Include" />
           <e p="MenuHandling.cs" t="Include" />

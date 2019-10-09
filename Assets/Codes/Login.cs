@@ -22,7 +22,8 @@ public class Login : MonoBehaviour
 
     public static string PlayerUsername;
     public static string PlayerPassword;
-    public static bool parch = false;
+    public static bool isLoggedin = false;
+    private User current_user;
 
     public void OnSubmitLoginButton()
     {
@@ -31,11 +32,11 @@ public class Login : MonoBehaviour
         LoginToDatabase(PlayerUsername, PlayerPassword);
     }
 
-    public void What()
+    public void onLogin(User user)
     {
         Debug.Log("whot");
-        PlayerPrefs.SetInt("n",3);
-        Debug.Log(PlayerPrefs.GetInt("n").ToString());
+        PlayerPrefs.SetString("username", user.username);
+        Debug.Log(PlayerPrefs.GetString("username"));
         SceneManager.LoadScene("Scenes/MenuScene");
 
     }
@@ -59,24 +60,18 @@ public class Login : MonoBehaviour
                     IDictionary dictUser = (IDictionary) user.Value;
                     if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
                     {
-                        User userlogged = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
+                        current_user = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
                             dictUser["email"].ToString());
-                        Debug.Log("what");
-                        
-                        parch = true;
-                        Debug.Log("whet");
+                        isLoggedin = true;
                     }
                 }
             }
             
             
         });
-        Wait();
-        Debug.Log("whit");
-        if (parch)
+        if (isLoggedin)
         {
-            Debug.Log("Whyt");
-            What();
+            onLogin(current_user);
         }
     }
 }
