@@ -7,9 +7,15 @@ public class Instantiate : MonoBehaviour
     public GameObject Warrior_GO;
     public GameObject Mage_GO;
     public GameObject Hunter_GO;
-    public Warrior attributes;
+    private Warrior attributes;
     public Hashtable infojugadores = new Hashtable();
     public List<GameObject> jugadores = new List<GameObject>();
+
+    public List<Vector3> vectores = new List<Vector3>();
+    public Vector3 P1_Position = new Vector3(0, -190, 0);
+    public Vector3 P2_Position = new Vector3(0, 370, 0);
+    public Vector3 P3_Position = new Vector3(350, 370, 0);
+    public Vector3 P4_Position = new Vector3(-350, 370, 0);
 
     // int getHP(GameObject Player){
     //     attributes = (Attributes)Player.GetComponent( "Attributes" );
@@ -31,61 +37,62 @@ public class Instantiate : MonoBehaviour
     //     attributes.MP = value;
 
     // }
-    void Awake(){
 
+
+    void Handletransformation(GameObject Player)
+    {
+        Player.transform.SetParent(GameObject.FindGameObjectWithTag("aaaa").transform, false);
     }
 
-    GameObject HandleInstantiate(string jugador){
+    GameObject HandleInstantiate(string jugador, Vector3 vector)
+    {
         string clase = (string)infojugadores[jugador];
-        if(clase == "Mage"){
-            GameObject character = Instantiate(Mage_GO,new Vector3(0,-190,0), transform.rotation) as GameObject;
+        if (clase == "Mage")
+        {
+            GameObject character = Instantiate(Mage_GO, vector, transform.rotation) as GameObject;
             return character;
-        }else if(clase=="Warrior"){
-            GameObject character = Instantiate(Warrior_GO,new Vector3(0,-190,0), transform.rotation) as GameObject;
+        }
+        else if (clase == "Warrior")
+        {
+            GameObject character = Instantiate(Warrior_GO, vector, transform.rotation) as GameObject;
             return character;
-        }else if(clase=="Hunter"){
-            GameObject character = Instantiate(Hunter_GO,new Vector3(0,-190,0), transform.rotation) as GameObject;
+        }
+        else if (clase == "Hunter")
+        {
+            GameObject character = Instantiate(Hunter_GO, vector, transform.rotation) as GameObject;
             return character;
-        }else{
+        }
+        else
+        {
             return null;
         }
     }
 
     void Start()
     {
-        infojugadores.Add("J1","Mage");
-        infojugadores.Add("J2","Mage");
-        infojugadores.Add("J3","Mage");
-        infojugadores.Add("J4","Mage");
+        infojugadores.Add("J1", "Mage");
+        infojugadores.Add("J2", "Hunter");
+        infojugadores.Add("J3", "Warrior");
+        infojugadores.Add("J4", "Mage");
+        vectores.Add(P1_Position);
+        vectores.Add(P2_Position);
+        vectores.Add(P3_Position);
+        vectores.Add(P4_Position);
 
-
-        // for (int i = 0; i< infojugadores.Count;i++){
-        //     print(infojugadores[i]);
-        //     // GameObject Player =HandleInstantiate(infojugadores[i]);
-        //     // jugadores.Add(Player);
-        // }
-
-        foreach(DictionaryEntry de in infojugadores){
-            print(de.Key);
+        int i = 0;
+        foreach (DictionaryEntry de in infojugadores)
+        {
+            GameObject Player = HandleInstantiate(de.Key.ToString(), vectores[i]);
+            i++;
+            Handletransformation(Player);
+            jugadores.Add(Player);
         }
 
-        GameObject Player1 = Instantiate(Warrior_GO,new Vector3(0,-190,0), transform.rotation) as GameObject;
-        GameObject Player2 = Instantiate(Warrior_GO, new Vector3(0,370, 0), transform.rotation) as GameObject;
-        GameObject Player3 = Instantiate(Hunter_GO, new Vector3(350,370, 0), transform.rotation) as GameObject;
-        GameObject Player4 = Instantiate(Mage_GO, new Vector3(-350,370, 0), transform.rotation) as GameObject;
-        
-        jugadores.Add(Player1);
-        jugadores.Add(Player2);
-        jugadores.Add(Player3);
-        jugadores.Add(Player4);
 
-        attributes = (Warrior)jugadores[0].GetComponent( "Warrior" );
-        print(attributes.maxHP);
 
-        Player1.transform.SetParent(GameObject.FindGameObjectWithTag("aaaa").transform, false);
-        Player2.transform.SetParent(GameObject.FindGameObjectWithTag("aaaa").transform, false);
-        Player3.transform.SetParent(GameObject.FindGameObjectWithTag("aaaa").transform, false);
-        Player4.transform.SetParent(GameObject.FindGameObjectWithTag("aaaa").transform, false);
+        // attributes = (Warrior)jugadores[0].GetComponent("Warrior");
+        // print(attributes.maxHP);
+
 
         //attributes = (Attributes)Player1.GetComponent( "Attributes" );
         //attributes.HP = 33;
@@ -95,7 +102,7 @@ public class Instantiate : MonoBehaviour
         //getHP(Player1);
         //setHP(Player1, 77);
         //getHP(Player1);
-        
+
 
 
     }
