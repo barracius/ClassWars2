@@ -8,14 +8,18 @@ public class Instantiate : MonoBehaviour
     public GameObject Mage_GO;
     public GameObject Hunter_GO;
     private Warrior attributes;
+    //    public Dictionary<string, ArrayList> infojugadores = new Dictionary<string, ArrayList>();
     public Hashtable infojugadores = new Hashtable();
     public List<GameObject> jugadores = new List<GameObject>();
 
     public List<Vector3> vectores = new List<Vector3>();
-    public Vector3 P1_Position = new Vector3(0, -190, 0);
-    public Vector3 P2_Position = new Vector3(0, 370, 0);
-    public Vector3 P3_Position = new Vector3(350, 370, 0);
-    public Vector3 P4_Position = new Vector3(-350, 370, 0);
+
+
+    public int max_rounds;
+    public float max_time;
+
+
+    public int cant_jugadores;
 
     // int getHP(GameObject Player){
     //     attributes = (Attributes)Player.GetComponent( "Attributes" );
@@ -44,9 +48,9 @@ public class Instantiate : MonoBehaviour
         Player.transform.SetParent(GameObject.FindGameObjectWithTag("aaaa").transform, false);
     }
 
-    GameObject HandleInstantiate(string jugador, Vector3 vector)
+    GameObject HandleInstantiate(string clase, Vector3 vector)
     {
-        string clase = (string)infojugadores[jugador];
+
         if (clase == "Mage")
         {
             GameObject character = Instantiate(Mage_GO, vector, transform.rotation) as GameObject;
@@ -68,24 +72,73 @@ public class Instantiate : MonoBehaviour
         }
     }
 
+    // void turnEnd()
+    // {
+
+    //     infojugadores["Turno"]++;
+    //     if (infojugadores["Turno"] % cant_jugadores == 0)
+    //     {
+
+    //     }
+
+    // }
+
+    void Update()
+    {
+
+    }
+
     void Start()
     {
-        infojugadores.Add("J1", "Mage");
-        infojugadores.Add("J2", "Hunter");
-        infojugadores.Add("J3", "Warrior");
-        infojugadores.Add("J4", "Mage");
+        //Generate P1
+        ArrayList arList1 = new ArrayList();
+        arList1.Add("Hunter");
+        arList1.Add(1);
+        infojugadores.Add("J1", arList1);
+
+        //Generate P2
+        ArrayList arList2 = new ArrayList();
+        arList2.Add("Mage");
+        arList2.Add(2);
+        infojugadores.Add("J2", arList2);
+
+        //Generate Game data
+        max_rounds = 4;
+        max_time = 10.0f;
+        ArrayList arList3 = new ArrayList();
+        arList3.Add(max_rounds);
+        arList3.Add(max_time);
+        arList3.Add(1);
+        infojugadores.Add("Partida", arList3);
+
+        //infojugadores.Add("State", null);
+        Vector3 P1_Position = new Vector3(0, -190, 0);
+        Vector3 P2_Position = new Vector3(0, 370, 0);
+        Vector3 P3_Position = new Vector3(350, 370, 0);
+        Vector3 P4_Position = new Vector3(-350, 370, 0);
         vectores.Add(P1_Position);
         vectores.Add(P2_Position);
         vectores.Add(P3_Position);
         vectores.Add(P4_Position);
 
-        int i = 0;
+
+
+
+        int cant_jugadores = 0;
         foreach (DictionaryEntry de in infojugadores)
         {
-            GameObject Player = HandleInstantiate(de.Key.ToString(), vectores[i]);
-            i++;
-            Handletransformation(Player);
-            jugadores.Add(Player);
+            ArrayList arraylist = (ArrayList)infojugadores[de.Key];
+            string player_class = arraylist[0].ToString();
+
+            if (player_class == "Mage" || player_class.ToString() == "Hunter"
+                    || player_class.ToString() == "Warrior")
+            {
+                GameObject Player = HandleInstantiate(player_class.ToString(), vectores[cant_jugadores]);
+                cant_jugadores++;
+                Handletransformation(Player);
+                jugadores.Add(Player);
+
+            }
         }
 
 

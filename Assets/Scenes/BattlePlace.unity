@@ -317,9 +317,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7b0116b38a38e40a0ebc6d12961e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Warrior: {fileID: 7070657540188122252, guid: 7e587e95f8326954dac4c5dabab4b148, type: 3}
-  Mage: {fileID: 695443011490594761, guid: 68440959d28aed14bb391830c1450333, type: 3}
-  Hunter: {fileID: 4248523985374992141, guid: 1d4211343a8a84240a61c8e99531dd90, type: 3}
+  Warrior_GO: {fileID: 7070657540188122252, guid: 7e587e95f8326954dac4c5dabab4b148,
+    type: 3}
+  Mage_GO: {fileID: 695443011490594761, guid: 68440959d28aed14bb391830c1450333, type: 3}
+  Hunter_GO: {fileID: 4248523985374992141, guid: 1d4211343a8a84240a61c8e99531dd90,
+    type: 3}
+  jugadores: []
+  vectores: []
+  max_rounds: 0
+  max_time: 0
+  cant_jugadores: 0
 --- !u!1 &1876729699
 GameObject:
   m_ObjectHideFlags: 0
