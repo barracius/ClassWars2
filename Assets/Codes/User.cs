@@ -7,10 +7,11 @@ using UnityEngine;
 [Serializable]
 public class User
 {
-    public string username;
+    public string username, id;
 
-    public User(string Username)
+    public User(string Username, string Id)
     {
         username = Username;
+        id = Id;
     }
 }

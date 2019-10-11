@@ -81,7 +81,7 @@ public class Register : MonoBehaviour
                 _newUser.DisplayName, _newUser.UserId);
             if (_newUser != null)
             {
-                User user = new User(PlayerUsername);
+                User user = new User(PlayerUsername, _newUser.UserId);
                 string json = JsonUtility.ToJson(user);
                 reference.Child("user").Child(_newUser.UserId).SetRawJsonValueAsync(json);
                 Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile

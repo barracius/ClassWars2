@@ -9,11 +9,11 @@ public class Friendship
 {
     public string user1_id, user2_id, status;
 
-    public Friendship(string u1, string u2)
+    public Friendship(string u1, string u2, string s)
     {
         user1_id = u1;
         user2_id = u2;
-        status = "Stand by";
+        status = s;
     }
 
     public void Accepted()
