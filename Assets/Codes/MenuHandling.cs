@@ -17,12 +17,14 @@ public class MenuHandling : MonoBehaviour
     public static string FriendUsername;
     public DatabaseReference reference;
 
+
+
     void Start()
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         Firebase.Auth.FirebaseUser user = auth.CurrentUser;
         cat.SetActive(false);
-        current_user_username = user.DisplayName;
+        current_user_username = user.Email;
         profileButton.GetComponentInChildren<Text>().text = current_user_username;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -51,17 +53,17 @@ public class MenuHandling : MonoBehaviour
         auth.SignOut();
         SceneManager.LoadScene("Scenes/LoginScene");
     }
-    
+
     private void AddFriendDB()
     {
         Friendship friendship = new Friendship(current_user_username, FriendUsername);
         string json = JsonUtility.ToJson(friendship);
         reference.Child("friendship").Child(current_user_username + " | " + FriendUsername).SetRawJsonValueAsync(json);
     }
-    
+
     public void CheckFriendships(string u)
     {
-        
+
         var friendship_refs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
         friendship_refs.OrderByChild("username2").EqualTo(u).GetValueAsync().ContinueWith(task =>
         {
@@ -75,14 +77,14 @@ public class MenuHandling : MonoBehaviour
                 DataSnapshot snapshot = task.Result;
                 foreach (DataSnapshot friendship in snapshot.Children)
                 {
-                    IDictionary dictFriend = (IDictionary) friendship.Value;
+                    IDictionary dictFriend = (IDictionary)friendship.Value;
                     Debug.Log(dictFriend["username1"] + "<- User1");
                     Debug.Log(dictFriend["username2"] + "<- User2");
                     Debug.Log(dictFriend["status"] + "<- status");
                 }
             }
-            
-            
+
+
         });
     }
 

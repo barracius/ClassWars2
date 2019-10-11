@@ -13,12 +13,31 @@ public class Login : MonoBehaviour
 
 
     public DatabaseReference reference;
-    // private FirebaseApp.Auth.FirebaseAuth auth;
+    private Firebase.Auth.FirebaseAuth auth;
+    private Firebase.Auth.FirebaseUser newUser;
+    private FirebaseApp app = FirebaseApp.DefaultInstance;
 
+    void Awake()
+    {
+        // Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        // {
+        //     var dependencyStatus = task.Result;
+        //     if (dependencyStatus == Firebase.DependencyStatus.Available)
+        //     {
+        //         // Create and hold a reference to your FirebaseApp,
+        //         // where app is a Firebase.FirebaseApp property of your application class.
+        //         //FirebaseApp app = FirebaseApp.DefaultInstance;
 
-    // void Awake(){
-
-    // }
+        //         // Set a flag here to indicate whether Firebase is ready to use by your app.
+        //     }
+        //     else
+        //     {
+        //         UnityEngine.Debug.LogError(System.String.Format(
+        //         "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+        //         // Firebase Unity SDK is not safe to use here.
+        //     }
+        // });
+    }
     private void Start()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
@@ -29,7 +48,8 @@ public class Login : MonoBehaviour
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         Firebase.Auth.FirebaseUser user = auth.CurrentUser;
-        if (user != null) {
+        if (user != null)
+        {
             SceneManager.LoadScene("Scenes/MenuScene");
         }
     }
@@ -51,11 +71,6 @@ public class Login : MonoBehaviour
 
     public void onLogin(User user)
     {
-
-        // Debug.Log("whot");
-        // PlayerPrefs.SetString("username", user.username);
-        // Debug.Log(PlayerPrefs.GetString("username"));
-        //SceneManager.LoadScene("Scenes/MenuScene");
 
     }
 
@@ -81,31 +96,6 @@ public class Login : MonoBehaviour
                     , newUser.DisplayName, newUser.UserId);
         });
 
-        // var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
-        // userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
-        // {
-        //     if (task.IsFaulted)
-        //     {
-        //         // Handle the error...
-        //         Debug.Log("Error");
-        //     }
-        //     else if (task.IsCompleted)
-        //     {
-        //         DataSnapshot snapshot = task.Result;
-        //         foreach (DataSnapshot user in snapshot.Children)
-        //         {
-        //             IDictionary dictUser = (IDictionary)user.Value;
-        //             if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
-        //             {
-        //                 current_user = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
-        //                     dictUser["email"].ToString());
-        //                 isLoggedin = true;
-        //             }
-        //         }
-        //     }
-
-
-        // });
     }
-    
+
 }
