@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Database;
@@ -77,6 +78,30 @@ public class Register : MonoBehaviour
             Firebase.Auth.FirebaseUser newUser = task.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 newUser.DisplayName, newUser.UserId);
+            if (newUser != null)
+            {
+                Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
+                {
+                    DisplayName = PlayerUsername
+                };
+                newUser.UpdateUserProfileAsync(profile).ContinueWith(tarea =>
+                {
+                    if (tarea.IsCanceled)
+                    {
+                        Debug.LogError("UpdateUserProfileAsync was canceled.");
+                        return;
+                    }
+
+                    if (tarea.IsFaulted)
+                    {
+                        Debug.LogError("UpdateUserProfileAsync encountered an error: " + tarea.Exception);
+                        return;
+                    }
+
+                    Debug.Log("User profile updated successfully.");
+                    Debug.Log(newUser.DisplayName);
+                });
+            }
         });
 
 
@@ -84,4 +109,5 @@ public class Register : MonoBehaviour
         // string json = JsonUtility.ToJson(user);
         // reference.Child("user").Child(PlayerUsername).SetRawJsonValueAsync(json);
     }
+            
 }

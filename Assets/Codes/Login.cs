@@ -29,7 +29,7 @@ public class Login : MonoBehaviour
     {
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         Firebase.Auth.FirebaseUser user = auth.CurrentUser;
-        if (user != null) {
+        if (user != null && user.DisplayName != "") {
             SceneManager.LoadScene("Scenes/MenuScene");
         }
     }
