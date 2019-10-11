@@ -16,9 +16,9 @@ public class MenuHandling : MonoBehaviour
     public Button profileButton;
     public InputField UsernameInputField;
     public static string OtherFriendCode;
-    
+
     public Text friendCodeText;
-    
+
     private FirebaseAuth _auth;
     private FirebaseUser _currentUser;
     public DatabaseReference reference;
@@ -26,7 +26,7 @@ public class MenuHandling : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     void Start()
@@ -39,7 +39,7 @@ public class MenuHandling : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(_currentUser.UserId);
-        
+
 
     }
     public void Profile_picPressed()
@@ -63,17 +63,17 @@ public class MenuHandling : MonoBehaviour
         _auth.SignOut();
         SceneManager.LoadScene("Scenes/LoginScene");
     }
-    
+
     private void AddFriendDB()
     {
         Friendship friendship = new Friendship(_currentUser.UserId, OtherFriendCode);
         string json = JsonUtility.ToJson(friendship);
         reference.Child("friendship").Child(_currentUser.UserId + " | " + OtherFriendCode).SetRawJsonValueAsync(json);
     }
-    
+
     public void CheckFriendships(string u)
     {
-        
+
         var friendshipRefs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
         friendshipRefs.OrderByChild("user2_id").EqualTo(u).GetValueAsync().ContinueWith(task =>
         {
@@ -87,15 +87,15 @@ public class MenuHandling : MonoBehaviour
                 DataSnapshot snapshot = task.Result;
                 foreach (DataSnapshot friendship in snapshot.Children)
                 {
-                    IDictionary dictFriend = (IDictionary) friendship.Value;
+                    IDictionary dictFriend = (IDictionary)friendship.Value;
                     Debug.Log(dictFriend["user1_id"] + "<- User1");
                     Debug.Log(dictFriend["user2_id"] + "<- User2");
                     Debug.Log(dictFriend["status"] + "<- status");
                     cuenta++;
                 }
             }
-            
-            
+
+
         });
     }
 

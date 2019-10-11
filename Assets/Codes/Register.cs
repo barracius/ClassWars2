@@ -57,7 +57,7 @@ public class Register : MonoBehaviour
             }
 
             //Firebase user has been created.
-             _newUser = task.Result;
+            _newUser = task.Result;
             Debug.LogFormat("Firebase user created successfully: {0} ({1})"
                     , _newUser.DisplayName, _newUser.UserId);
         });
