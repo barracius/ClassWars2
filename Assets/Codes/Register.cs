@@ -59,6 +59,27 @@ public class Register : MonoBehaviour
             Debug.LogFormat("Firebase user created successfully: {0} ({1})"
                     , newUser.DisplayName, newUser.UserId);
         });
+
+        Firebase.Auth.Credential credential = Firebase.Auth.EmailAuthProvider.GetCredential(PlayerEmail, PlayerPassword);
+        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithCredentialAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+        });
+
+
         // User user = new User(PlayerUsername, PlayerPassword, PlayerEmail);
         // string json = JsonUtility.ToJson(user);
         // reference.Child("user").Child(PlayerUsername).SetRawJsonValueAsync(json);
