@@ -7,12 +7,12 @@ using UnityEngine;
 
 public class Friendship
 {
-    public string username1, username2, status;
+    public string user1_id, user2_id, status;
 
     public Friendship(string u1, string u2)
     {
-        username1 = u1;
-        username2 = u2;
+        user1_id = u1;
+        user2_id = u2;
         status = "Stand by";
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Database;
 using Firebase;
+using Firebase.Auth;
 using Firebase.Unity.Editor;
 using UnityEngine.SceneManagement;
 
@@ -12,21 +13,31 @@ public class MenuHandling : MonoBehaviour
 {
     public GameObject cat;
     public Button profileButton;
-    private string current_user_username;
     public InputField UsernameInputField;
-    public static string FriendUsername;
+    public static string OtherFriendCode;
+    
+    public Text friendCodeText;
+    
+    private FirebaseAuth _auth;
+    private FirebaseUser _currentUser;
     public DatabaseReference reference;
+
+    private void Awake()
+    {
+        
+    }
 
     void Start()
     {
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+        _auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        _currentUser = _auth.CurrentUser;
         cat.SetActive(false);
-        current_user_username = user.DisplayName;
-        profileButton.GetComponentInChildren<Text>().text = current_user_username;
+        profileButton.GetComponentInChildren<Text>().text = _currentUser.DisplayName;
+        friendCodeText.text = "Your friend code is: " + _currentUser.UserId;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        CheckFriendships(current_user_username);
+        CheckFriendships(_currentUser.UserId);
+        
 
     }
     public void Profile_picPressed()
@@ -41,29 +52,28 @@ public class MenuHandling : MonoBehaviour
 
     public void onClickAddFriendButton()
     {
-        FriendUsername = UsernameInputField.text;
+        OtherFriendCode = UsernameInputField.text;
         AddFriendDB();
     }
 
     public void Logout_btn()
     {
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        auth.SignOut();
+        _auth.SignOut();
         SceneManager.LoadScene("Scenes/LoginScene");
     }
     
     private void AddFriendDB()
     {
-        Friendship friendship = new Friendship(current_user_username, FriendUsername);
+        Friendship friendship = new Friendship(_currentUser.UserId, OtherFriendCode);
         string json = JsonUtility.ToJson(friendship);
-        reference.Child("friendship").Child(current_user_username + " | " + FriendUsername).SetRawJsonValueAsync(json);
+        reference.Child("friendship").Child(_currentUser.UserId + " | " + OtherFriendCode).SetRawJsonValueAsync(json);
     }
     
     public void CheckFriendships(string u)
     {
         
-        var friendship_refs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
-        friendship_refs.OrderByChild("username2").EqualTo(u).GetValueAsync().ContinueWith(task =>
+        var friendshipRefs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
+        friendshipRefs.OrderByChild("user2_id").EqualTo(u).GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
@@ -76,14 +86,29 @@ public class MenuHandling : MonoBehaviour
                 foreach (DataSnapshot friendship in snapshot.Children)
                 {
                     IDictionary dictFriend = (IDictionary) friendship.Value;
-                    Debug.Log(dictFriend["username1"] + "<- User1");
-                    Debug.Log(dictFriend["username2"] + "<- User2");
+                    Debug.Log(dictFriend["user1_id"] + "<- User1");
+                    Debug.Log(dictFriend["user2_id"] + "<- User2");
                     Debug.Log(dictFriend["status"] + "<- status");
                 }
             }
             
             
         });
+    }
+
+    public class ExampleItemView
+    {
+        public Text usernameText;
+
+        public ExampleItemView(Transform rootView)
+        {
+            usernameText = rootView.Find("TitlePanel/UsernameText").GetComponent<Text>();
+        }
+    }
+
+    public class ExampleItemModel
+    {
+        public string username;
     }
 
 }
