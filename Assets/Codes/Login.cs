@@ -10,7 +10,15 @@ using UnityEngine.SceneManagement;
 
 public class Login : MonoBehaviour
 {
+
+
     public DatabaseReference reference;
+    // private FirebaseApp.Auth.FirebaseAuth auth;
+
+
+    // void Awake(){
+
+    // }
     private void Start()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
@@ -43,7 +51,7 @@ public class Login : MonoBehaviour
 
     public void LoginToDatabase(string u, string p)
     {
-        
+
         var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
         userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
         {
@@ -57,7 +65,7 @@ public class Login : MonoBehaviour
                 DataSnapshot snapshot = task.Result;
                 foreach (DataSnapshot user in snapshot.Children)
                 {
-                    IDictionary dictUser = (IDictionary) user.Value;
+                    IDictionary dictUser = (IDictionary)user.Value;
                     if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
                     {
                         current_user = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
@@ -66,8 +74,8 @@ public class Login : MonoBehaviour
                     }
                 }
             }
-            
-            
+
+
         });
         if (isLoggedin)
         {
