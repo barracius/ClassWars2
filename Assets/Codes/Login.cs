@@ -25,61 +25,81 @@ public class Login : MonoBehaviour
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
-    public InputField LoginUsernameText;
+    public InputField LoginEmailText;
     public InputField LoginPasswordText;
 
-    public static string PlayerUsername;
+    public static string PlayerEmail;
     public static string PlayerPassword;
     public static bool isLoggedin = false;
     private User current_user;
 
     public void OnSubmitLoginButton()
     {
-        PlayerUsername = LoginUsernameText.text;
+        PlayerEmail = LoginEmailText.text;
         PlayerPassword = LoginPasswordText.text;
-        LoginToDatabase(PlayerUsername, PlayerPassword);
+        LoginToDatabase(PlayerEmail, PlayerPassword);
     }
 
     public void onLogin(User user)
     {
-        Debug.Log("whot");
-        PlayerPrefs.SetString("username", user.username);
-        Debug.Log(PlayerPrefs.GetString("username"));
-        SceneManager.LoadScene("Scenes/MenuScene");
+
+        // Debug.Log("whot");
+        // PlayerPrefs.SetString("username", user.username);
+        // Debug.Log(PlayerPrefs.GetString("username"));
+        // SceneManager.LoadScene("Scenes/MenuScene");
 
     }
 
     public void LoginToDatabase(string u, string p)
     {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
-        var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
-        userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
+        auth.SignInWithEmailAndPasswordAsync(PlayerEmail, PlayerPassword).ContinueWith(task =>
         {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                return;
+            }
             if (task.IsFaulted)
             {
-                // Handle the error...
-                Debug.Log("Error");
-            }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                foreach (DataSnapshot user in snapshot.Children)
-                {
-                    IDictionary dictUser = (IDictionary)user.Value;
-                    if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
-                    {
-                        current_user = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
-                            dictUser["email"].ToString());
-                        isLoggedin = true;
-                    }
-                }
+                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
             }
 
-
+            //Firebase user has been created.
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("Firebase user created successfully: {0} ({1})"
+                    , newUser.DisplayName, newUser.UserId);
         });
-        if (isLoggedin)
-        {
-            onLogin(current_user);
-        }
+
+        // var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
+        // userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
+        // {
+        //     if (task.IsFaulted)
+        //     {
+        //         // Handle the error...
+        //         Debug.Log("Error");
+        //     }
+        //     else if (task.IsCompleted)
+        //     {
+        //         DataSnapshot snapshot = task.Result;
+        //         foreach (DataSnapshot user in snapshot.Children)
+        //         {
+        //             IDictionary dictUser = (IDictionary)user.Value;
+        //             if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
+        //             {
+        //                 current_user = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
+        //                     dictUser["email"].ToString());
+        //                 isLoggedin = true;
+        //             }
+        //         }
+        //     }
+
+
+        // });
+        // if (isLoggedin)
+        // {
+        //     onLogin(current_user);
+        // }
     }
 }
