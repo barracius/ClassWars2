@@ -38,15 +38,16 @@ public class PanelUI : MonoBehaviour
         HandleVisibility();
     }
 
-    public void Attack()
+    public void Skill()
     {
-        First_Panel.SetActive(true);
-        Skill_Panel.SetActive(false);
+        First_Panel.SetActive(false);
+        Skill_Panel.SetActive(true);
     }
 
     public void Atras()
     {
-
+        First_Panel.SetActive(true);
+        Skill_Panel.SetActive(false);
     }
 
     public void HandleVisibility()
@@ -64,14 +65,14 @@ public class PanelUI : MonoBehaviour
             Skill_Btn3.SetActive(false);
             Skill_BackBtn.SetActive(false);
         }
-        else if (Skill_Panel)
+        else if (Skill_Panel.activeSelf)
         {
             Skill_Btn1.SetActive(true);
             Skill_Btn2.SetActive(true);
             Skill_Btn3.SetActive(true);
             Skill_BackBtn.SetActive(true);
 
-            Skill_Panel.SetActive(false);
+            First_Panel.SetActive(false);
             First_FleeBtn.SetActive(false);
             First_AtkBtn.SetActive(false);
             First_ItemBtn.SetActive(false);
