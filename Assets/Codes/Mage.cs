@@ -14,10 +14,17 @@ public class Mage : MonoBehaviour
     public int intel = 5;
     public int dex = 3;
     public ArrayList skills;
+    //public HealthBar HBPlayer;
 
-    // Start is called before the first frame update
+    // private void OnGUI()
+    // {
+    //     HBPlayer.OnGUI();
+    // }
+    // Start is called before the first frame update 
     void Start()
     {
+        // HBPlayer.currentHp = curHP;
+        // HBPlayer.fullHp = maxHP;
         if (curHP <= 0)
         {
             alive = false;
@@ -35,6 +42,7 @@ public class Mage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // HBPlayer.currentHp = curHP;
+        // HBPlayer.fullHp = maxHP;
     }
 }

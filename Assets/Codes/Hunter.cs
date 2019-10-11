@@ -16,6 +16,8 @@ public class Hunter : MonoBehaviour
     public int dex = 5;
     public ArrayList skills;
 
+    public HealthBar HBPlayer;
+
     // Start is called before the first frame update
     void Start()
     {

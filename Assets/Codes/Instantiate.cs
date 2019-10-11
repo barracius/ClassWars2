@@ -10,9 +10,18 @@ public class Instantiate : MonoBehaviour
     public Hashtable infojugadores = new Hashtable();
     public List<GameObject> jugadores = new List<GameObject>();
     public List<Vector3> players_positions = new List<Vector3>();
+
+    public GameObject HP_Panel;
+
+    public Mage mage;
+    public Warrior warrior;
+    public Hunter hunter;
+
     public int max_rounds;
     public float max_time;
     public int cant_jugadores;
+
+
 
     void Handletransformation(GameObject Player)
     {
@@ -25,6 +34,10 @@ public class Instantiate : MonoBehaviour
         if (clase == "Mage")
         {
             GameObject character = Instantiate(Mage_GO, vector, transform.rotation) as GameObject;
+            // mage = (Mage)character.GetComponent("Mage");
+            // HBPlayer.fullHp = mage.maxMP;
+            // HBPlayer.currentHp = mage.curHP;
+            // print(HBPlayer.barDisplay);
             return character;
         }
         else if (clase == "Warrior")
@@ -80,7 +93,6 @@ public class Instantiate : MonoBehaviour
         arListGD.Add(1);
         infojugadores.Add("Partida", arListGD);
     }
-
     void handleVectors()
     {
         Vector3 P1_Position = new Vector3(0, -190, 0);
@@ -97,11 +109,16 @@ public class Instantiate : MonoBehaviour
 
     }
 
+    // private void OnGUI()
+    // {
+    //     // HBPlayer.OnGUI();
+    // }
     void Start()
     {
 
         getDatafromDB();
         handleVectors();
+        Transform hptransforms = HP_Panel.transform.Find("Player HP");
 
         int cant_jugadores = 0;
         foreach (DictionaryEntry de in infojugadores)
@@ -112,6 +129,7 @@ public class Instantiate : MonoBehaviour
             if (player_class == "Mage" || player_class.ToString() == "Hunter"
                     || player_class.ToString() == "Warrior")
             {
+
                 GameObject Player = HandleInstantiate(player_class.ToString(), players_positions[cant_jugadores]);
                 cant_jugadores++;
                 Handletransformation(Player);
