@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\kitor\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\kitor\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ClassWars2.-1575431180.00" t="ExcludeRecursive" />
+    <e p="C:\Users\kitor\OneDrive\Desktop\ClassWars2" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Codes" t="Include">
+          <e p="Character.cs" t="Include" />
+          <e p="Friendship.cs" t="Include" />
+          <e p="GridManager.cs" t="Include" />
+          <e p="Login.cs" t="Include" />
+          <e p="MenuHandling.cs" t="Include" />
+          <e p="PlayerMovement.cs" t="Include" />
+          <e p="Register.cs" t="Include" />
+          <e p="User.cs" t="Include" />
+        </e>
+        <e p="Firebase" t="Include">
+          <e p="m2repository" t="Include">
+            <e p="com" t="Include">
+              <e p="google" t="Include">
+                <e p="Firebase" t="Include">
+                  <e p="firebase-app-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                  <e p="firebase-auth-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                  <e p="firebase-database-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Resources" t="Include">
+          <e p="roguelike-cave-pack" t="Include">
+            <e p="License.txt" t="Include" />
+            <e p="spritesheetInfo.txt" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="ClassWars2.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
