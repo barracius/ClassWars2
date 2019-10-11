@@ -25,6 +25,15 @@ public class Login : MonoBehaviour
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
+    private void Update()
+    {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+        if (user != null) {
+            SceneManager.LoadScene("Scenes/MenuScene");
+        }
+    }
+
     public InputField LoginEmailText;
     public InputField LoginPasswordText;
 
@@ -46,7 +55,7 @@ public class Login : MonoBehaviour
         // Debug.Log("whot");
         // PlayerPrefs.SetString("username", user.username);
         // Debug.Log(PlayerPrefs.GetString("username"));
-        // SceneManager.LoadScene("Scenes/MenuScene");
+        //SceneManager.LoadScene("Scenes/MenuScene");
 
     }
 
@@ -68,7 +77,7 @@ public class Login : MonoBehaviour
 
             //Firebase user has been created.
             Firebase.Auth.FirebaseUser newUser = task.Result;
-            Debug.LogFormat("Firebase user created successfully: {0} ({1})"
+            Debug.LogFormat("Firebase user logged in successfully: {0} ({1})"
                     , newUser.DisplayName, newUser.UserId);
         });
 
@@ -97,9 +106,6 @@ public class Login : MonoBehaviour
 
 
         // });
-        // if (isLoggedin)
-        // {
-        //     onLogin(current_user);
-        // }
     }
+    
 }

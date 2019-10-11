@@ -45,7 +45,9 @@ public class MenuHandling : MonoBehaviour
 
     public void Logout_btn()
     {
-
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignOut();
+        SceneManager.LoadScene("Scenes/LoginScene");
     }
     
     private void AddFriendDB()
