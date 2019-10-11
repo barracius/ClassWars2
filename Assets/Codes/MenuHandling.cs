@@ -11,6 +11,8 @@ using UnityEngine.SceneManagement;
 public class MenuHandling : MonoBehaviour
 {
     public GameObject cat;
+
+    public GameObject cat2;
     public Button profileButton;
     private string current_user_username;
     public InputField UsernameInputField;
@@ -24,12 +26,30 @@ public class MenuHandling : MonoBehaviour
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         Firebase.Auth.FirebaseUser user = auth.CurrentUser;
         cat.SetActive(false);
+        cat2.SetActive(false);
         current_user_username = user.Email;
         profileButton.GetComponentInChildren<Text>().text = current_user_username;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(current_user_username);
 
+    }
+
+    public void New_Campaign()
+    {
+        //Lobby Maker
+
+        cat2.SetActive(true);
+    }
+    public void Back_Campaign()
+    {
+        //Lobby Maker
+
+        cat2.SetActive(false);
+    }
+    public void Continue_Campaign()
+    {
+        //Continue Game
     }
     public void Profile_picPressed()
     {
