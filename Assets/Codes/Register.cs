@@ -11,11 +11,10 @@ using Firebase.Unity.Editor;
 public class Register : MonoBehaviour
 {
     public DatabaseReference reference;
-    private Firebase.Auth.FirebaseAuth auth;
-    private Firebase.Auth.FirebaseUser newUser;
 
     private void awake()
     {
+        //Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
     }
     private void Start()
@@ -104,6 +103,11 @@ public class Register : MonoBehaviour
                 });
             }
         });
+
+
+        // User user = new User(PlayerUsername, PlayerPassword, PlayerEmail);
+        // string json = JsonUtility.ToJson(user);
+        // reference.Child("user").Child(PlayerUsername).SetRawJsonValueAsync(json);
     }
 
 }
