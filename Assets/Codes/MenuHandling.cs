@@ -19,8 +19,10 @@ public class MenuHandling : MonoBehaviour
 
     void Start()
     {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        Firebase.Auth.FirebaseUser user = auth.CurrentUser;
         cat.SetActive(false);
-        current_user_username = PlayerPrefs.GetString("username");
+        current_user_username = user.DisplayName;
         profileButton.GetComponentInChildren<Text>().text = current_user_username;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
