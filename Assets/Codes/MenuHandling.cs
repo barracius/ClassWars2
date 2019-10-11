@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Database;
@@ -21,6 +22,7 @@ public class MenuHandling : MonoBehaviour
     private FirebaseAuth _auth;
     private FirebaseUser _currentUser;
     public DatabaseReference reference;
+    private int cuenta = 0;
 
     private void Awake()
     {
@@ -89,6 +91,7 @@ public class MenuHandling : MonoBehaviour
                     Debug.Log(dictFriend["user1_id"] + "<- User1");
                     Debug.Log(dictFriend["user2_id"] + "<- User2");
                     Debug.Log(dictFriend["status"] + "<- status");
+                    cuenta++;
                 }
             }
             
@@ -96,10 +99,20 @@ public class MenuHandling : MonoBehaviour
         });
     }
 
-    public class ExampleItemView
+    void FetchItemModelFromServer(int count, Action<ExampleItemModel[]> onDone)
     {
-        public Text usernameText;
+        var results = new ExampleItemModel[count];
+        for (int i = 0; i < count; ++i)
+        {
+            results[i] = new ExampleItemModel();
+            results[i].username = i.ToString();
+        }
+        onDone(results);
+    }
 
+    public class ExampleItemView
+    { 
+        public Text usernameText;
         public ExampleItemView(Transform rootView)
         {
             usernameText = rootView.Find("TitlePanel/UsernameText").GetComponent<Text>();
