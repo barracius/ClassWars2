@@ -102,14 +102,26 @@ public class Instantiate : MonoBehaviour
         arList2.Add(2);
         infojugadores.Add("J2", arList2);
 
+        //Generate P3
+        ArrayList arList3 = new ArrayList();
+        arList3.Add("Warrior");
+        arList3.Add(4);
+        infojugadores.Add("J3", arList3);
+
+        //Generate P4
+        ArrayList arList4 = new ArrayList();
+        arList4.Add("Warrior");
+        arList4.Add(3);
+        infojugadores.Add("J4", arList4);
+
         //Generate Game data
         max_rounds = 4;
         max_time = 10.0f;
-        ArrayList arList3 = new ArrayList();
-        arList3.Add(max_rounds);
-        arList3.Add(max_time);
-        arList3.Add(1);
-        infojugadores.Add("Partida", arList3);
+        ArrayList arListGD = new ArrayList();
+        arListGD.Add(max_rounds);
+        arListGD.Add(max_time);
+        arListGD.Add(1);
+        infojugadores.Add("Partida", arListGD);
 
         //infojugadores.Add("State", null);
         Vector3 P1_Position = new Vector3(0, -190, 0);
