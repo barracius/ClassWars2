@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Warrior : MonoBehaviour
 {
-
+    public bool alive;
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;
@@ -17,6 +17,14 @@ public class Warrior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (curHP <= 0)
+        {
+            alive = false;
+        }
+        else
+        {
+            alive = true;
+        }
         ArrayList arList1 = new ArrayList();
         arList1.Add("Power Strike");
         arList1.Add(2);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Hunter : MonoBehaviour
 {
 
+    public bool alive;
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;
@@ -18,6 +19,14 @@ public class Hunter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (curHP <= 0)
+        {
+            alive = false;
+        }
+        else
+        {
+            alive = true;
+        }
         ArrayList arList1 = new ArrayList();
         arList1.Add("Dual Arrow");
         arList1.Add(2);
@@ -29,4 +38,20 @@ public class Hunter : MonoBehaviour
     {
 
     }
+
+    void DmgRecibed(int dmg)
+    {
+        curHP -= dmg;
+    }
+    void SpendMana(int mana)
+    {
+        curMP -= mana;
+    }
+
+    // public int dealDmg()
+    // {
+    //     return 
+    // }
+
+
 }

@@ -7,41 +7,12 @@ public class Instantiate : MonoBehaviour
     public GameObject Warrior_GO;
     public GameObject Mage_GO;
     public GameObject Hunter_GO;
-    private Warrior attributes;
-    //    public Dictionary<string, ArrayList> infojugadores = new Dictionary<string, ArrayList>();
     public Hashtable infojugadores = new Hashtable();
     public List<GameObject> jugadores = new List<GameObject>();
-
-    public List<Vector3> vectores = new List<Vector3>();
-
-
+    public List<Vector3> players_positions = new List<Vector3>();
     public int max_rounds;
     public float max_time;
-
-
     public int cant_jugadores;
-
-    // int getHP(GameObject Player){
-    //     attributes = (Attributes)Player.GetComponent( "Attributes" );
-    //     print(attributes.HP);
-    //     return attributes.HP;
-    // }
-    // void setHP(GameObject Player, int value){
-    //     attributes = (Attributes)Player.GetComponent( "Attributes" );
-    //     attributes.HP = value;
-
-    // }
-    // int getMP(GameObject Player){
-    //     attributes = (Attributes)Player.GetComponent( "Attributes" );
-    //     print(attributes.MP);
-    //     return attributes.MP;
-    // }
-    // void setMP(GameObject Player, int value){
-    //     attributes = (Attributes)Player.GetComponent( "Attributes" );
-    //     attributes.MP = value;
-
-    // }
-
 
     void Handletransformation(GameObject Player)
     {
@@ -72,23 +43,9 @@ public class Instantiate : MonoBehaviour
         }
     }
 
-    // void turnEnd()
-    // {
 
-    //     infojugadores["Turno"]++;
-    //     if (infojugadores["Turno"] % cant_jugadores == 0)
-    //     {
 
-    //     }
-
-    // }
-
-    void Update()
-    {
-
-    }
-
-    void Start()
+    void getDatafromDB()
     {
         //Generate P1
         ArrayList arList1 = new ArrayList();
@@ -122,19 +79,29 @@ public class Instantiate : MonoBehaviour
         arListGD.Add(max_time);
         arListGD.Add(1);
         infojugadores.Add("Partida", arListGD);
+    }
 
-        //infojugadores.Add("State", null);
+    void handleVectors()
+    {
         Vector3 P1_Position = new Vector3(0, -190, 0);
         Vector3 P2_Position = new Vector3(0, 370, 0);
         Vector3 P3_Position = new Vector3(350, 370, 0);
         Vector3 P4_Position = new Vector3(-350, 370, 0);
-        vectores.Add(P1_Position);
-        vectores.Add(P2_Position);
-        vectores.Add(P3_Position);
-        vectores.Add(P4_Position);
+        players_positions.Add(P1_Position);
+        players_positions.Add(P2_Position);
+        players_positions.Add(P3_Position);
+        players_positions.Add(P4_Position);
+    }
+    void Update()
+    {
 
+    }
 
+    void Start()
+    {
 
+        getDatafromDB();
+        handleVectors();
 
         int cant_jugadores = 0;
         foreach (DictionaryEntry de in infojugadores)
@@ -145,33 +112,11 @@ public class Instantiate : MonoBehaviour
             if (player_class == "Mage" || player_class.ToString() == "Hunter"
                     || player_class.ToString() == "Warrior")
             {
-                GameObject Player = HandleInstantiate(player_class.ToString(), vectores[cant_jugadores]);
+                GameObject Player = HandleInstantiate(player_class.ToString(), players_positions[cant_jugadores]);
                 cant_jugadores++;
                 Handletransformation(Player);
                 jugadores.Add(Player);
-
             }
         }
-
-
-
-        // attributes = (Warrior)jugadores[0].GetComponent("Warrior");
-        // print(attributes.maxHP);
-
-
-        //attributes = (Attributes)Player1.GetComponent( "Attributes" );
-        //attributes.HP = 33;
-
-        //attributes = Player1.Warrior.HP;
-
-        //getHP(Player1);
-        //setHP(Player1, 77);
-        //getHP(Player1);
-
-
-
     }
-
-
-
 }
