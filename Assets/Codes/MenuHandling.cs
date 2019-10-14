@@ -9,6 +9,7 @@ using Firebase.Database;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Unity.Editor;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class MenuHandling : MonoBehaviour
@@ -32,8 +33,8 @@ public class MenuHandling : MonoBehaviour
 
     public ArrayList friends = new ArrayList();
     public ArrayList friendsNames = new ArrayList();
-    
 
+    public VerticalLayoutGroup verticalLayoutGroup;
     private void Awake()
     {
 
@@ -49,7 +50,6 @@ public class MenuHandling : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(_currentUser.UserId);
-        Debug.Log("ACA");
     }
 
     public void Profile_picPressed()
@@ -119,17 +119,9 @@ public class MenuHandling : MonoBehaviour
         Debug.Log(friends.ToArray()[0]);
         foreach (ArrayList array in friends)
         {
-            Debug.Log("ACA3");
-            Debug.Log(array.Count);
-            Debug.Log("what");
-            Debug.Log(array.ToString());
-            Debug.Log(array[1]);
-
-            Debug.Log(array[0]);
             userRefs.OrderByChild("id").EqualTo(array[0].ToString()).GetValueAsync().ContinueWith(
                 task =>
                 {
-                    Debug.Log("ACA4");
                     if (task.IsFaulted)
                     {
                         // Handle the error...
@@ -137,19 +129,15 @@ public class MenuHandling : MonoBehaviour
                     }
                     else if (task.IsCompleted)
                     {
-                        Debug.Log("ACA5");
                         DataSnapshot snapshot2 = task.Result;
                         foreach (DataSnapshot user in snapshot2.Children)
                         {
-                            Debug.Log("ACA6");
                             IDictionary dictUser = (IDictionary) user.Value;
-                            Debug.Log(dictUser["username"] + " <- Username");
-                            Debug.Log(dictUser["id"] + " <- Id");
+                            //Debug.Log(dictUser["username"] + " <- Username");
+                            //Debug.Log(dictUser["id"] + " <- Id");
                             ArrayList asdtemp2 = new ArrayList();
                             asdtemp2.Add(dictUser["username"]);
-                            Debug.Log(asdtemp2[0] + " Valor 1");
                             asdtemp2.Add(dictUser["id"]);
-                            Debug.Log(asdtemp2[1] + " Valor 2");
                             friendsNames.Add(asdtemp2);
                         }
                     }
@@ -213,11 +201,15 @@ public class MenuHandling : MonoBehaviour
     //funcion debug
     public void Asdasd()
     {
+        RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
         foreach (ArrayList array in friendsNames)
         {
-            print(array[0]);
-            print(array[1]);
-            //print(array[2]);
+            GameObject g = new GameObject();
+            Text t = g.AddComponent<Text>();
+            //g.GetComponent<RectTransform>().SetParent(parent);
+            
+            t.GetComponent<RectTransform>().SetParent(parent);
+            t.text = array[0].ToString();
         }
     }
 }
