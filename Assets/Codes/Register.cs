@@ -11,6 +11,7 @@ using Firebase.Unity.Editor;
 public class Register : MonoBehaviour
 {
     public DatabaseReference reference;
+    private Firebase.Auth.FirebaseUser _newUser;
 
     private void awake()
     {
@@ -56,9 +57,9 @@ public class Register : MonoBehaviour
             }
 
             //Firebase user has been created.
-            Firebase.Auth.FirebaseUser newUser = task.Result;
+            _newUser = task.Result;
             Debug.LogFormat("Firebase user created successfully: {0} ({1})"
-                    , newUser.DisplayName, newUser.UserId);
+                    , _newUser.DisplayName, _newUser.UserId);
         });
 
         Firebase.Auth.Credential credential = Firebase.Auth.EmailAuthProvider.GetCredential(PlayerEmail, PlayerPassword);
@@ -75,16 +76,19 @@ public class Register : MonoBehaviour
                 return;
             }
 
-            Firebase.Auth.FirebaseUser newUser = task.Result;
+            _newUser = task.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})",
-                newUser.DisplayName, newUser.UserId);
-            if (newUser != null)
+                _newUser.DisplayName, _newUser.UserId);
+            if (_newUser != null)
             {
+                User user = new User(PlayerUsername, _newUser.UserId);
+                string json = JsonUtility.ToJson(user);
+                reference.Child("user").Child(_newUser.UserId).SetRawJsonValueAsync(json);
                 Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
                 {
                     DisplayName = PlayerUsername
                 };
-                newUser.UpdateUserProfileAsync(profile).ContinueWith(tarea =>
+                _newUser.UpdateUserProfileAsync(profile).ContinueWith(tarea =>
                 {
                     if (tarea.IsCanceled)
                     {
@@ -99,15 +103,9 @@ public class Register : MonoBehaviour
                     }
 
                     Debug.Log("User profile updated successfully.");
-                    Debug.Log(newUser.DisplayName);
+                    Debug.Log(_newUser.DisplayName);
                 });
             }
         });
-
-
-        // User user = new User(PlayerUsername, PlayerPassword, PlayerEmail);
-        // string json = JsonUtility.ToJson(user);
-        // reference.Child("user").Child(PlayerUsername).SetRawJsonValueAsync(json);
     }
-
 }
