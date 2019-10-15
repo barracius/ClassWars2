@@ -194,7 +194,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6616844376705541222}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6037925023507515213}
+        m_MethodName: onRejectButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6616844376768630197
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +323,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6616844376768630202}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6037925023507515213}
+        m_MethodName: onConfirmButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6616844377161923664
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,8 +423,9 @@ GameObject:
   - component: {fileID: 6616844377208701059}
   - component: {fileID: 6616844377208701057}
   - component: {fileID: 6616844377208701058}
+  - component: {fileID: 6037925023507515213}
   m_Layer: 0
-  m_Name: ItemPF
+  m_Name: FriendsPF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,6 +489,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6037925023507515213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616844377208701116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154beb7695807dc4da0cca6638245de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UsernameText: {fileID: 6616844377386578999}
+  AcceptButton: {fileID: 6616844376768630197}
+  RejectButton: {fileID: 6616844376705541217}
+  FriendsPF: {fileID: 6616844377208701116}
 --- !u!1 &6616844377386578993
 GameObject:
   m_ObjectHideFlags: 0

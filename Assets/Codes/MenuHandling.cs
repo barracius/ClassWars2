@@ -9,12 +9,15 @@ using Firebase.Database;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Unity.Editor;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class MenuHandling : MonoBehaviour
 {
-    private IDictionary dictFriend;
-    private int counti;
+    private int count;
+    private int size = -1;
+    public bool parch;
+    public bool parch2;
     public GameObject cat;
     public Button profileButton;
     public InputField UsernameInputField;
@@ -24,20 +27,15 @@ public class MenuHandling : MonoBehaviour
     private FirebaseAuth _auth;
     private FirebaseUser _currentUser;
     public DatabaseReference reference;
-    private int cuenta = 0;
     public RectTransform prefab;
     public ScrollRect scrollView;
     public RectTransform content;
-    private List<ExampleItemView> views = new List<ExampleItemView>();
 
     public ArrayList friends = new ArrayList();
     public ArrayList friendsNames = new ArrayList();
-    
 
-    private void Awake()
-    {
-
-    }
+    public VerticalLayoutGroup verticalLayoutGroup;
+    public GameObject FriendsPF;
 
     void Start()
     {
@@ -49,8 +47,25 @@ public class MenuHandling : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(_currentUser.UserId);
-        Debug.Log("ACA");
     }
+
+    private void Update()
+    {
+        if (parch)
+        {
+            CheckFriendsNames();
+            
+            parch = false;
+        }
+
+        if (size == count)
+        {
+            FillFriendList();
+            count = -2;
+        }
+        
+    }
+
 
     public void Profile_picPressed()
     {
@@ -101,35 +116,33 @@ public class MenuHandling : MonoBehaviour
                     //Debug.Log(dictFriend["user2_id"] + "<- User2");
                     //Debug.Log(dictFriend["status"] + "<- status");
                     ArrayList asdtemp = new ArrayList();
-                    asdtemp.Add(dictFriend["user1_id"]);
-                    asdtemp.Add(dictFriend["user2_id"]);
-                    asdtemp.Add(dictFriend["status"]);
-                    friends.Add(asdtemp);
+                    if (dictFriend["status"].ToString() != "Rejected")
+                    {
+                        asdtemp.Add(dictFriend["user1_id"]);
+                        asdtemp.Add(dictFriend["user2_id"]);
+                        asdtemp.Add(dictFriend["status"]);
+                        friends.Add(asdtemp);
+                    }
                 }
-                CheckFriendsNames();
+                
+
+                parch = true;
+
             }
         });
+        
     }
-
+    
     public void CheckFriendsNames()
     {
         var userRefs = FirebaseDatabase.DefaultInstance.GetReference("user");
-        Debug.Log("ACA2");
-        Debug.Log(friends.ToArray()[1]);
-        Debug.Log(friends.ToArray()[0]);
+        //Debug.Log("ACA2");
+        size = friends.Count;
         foreach (ArrayList array in friends)
         {
-            Debug.Log("ACA3");
-            Debug.Log(array.Count);
-            Debug.Log("what");
-            Debug.Log(array.ToString());
-            Debug.Log(array[1]);
-
-            Debug.Log(array[0]);
             userRefs.OrderByChild("id").EqualTo(array[0].ToString()).GetValueAsync().ContinueWith(
                 task =>
                 {
-                    Debug.Log("ACA4");
                     if (task.IsFaulted)
                     {
                         // Handle the error...
@@ -137,87 +150,42 @@ public class MenuHandling : MonoBehaviour
                     }
                     else if (task.IsCompleted)
                     {
-                        Debug.Log("ACA5");
                         DataSnapshot snapshot2 = task.Result;
                         foreach (DataSnapshot user in snapshot2.Children)
                         {
-                            Debug.Log("ACA6");
                             IDictionary dictUser = (IDictionary) user.Value;
-                            Debug.Log(dictUser["username"] + " <- Username");
-                            Debug.Log(dictUser["id"] + " <- Id");
+                            //Debug.Log(dictUser["username"] + " <- Username");
+                            //Debug.Log(dictUser["id"] + " <- Id");
+                            //Debug.Log(array[2]);
                             ArrayList asdtemp2 = new ArrayList();
                             asdtemp2.Add(dictUser["username"]);
-                            Debug.Log(asdtemp2[0] + " Valor 1");
                             asdtemp2.Add(dictUser["id"]);
-                            Debug.Log(asdtemp2[1] + " Valor 2");
+                            asdtemp2.Add(array[2]);
                             friendsNames.Add(asdtemp2);
                         }
                     }
+                    System.Threading.Interlocked.Increment(ref count);
+
                 });
         }
+
+        
     }
-
-
-
-    public void UpdateItems()
+    
+    void FillFriendList()
     {
-        FetchItemModelFromServer(cuenta, OnReceivedNewModels);
-    }
-
-    void OnReceivedNewModels(ExampleItemModel[] models)
-    {
-        foreach (Transform child in content)
-            Destroy(child.gameObject);
-        views.Clear();
-        int i = 0;
-        foreach (var model in models)
-        {
-            var instance = GameObject.Instantiate(prefab.gameObject, content, false) as GameObject;
-            var view = InitializeItemView(instance, model);
-            views.Add(view);
-            ++i;
-        }
-    }
-
-    ExampleItemView InitializeItemView(GameObject viewGameObject, ExampleItemModel model)
-    {
-        ExampleItemView view = new ExampleItemView(viewGameObject.transform);
-        view.usernameText.text = model.username;
-        return view;
-    }
-
-    void FetchItemModelFromServer(int count, Action<ExampleItemModel[]> onDone)
-    {
-        //var results = new ExampleItemModel[count];
-        var results = friendsNames;
-        for (int i = 0; i < count; ++i)
-        {
-            //results[i].username = i.ToString();
-        }
-        //onDone(results);
-    }
-
-    public class ExampleItemView
-    { 
-        public Text usernameText;
-        public ExampleItemView(Transform rootView)
-        {
-            usernameText = rootView.Find("TitlePanel/UsernameText").GetComponent<Text>();
-        }
-    }
-
-    public class ExampleItemModel
-    {
-        public string username;
-    }
-    //funcion debug
-    public void Asdasd()
-    {
+        RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
         foreach (ArrayList array in friendsNames)
         {
-            print(array[0]);
-            print(array[1]);
-            //print(array[2]);
+            GameObject friend = Instantiate(FriendsPF, parent.transform, true);
+            LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
+            //Debug.Log(array[2]);
+            if (array[2].ToString() == "Friends")
+            {
+                script.HideButtons();
+            }
+            script.AssignData(array[1].ToString(), array[0].ToString(), _currentUser.UserId);
+            script.ChangeUsernameText();
         }
     }
 }
