@@ -19,6 +19,7 @@ public class MenuHandling : MonoBehaviour
     public bool parch;
     public bool parch2;
     public GameObject cat;
+    public GameObject newGameCanvas;
     public Button profileButton;
     public InputField UsernameInputField;
     private static string OtherFriendCode;
@@ -27,15 +28,29 @@ public class MenuHandling : MonoBehaviour
     private FirebaseAuth _auth;
     private FirebaseUser _currentUser;
     public DatabaseReference reference;
-    public RectTransform prefab;
-    public ScrollRect scrollView;
-    public RectTransform content;
 
+    public ArrayList dbNotRejectedFriends = new ArrayList();
+    public ArrayList dbFriendRequests = new ArrayList();
     public ArrayList friends = new ArrayList();
-    public ArrayList friendsNames = new ArrayList();
 
-    public VerticalLayoutGroup verticalLayoutGroup;
+    public VerticalLayoutGroup content;
     public GameObject FriendsPF;
+
+    public Text Player1Text;
+    public Text Player2Text;
+
+    public InputField LobbyNameInputField;
+    public Dropdown MaxTurnsDropdown;
+    public Dropdown MaxTurnDurationDropdown;
+
+    private string invitedPlayerId;
+    private string invitedPlayerName;
+
+    private int MaxTurns;
+    private int MaxTurnDuration;
+    private string LobbyName;
+
+
 
     void Start()
     {
@@ -68,6 +83,7 @@ public class MenuHandling : MonoBehaviour
             count = -2;
         }
         
+        
     }
 
 
@@ -79,6 +95,43 @@ public class MenuHandling : MonoBehaviour
     public void Profile_close()
     {
         cat.SetActive(false);
+    }
+
+    public void onNewGameButton()
+    {
+        Player1Text.text = "Player 1: " + _currentUser.DisplayName;
+        newGameCanvas.SetActive(true);
+        foreach (GameObject friend in friends)
+        {
+            LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
+            script.InviteButtonAppearance();
+        }
+    }
+
+    public void onCreateButton()
+    {
+        MaxTurns = int.Parse(MaxTurnsDropdown.options[MaxTurnsDropdown.value].text);
+        MaxTurnDuration = int.Parse(MaxTurnDurationDropdown.options[MaxTurnDurationDropdown.value].text);
+        LobbyName = LobbyNameInputField.text;
+        
+        //Post LobbyRequest
+        Debug.Log("Max Turns: " + MaxTurns);
+        Debug.Log("Max Turn Duration: " + MaxTurnDuration);
+        Debug.Log("Lobby Name: " + LobbyName);
+        Debug.Log("Usuario 1: " + _currentUser.UserId);
+        Debug.Log("Usuario 2: " + invitedPlayerId);
+    }
+    
+    
+
+    public void onCloseNewGameButton()
+    {
+        newGameCanvas.SetActive(false);
+        foreach (GameObject friend in friends)
+        {
+            LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
+            script.InviteButtonDisappearance();
+        }
     }
 
     public void onClickAddFriendButton()
@@ -125,7 +178,7 @@ public class MenuHandling : MonoBehaviour
                         asdtemp.Add(dictFriend["user1_id"]);
                         asdtemp.Add(dictFriend["user2_id"]);
                         asdtemp.Add(dictFriend["status"]);
-                        friends.Add(asdtemp);
+                        dbNotRejectedFriends.Add(asdtemp);
                     }
                 }
                 
@@ -161,7 +214,7 @@ public class MenuHandling : MonoBehaviour
                         asdtemp.Add(dictFriend["user2_id"]);
                         asdtemp.Add(dictFriend["user1_id"]);
                         asdtemp.Add(dictFriend["status"]);
-                        friends.Add(asdtemp);
+                        dbNotRejectedFriends.Add(asdtemp);
                     }
                 }
                 
@@ -177,8 +230,8 @@ public class MenuHandling : MonoBehaviour
     {
         var userRefs = FirebaseDatabase.DefaultInstance.GetReference("user");
         //Debug.Log("ACA2");
-        size = friends.Count;
-        foreach (ArrayList array in friends)
+        size = dbNotRejectedFriends.Count;
+        foreach (ArrayList array in dbNotRejectedFriends)
         {
             userRefs.OrderByChild("id").EqualTo(array[0].ToString()).GetValueAsync().ContinueWith(
                 task =>
@@ -201,7 +254,7 @@ public class MenuHandling : MonoBehaviour
                             asdtemp2.Add(dictUser["username"]);
                             asdtemp2.Add(dictUser["id"]);
                             asdtemp2.Add(array[2]);
-                            friendsNames.Add(asdtemp2);
+                            dbFriendRequests.Add(asdtemp2);
                         }
                     }
                     System.Threading.Interlocked.Increment(ref count);
@@ -214,18 +267,29 @@ public class MenuHandling : MonoBehaviour
     
     void FillFriendList()
     {
-        RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
-        foreach (ArrayList array in friendsNames)
+        RectTransform parent = content.GetComponent<RectTransform>();
+        foreach (ArrayList array in dbFriendRequests)
         {
             GameObject friend = Instantiate(FriendsPF, parent.transform, true);
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
             //Debug.Log(array[2]);
+            script.AssignData(array[1].ToString(), array[0].ToString(), _currentUser.UserId);
+            script.ChangeUsernameText();
             if (array[2].ToString() == "Friends")
             {
                 script.HideButtons();
+                friends.Add(friend);
             }
-            script.AssignData(array[1].ToString(), array[0].ToString(), _currentUser.UserId);
-            script.ChangeUsernameText();
+            
         }
     }
+
+    public void GetPlayerInfo(string player2name, string player2id)
+    {
+        invitedPlayerId = player2id;
+        invitedPlayerName = player2name;
+        Player2Text.text = "Player 2: " + invitedPlayerName;
+    }
+
+    
 }

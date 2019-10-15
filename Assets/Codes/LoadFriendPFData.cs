@@ -18,6 +18,31 @@ public class LoadFriendPFData : MonoBehaviour
    public GameObject FriendsPF;
    public GameObject InviteButton;
 
+   public string invitedFriendUsername;
+   public string invitedFriendId;
+   public bool onInvite = false;
+   
+   //lobby invites
+   private string lobbyName;
+   private int maxTurns;
+   private int maxTurnDuration;
+   
+   public bool OnInviteButtonClass
+   {
+      get { return onInvite; }
+      set
+      {
+         if (value == onInvite)
+            return;
+         onInvite = value;
+         if (onInvite)
+         {
+            MenuHandling script = GameObject.Find("CanvasMenu").GetComponent<MenuHandling>();
+            script.GetPlayerInfo(invitedFriendUsername, invitedFriendId);
+            onInvite = false;
+         }
+      }
+   }
 
    public void ChangeUsernameText()
    {
@@ -56,13 +81,25 @@ public class LoadFriendPFData : MonoBehaviour
 
    public void onInviteButtonClick()
    {
-      
+      Debug.Log("friend username: " + friendUsername + ", friend ID: " + friendID);
+      invitedFriendId = friendID;
+      invitedFriendUsername = friendUsername;
+      OnInviteButtonClass = true;
    }
 
    public void HideButtons()
    {
       AcceptButton.SetActive(false);
       RejectButton.SetActive(false);
+   }
+
+   public void InviteButtonAppearance()
+   {
       InviteButton.SetActive(true);
+   }
+
+   public void InviteButtonDisappearance()
+   {
+      InviteButton.SetActive(false);
    }
 }

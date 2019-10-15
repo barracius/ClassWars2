@@ -15,14 +15,4 @@ public class Friendship
         user2_id = u2;
         status = s;
     }
-
-    public void Accepted()
-    {
-        status = "Friends";
-    }
-
-    public void Rejected()
-    {
-        status = "Blocked";
-    }
 }
