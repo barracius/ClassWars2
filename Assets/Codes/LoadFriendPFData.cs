@@ -16,6 +16,7 @@ public class LoadFriendPFData : MonoBehaviour
    public GameObject AcceptButton;
    public GameObject RejectButton;
    public GameObject FriendsPF;
+   public GameObject InviteButton;
 
 
    public void ChangeUsernameText()
@@ -51,6 +52,10 @@ public class LoadFriendPFData : MonoBehaviour
       string json = JsonUtility.ToJson(friendship);
       reference.Child("friendship").Child(friendID + " | " + userID).SetRawJsonValueAsync(json);
       FriendsPF.SetActive(false);
+   }
+
+   public void onInviteButtonClick()
+   {
       
    }
 
@@ -58,5 +63,6 @@ public class LoadFriendPFData : MonoBehaviour
    {
       AcceptButton.SetActive(false);
       RejectButton.SetActive(false);
+      InviteButton.SetActive(true);
    }
 }

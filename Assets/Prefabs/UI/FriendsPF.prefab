@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 7544596532665022025}
   - component: {fileID: 7076838751902209383}
   m_Layer: 0
-  m_Name: Rechazar Button (1)
+  m_Name: Invite Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8768192845132526044
 RectTransform:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: X
+  m_Text: I
 --- !u!1 &6616844376312428623
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,6 +712,7 @@ MonoBehaviour:
   AcceptButton: {fileID: 6616844376768630197}
   RejectButton: {fileID: 6616844376705541217}
   FriendsPF: {fileID: 6616844377208701116}
+  InviteButton: {fileID: 4885583485045963735}
 --- !u!1 &6616844377386578993
 GameObject:
   m_ObjectHideFlags: 0
