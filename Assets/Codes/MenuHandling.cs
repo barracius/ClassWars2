@@ -32,11 +32,6 @@ public class MenuHandling : MonoBehaviour
 
     public VerticalLayoutGroup verticalLayoutGroup;
     public GameObject FriendsPF;
-    
-    private void Awake()
-    {
-
-    }
 
     void Start()
     {
@@ -48,7 +43,7 @@ public class MenuHandling : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(_currentUser.UserId);
-        StartCoroutine(Asdasd());
+        StartCoroutine(FillFriendList());
     }
     
 
@@ -101,10 +96,13 @@ public class MenuHandling : MonoBehaviour
                     //Debug.Log(dictFriend["user2_id"] + "<- User2");
                     //Debug.Log(dictFriend["status"] + "<- status");
                     ArrayList asdtemp = new ArrayList();
-                    asdtemp.Add(dictFriend["user1_id"]);
-                    asdtemp.Add(dictFriend["user2_id"]);
-                    asdtemp.Add(dictFriend["status"]);
-                    friends.Add(asdtemp);
+                    if (dictFriend["status"].ToString() != "Rejected")
+                    {
+                        asdtemp.Add(dictFriend["user1_id"]);
+                        asdtemp.Add(dictFriend["user2_id"]);
+                        asdtemp.Add(dictFriend["status"]);
+                        friends.Add(asdtemp);
+                    }
                 }
                 CheckFriendsNames();
             }
@@ -114,9 +112,7 @@ public class MenuHandling : MonoBehaviour
     public void CheckFriendsNames()
     {
         var userRefs = FirebaseDatabase.DefaultInstance.GetReference("user");
-        Debug.Log("ACA2");
-        Debug.Log(friends.ToArray()[1]);
-        Debug.Log(friends.ToArray()[0]);
+        //Debug.Log("ACA2");
         foreach (ArrayList array in friends)
         {
             userRefs.OrderByChild("id").EqualTo(array[0].ToString()).GetValueAsync().ContinueWith(
@@ -135,9 +131,11 @@ public class MenuHandling : MonoBehaviour
                             IDictionary dictUser = (IDictionary) user.Value;
                             //Debug.Log(dictUser["username"] + " <- Username");
                             //Debug.Log(dictUser["id"] + " <- Id");
+                            //Debug.Log(array[2]);
                             ArrayList asdtemp2 = new ArrayList();
                             asdtemp2.Add(dictUser["username"]);
                             asdtemp2.Add(dictUser["id"]);
+                            asdtemp2.Add(array[2]);
                             friendsNames.Add(asdtemp2);
                         }
                     }
@@ -148,8 +146,7 @@ public class MenuHandling : MonoBehaviour
         
     }
     
-    //funcion debug
-    IEnumerator Asdasd()
+    IEnumerator FillFriendList()
     {
         yield return new WaitForSeconds(1);
         
@@ -158,8 +155,13 @@ public class MenuHandling : MonoBehaviour
         {
             GameObject friend = Instantiate(FriendsPF, parent.transform, true);
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
-            script.ChangeUsernameText(array[0].ToString());
-            script.AssignID(array[1].ToString());
+            Debug.Log(array[2]);
+            if (array[2].ToString() == "Friends")
+            {
+                script.HideButtons();
+            }
+            script.AssignData(array[1].ToString(), array[0].ToString(), _currentUser.UserId);
+            script.ChangeUsernameText();
         }
     }
 }
