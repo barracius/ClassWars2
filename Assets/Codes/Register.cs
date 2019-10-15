@@ -62,7 +62,7 @@ public class Register : MonoBehaviour
                     , _newUser.DisplayName, _newUser.UserId);
         });
 
-        Firebase.Auth.Credential credential = Firebase.Auth.EmailAuthProvider.GetCredential(PlayerEmail, PlayerPassword);
+        /*Firebase.Auth.Credential credential = Firebase.Auth.EmailAuthProvider.GetCredential(PlayerEmail, PlayerPassword);
         auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
         {
             if (task.IsCanceled)
@@ -106,6 +106,6 @@ public class Register : MonoBehaviour
                     Debug.Log(_newUser.DisplayName);
                 });
             }
-        });
+        });*/
     }
 }

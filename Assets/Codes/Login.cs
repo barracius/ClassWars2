@@ -3,33 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Database;
-using Firebase;
-using Firebase.Unity.Editor;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class Login : MonoBehaviour
 {
-
-
-    public DatabaseReference reference;
-    // private FirebaseApp.Auth.FirebaseAuth auth;
-
-
-    // void Awake(){
-
-    // }
-    private void Start()
-    {
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-    }
+    public User user;
 
     private void Update()
     {
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        Firebase.Auth.FirebaseUser user = auth.CurrentUser;
-        if (user != null && user.DisplayName != "") {
+        if (isLoggedin) {
             SceneManager.LoadScene("Scenes/MenuScene");
         }
     }
@@ -39,73 +22,46 @@ public class Login : MonoBehaviour
 
     public static string PlayerEmail;
     public static string PlayerPassword;
-    public static bool isLoggedin = false;
     private User current_user;
+    private bool isLoggedin;
 
     public void OnSubmitLoginButton()
     {
         PlayerEmail = LoginEmailText.text;
         PlayerPassword = LoginPasswordText.text;
-        LoginToDatabase(PlayerEmail, PlayerPassword);
+        StartCoroutine(LoginToDatabase(PlayerEmail, PlayerPassword));
     }
 
-    public void onLogin(User user)
+    IEnumerator LoginToDatabase(string e, string p)
     {
-
-        // Debug.Log("whot");
-        // PlayerPrefs.SetString("username", user.username);
-        // Debug.Log(PlayerPrefs.GetString("username"));
-        //SceneManager.LoadScene("Scenes/MenuScene");
-
-    }
-
-    public void LoginToDatabase(string u, string p)
-    {
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        auth.SignInWithEmailAndPasswordAsync(PlayerEmail, PlayerPassword).ContinueWith(task =>
+        using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/login/" + e))
         {
-            if (task.IsCanceled)
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
             {
-                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
-                return;
+                Debug.Log(www.error);
             }
-            if (task.IsFaulted)
+            else
             {
-                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                if (www.downloadHandler.text.Length == 2)
+                {
+                    Debug.Log("Wrong email or password");
+                    yield break;
+                }
+                if (www.downloadHandler.isDone)
+                {
+                    string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);; 
+                    user = JsonUtility.FromJson<User>(temp);
+                    if (user.pass != p)
+                    {
+                        Debug.Log("Wrong email or password");
+                    }
+                    else
+                    {
+                        isLoggedin = true;
+                    }
+                }
             }
-
-            //Firebase user has been created.
-            Firebase.Auth.FirebaseUser newUser = task.Result;
-            Debug.LogFormat("Firebase user logged in successfully: {0} ({1})"
-                    , newUser.DisplayName, newUser.UserId);
-        });
-
-        // var userref = FirebaseDatabase.DefaultInstance.GetReference("user");
-        // userref.OrderByChild("username").EqualTo(u).GetValueAsync().ContinueWith(task =>
-        // {
-        //     if (task.IsFaulted)
-        //     {
-        //         // Handle the error...
-        //         Debug.Log("Error");
-        //     }
-        //     else if (task.IsCompleted)
-        //     {
-        //         DataSnapshot snapshot = task.Result;
-        //         foreach (DataSnapshot user in snapshot.Children)
-        //         {
-        //             IDictionary dictUser = (IDictionary)user.Value;
-        //             if (u == dictUser["username"].ToString() && p == dictUser["password"].ToString())
-        //             {
-        //                 current_user = new User(dictUser["username"].ToString(), dictUser["password"].ToString(),
-        //                     dictUser["email"].ToString());
-        //                 isLoggedin = true;
-        //             }
-        //         }
-        //     }
-
-
-        // });
+        }
     }
-    
 }
