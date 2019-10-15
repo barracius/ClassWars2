@@ -2135,9 +2135,9 @@ MonoBehaviour:
     type: 3}
   Player1Text: {fileID: 2118615700}
   Player2Text: {fileID: 637579963}
-  lobbyName: {fileID: 2060389246}
-  maxTurns: {fileID: 838188000}
-  maxTurnDuration: {fileID: 567898247}
+  LobbyNameInputField: {fileID: 2060389246}
+  MaxTurnsDropdown: {fileID: 838188000}
+  MaxTurnDurationDropdown: {fileID: 567898247}
 --- !u!1 &662627451
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,7 +4149,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1513173344}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 638020833}
+        m_MethodName: onCreateButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1513173344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5958,7 +5969,7 @@ MonoBehaviour:
     m_Top: -95
     m_Bottom: 15
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 1
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -6021,7 +6032,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2147034645
 RectTransform:
   m_ObjectHideFlags: 0
