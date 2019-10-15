@@ -5,11 +5,19 @@ using UnityEngine;
 public class Mage : MonoBehaviour
 {
     public bool alive;
+<<<<<<< HEAD
+=======
+    
+    public string classname = "Mage";
+>>>>>>> tilemap
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;
     public int curMP = 22;
+<<<<<<< HEAD
 
+=======
+>>>>>>> tilemap
     public int str = 2;
     public int intel = 5;
     public int dex = 3;
@@ -45,4 +53,8 @@ public class Mage : MonoBehaviour
         // HBPlayer.currentHp = curHP;
         // HBPlayer.fullHp = maxHP;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> tilemap
