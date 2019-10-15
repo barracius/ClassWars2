@@ -17789,8 +17789,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38105e07cf7e45749831341b1033d6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamehandler: {fileID: 2002270043}
   player: {fileID: 485349675}
   enemy: {fileID: 1034373253}
+  playerDmg: 0
+  enemyDmg: 0
 --- !u!114 &670523354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23255,11 +23258,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e18a9b14cb811408e5e8c9e5af15e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battlehandler: {fileID: 670523352}
   globalRound: 0
   playerturn: 0
   isplaying: 0
   canvas: {fileID: 346783242}
   pauseScreen: {fileID: 1130313649}
+  maxturns: 3
   actions: 0
 --- !u!4 &2002270045
 Transform:

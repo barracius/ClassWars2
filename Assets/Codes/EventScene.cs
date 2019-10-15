@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class EventScene : MonoBehaviour
 {
 
-
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
 
@@ -159,12 +158,25 @@ public class EventScene : MonoBehaviour
     {
         //fight.SetActive(false);
         Debug.Log("Fighting");
-        dialogActive = true;
-        dialogBox.SetActive(true);
-        dialog = "You have defeated the log!";
-        dialogText.text = dialog;
 
-        afterFightN = true;
+        Character character = player.GetComponent<Character>();
+
+        Monsters monster = enemy.GetComponent<Monsters>();
+        if (character.curHP >= 0)
+        {
+
+        }
+        if (monster.curHP <= 0)
+        {
+            dialogActive = true;
+            dialogBox.SetActive(true);
+            dialog = "You have defeated the log!";
+            dialogText.text = dialog;
+
+            afterFightN = true;
+
+        }
+
     }
 
     public void TurnOnFight()

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
+    public GameObject battlehandler;
     public int globalRound;
     public int playerturn;
     public bool isplaying;
     public GameObject canvas;
     public GameObject pauseScreen;
 
-    private int maxturns = 3;
+    public int maxturns = 3;
 
     public int actions;
     void Start()

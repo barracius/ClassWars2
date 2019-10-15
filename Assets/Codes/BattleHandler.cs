@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BattleHandler : MonoBehaviour
 {
+    public GameObject gamehandler;
     public GameObject player;
 
     public GameObject enemy;
@@ -29,12 +30,22 @@ public class BattleHandler : MonoBehaviour
         Character character = player.GetComponent<Character>();
         CalculateDmgEnemy(monster);
         CalculateDmgPlayer(character);
-        Debug.Log("player:" + playerDmg.ToString());
-        Debug.Log("enemy:" + enemyDmg.ToString());
-        character.curHP -= enemyDmg;
-        monster.curHP -= playerDmg;
-        Debug.Log("player HP:" + character.curHP.ToString());
-        Debug.Log("enemy HP:" + monster.curHP.ToString());
+        if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg <= 0)
+        {
+            GameHandler gh = gamehandler.GetComponent<GameHandler>();
+            gh.actions = gh.maxturns;
+
+        }
+        else
+        {
+            Debug.Log("player:" + playerDmg.ToString());
+            Debug.Log("enemy:" + enemyDmg.ToString());
+            character.curHP -= enemyDmg;
+            monster.curHP -= playerDmg;
+            Debug.Log("player HP:" + character.curHP.ToString());
+            Debug.Log("enemy HP:" + monster.curHP.ToString());
+        }
+
 
     }
     void CalculateDmgPlayer(Character p1)
