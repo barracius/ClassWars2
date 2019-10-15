@@ -46,16 +46,20 @@ public class MenuHandling : MonoBehaviour
         friendCodeText.text = "Your friend code is: " + _currentUser.UserId;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        CheckFriendships(_currentUser.UserId);
+        CheckFriendships1(_currentUser.UserId);
     }
 
     private void Update()
     {
         if (parch)
         {
-            CheckFriendsNames();
-            
+            CheckFriendships2(_currentUser.UserId);
             parch = false;
+        }
+        if (parch2)
+        {
+            CheckFriendsNames();
+            parch2 = false;
         }
 
         if (size == count)
@@ -96,7 +100,7 @@ public class MenuHandling : MonoBehaviour
         reference.Child("friendship").Child(_currentUser.UserId + " | " + OtherFriendCode).SetRawJsonValueAsync(json);
     }
 
-    public void CheckFriendships(string u)
+    public void CheckFriendships1(string u)
     {
         var friendshipRefs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
         friendshipRefs.OrderByChild("user2_id").EqualTo(u).GetValueAsync().ContinueWith(task =>
@@ -127,6 +131,42 @@ public class MenuHandling : MonoBehaviour
                 
 
                 parch = true;
+
+            }
+        });
+        
+    }
+    public void CheckFriendships2(string u)
+    {
+        var friendshipRefs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
+        friendshipRefs.OrderByChild("user1_id").EqualTo(u).GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                // Handle the error...
+                Debug.Log("Error");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                foreach (DataSnapshot friendship in snapshot.Children.ToArray())
+                {
+                    IDictionary dictFriend = (IDictionary) friendship.Value;
+                    //Debug.Log(dictFriend["user1_id"] + "<- User1");
+                    //Debug.Log(dictFriend["user2_id"] + "<- User2");
+                    //Debug.Log(dictFriend["status"] + "<- status");
+                    ArrayList asdtemp = new ArrayList();
+                    if (dictFriend["status"].ToString() == "Friends" )
+                    {
+                        asdtemp.Add(dictFriend["user2_id"]);
+                        asdtemp.Add(dictFriend["user1_id"]);
+                        asdtemp.Add(dictFriend["status"]);
+                        friends.Add(asdtemp);
+                    }
+                }
+                
+
+                parch2 = true;
 
             }
         });
