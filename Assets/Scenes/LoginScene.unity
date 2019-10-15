@@ -492,7 +492,7 @@ GameObject:
   - component: {fileID: 352276163}
   - component: {fileID: 352276162}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: LoginCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1838,6 +1838,9 @@ MonoBehaviour:
   RegisterUsernameText: {fileID: 92852803}
   RegisterPasswordText: {fileID: 1922414292}
   RegisterEmailText: {fileID: 1429660848}
+  user:
+    pass: 
+    email: 
 --- !u!1 &1429660846
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,8 +2586,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c980ebeb085ad00478cf36b98f115586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  user:
+    pass: 
+    email: 
   LoginEmailText: {fileID: 1805553589}
   LoginPasswordText: {fileID: 20661306}
+  isLoggedin: 0
 --- !u!1 &1805553587
 GameObject:
   m_ObjectHideFlags: 0

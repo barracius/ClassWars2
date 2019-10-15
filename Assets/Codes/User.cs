@@ -7,8 +7,8 @@ using UnityEngine;
 [Serializable]
 public class User
 {
-    public int id;
-    public string username;
+    public static int id;
+    public static string username;
     public string pass;
     public string email;
     

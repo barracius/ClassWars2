@@ -14,6 +14,7 @@ public class Login : MonoBehaviour
     {
         if (isLoggedin) {
             SceneManager.LoadScene("Scenes/MenuScene");
+            isLoggedin = false;
         }
     }
 
@@ -23,18 +24,18 @@ public class Login : MonoBehaviour
     public static string PlayerEmail;
     public static string PlayerPassword;
     private User current_user;
-    private bool isLoggedin;
+    public bool isLoggedin;
 
     public void OnSubmitLoginButton()
     {
         PlayerEmail = LoginEmailText.text;
         PlayerPassword = LoginPasswordText.text;
-        StartCoroutine(LoginToDatabase(PlayerEmail, PlayerPassword));
+        StartCoroutine(LoginToDatabase());
     }
 
-    IEnumerator LoginToDatabase(string e, string p)
+    IEnumerator LoginToDatabase()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/login/" + e))
+        using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/login/" + PlayerEmail))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
@@ -52,7 +53,7 @@ public class Login : MonoBehaviour
                 {
                     string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);; 
                     user = JsonUtility.FromJson<User>(temp);
-                    if (user.pass != p)
+                    if (user.pass != PlayerPassword)
                     {
                         Debug.Log("Wrong email or password");
                     }
