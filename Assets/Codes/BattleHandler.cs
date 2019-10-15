@@ -8,16 +8,13 @@ public class BattleHandler : MonoBehaviour
 
     public GameObject enemy;
 
-    private float playerDmg;
-    private float enemyDmg;
+    public int playerDmg;
+    public int enemyDmg;
 
     // Start is called before the first frame update
     void Start()
     {
-        Character character = player.GetComponent<Character>();
-        Monsters monster = enemy.GetComponent<Monsters>();
-        CalculateDmgEnemy(monster);
-        CalculateDmgPlayer(character);
+
     }
 
     // Update is called once per frame
@@ -28,20 +25,31 @@ public class BattleHandler : MonoBehaviour
 
     public void AgarrarseAVergazos()
     {
+        Monsters monster = enemy.GetComponent<Monsters>();
+        Character character = player.GetComponent<Character>();
+        CalculateDmgEnemy(monster);
+        CalculateDmgPlayer(character);
         Debug.Log("player:" + playerDmg.ToString());
         Debug.Log("enemy:" + enemyDmg.ToString());
+        character.curHP -= enemyDmg;
+        monster.curHP -= playerDmg;
+        Debug.Log("player HP:" + character.curHP.ToString());
+        Debug.Log("enemy HP:" + monster.curHP.ToString());
+
     }
     void CalculateDmgPlayer(Character p1)
     {
-        if (p1.CharClass == "Mage")
+        Debug.Log(p1.CharClass.ToString());
+
+        if (p1.CharClass.ToString() == "Mage")
         {
             playerDmg = p1.intel * 2 + p1.dex;
         }
-        else if (p1.CharClass == "Warrior")
+        else if (p1.CharClass.ToString() == "Warrior")
         {
             playerDmg = p1.str * 2 + p1.dex;
         }
-        else if (p1.CharClass == "Hunter")
+        else if (p1.CharClass.ToString() == "Hunter")
         {
             playerDmg = p1.dex * 3;
         }
