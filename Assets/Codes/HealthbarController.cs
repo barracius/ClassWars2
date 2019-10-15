@@ -7,13 +7,25 @@ public class HealthbarController : MonoBehaviour
 {
     public Image HealthBar;
     public float Health;
-    public float maxHP;
+    public int maxHP;
+    public float maxMP;
 
-    public void OnTakeDmg(int dmg)
-    {
-        Health = Health - dmg;
-        HealthBar.fillAmount = Health/maxHP;
+    // // Health = Characters.curHP;
+    // // maxHP = Characters.maxHP;
 
-    }
+    // print(Health);
+
+
+    // public void OnTakeDmg(int dmg)
+    // {
+
+    //     curHealth = Health - dmg;
+    //     HealthBar.fillAmount = curHealth/maxHP;
+
+    // }
+
+    //print(Player.Characters.maxHP);
+
+    //Player.OnTakeDmg(24);
 
 }

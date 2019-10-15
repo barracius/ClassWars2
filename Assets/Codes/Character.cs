@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 
     public string CharClass;
     public GameObject Player;
-    public HealthbarController Healthbar;
+    //public HealthbarController Healthbar;
 
     public string classname = "";
     public int maxHP = 0;
@@ -19,6 +19,7 @@ public class Character : MonoBehaviour
     public int intel = 0;
     public int dex = 0;
 
+    
 
     void Start()
     {
@@ -76,4 +77,6 @@ public class Character : MonoBehaviour
      
 
     }
+
+   
 }
