@@ -1,7 +1,13 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27a09ce5-4776-4cc8-bd9c-ef55e361ce26" name="Default Changelist" comment="" />
+    <list default="true" id="27a09ce5-4776-4cc8-bd9c-ef55e361ce26" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ClassWars2.dir/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClassWars2.dir/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Firebase/Plugins/Http/link.xml_DISABLED" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Firebase/Plugins/Http/link.xml_DISABLED.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Firebase/Plugins/link.xml_DISABLED" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Firebase/Plugins/link.xml_DISABLED.meta" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,6 +18,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Codes/MenuHandling.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Codes/Login.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Codes/Login.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Codes/Register.cs" root0="SKIP_HIGHLIGHTING" />
@@ -66,6 +73,7 @@
       <updated>1570598239352</updated>
       <workItem from="1570598247786" duration="1981000" />
       <workItem from="1570601036355" duration="8158000" />
+      <workItem from="1571093215595" duration="90000" />
     </task>
     <servers />
   </component>

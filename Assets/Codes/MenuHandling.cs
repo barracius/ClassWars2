@@ -14,8 +14,6 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandling : MonoBehaviour
 {
-    private IDictionary dictFriend;
-    private int counti;
     public GameObject cat;
     public Button profileButton;
     public InputField UsernameInputField;
@@ -25,16 +23,16 @@ public class MenuHandling : MonoBehaviour
     private FirebaseAuth _auth;
     private FirebaseUser _currentUser;
     public DatabaseReference reference;
-    private int cuenta = 0;
     public RectTransform prefab;
     public ScrollRect scrollView;
     public RectTransform content;
-    private List<ExampleItemView> views = new List<ExampleItemView>();
 
     public ArrayList friends = new ArrayList();
     public ArrayList friendsNames = new ArrayList();
 
     public VerticalLayoutGroup verticalLayoutGroup;
+    public GameObject FriendsPF;
+    
     private void Awake()
     {
 
@@ -50,7 +48,9 @@ public class MenuHandling : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(_currentUser.UserId);
+        StartCoroutine(Asdasd());
     }
+    
 
     public void Profile_picPressed()
     {
@@ -141,75 +141,25 @@ public class MenuHandling : MonoBehaviour
                             friendsNames.Add(asdtemp2);
                         }
                     }
+                    
                 });
         }
+
+        
     }
-
-
-
-    public void UpdateItems()
-    {
-        FetchItemModelFromServer(cuenta, OnReceivedNewModels);
-    }
-
-    void OnReceivedNewModels(ExampleItemModel[] models)
-    {
-        foreach (Transform child in content)
-            Destroy(child.gameObject);
-        views.Clear();
-        int i = 0;
-        foreach (var model in models)
-        {
-            var instance = GameObject.Instantiate(prefab.gameObject, content, false) as GameObject;
-            var view = InitializeItemView(instance, model);
-            views.Add(view);
-            ++i;
-        }
-    }
-
-    ExampleItemView InitializeItemView(GameObject viewGameObject, ExampleItemModel model)
-    {
-        ExampleItemView view = new ExampleItemView(viewGameObject.transform);
-        view.usernameText.text = model.username;
-        return view;
-    }
-
-    void FetchItemModelFromServer(int count, Action<ExampleItemModel[]> onDone)
-    {
-        //var results = new ExampleItemModel[count];
-        var results = friendsNames;
-        for (int i = 0; i < count; ++i)
-        {
-            //results[i].username = i.ToString();
-        }
-        //onDone(results);
-    }
-
-    public class ExampleItemView
-    { 
-        public Text usernameText;
-        public ExampleItemView(Transform rootView)
-        {
-            usernameText = rootView.Find("TitlePanel/UsernameText").GetComponent<Text>();
-        }
-    }
-
-    public class ExampleItemModel
-    {
-        public string username;
-    }
+    
     //funcion debug
-    public void Asdasd()
+    IEnumerator Asdasd()
     {
+        yield return new WaitForSeconds(1);
+        
         RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
         foreach (ArrayList array in friendsNames)
         {
-            GameObject g = new GameObject();
-            Text t = g.AddComponent<Text>();
-            //g.GetComponent<RectTransform>().SetParent(parent);
-            
-            t.GetComponent<RectTransform>().SetParent(parent);
-            t.text = array[0].ToString();
+            GameObject friend = Instantiate(FriendsPF, parent.transform, true);
+            LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
+            script.ChangeUsernameText(array[0].ToString());
+            script.AssignID(array[1].ToString());
         }
     }
 }
