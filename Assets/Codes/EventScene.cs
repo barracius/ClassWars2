@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EventScene : MonoBehaviour
 {
+
+
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
 
@@ -44,7 +46,7 @@ public class EventScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -64,7 +66,7 @@ public class EventScene : MonoBehaviour
         {
             if (dialogActive)
             {
-                
+
                 TurnOnMenu();
                 dialogActive = false;
                 dialogBox.SetActive(false);
@@ -102,8 +104,8 @@ public class EventScene : MonoBehaviour
     {
         if (other.name == "Player")
         {
-            
-          
+
+
             inBox = true;
             Debug.Log("player in scene");
             if (player2In)
@@ -130,7 +132,7 @@ public class EventScene : MonoBehaviour
     public void Search()
     {
         Debug.Log(inBox);
-        
+
         if (inBox)
         {
             if (enemy)
@@ -153,7 +155,7 @@ public class EventScene : MonoBehaviour
         dialogBox.SetActive(true);
         dialog = "You have defeated the log!";
         dialogText.text = dialog;
-       
+
         afterFightN = true;
     }
 
@@ -191,13 +193,13 @@ public class EventScene : MonoBehaviour
         up.SetActive(false);
         down.SetActive(false);
         menu.SetActive(false);
-        
+
     }
 
     public void Skill()
     {
         Debug.Log("skill");
     }
-    
-    
+
+
 }

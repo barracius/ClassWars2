@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+
     public bool moving;
     private bool movx = false;
     private bool movy = false;
@@ -19,14 +21,14 @@ public class PlayerMovement : MonoBehaviour
     public GameObject search;
     public GameObject move;
     public GameObject rest;
-    
+
     private int c = 312;
     private int y = 177;
     public float speed;
     public Vector2 cameraChange;
     private CameraMovement cam;
-    
-    
+
+
     private Rigidbody2D myRigidbody;
 
     private Vector3 change;
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // getRound();
         if (movx)
         {
             if (c == 0)
@@ -55,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
                 movx = false;
                 TurnOnMenu();
                 c = 312;
-                
+
             }
 
             if (c == 170)
@@ -77,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 movy = false;
                 TurnOnMenu();
                 y = 177;
-                
+
             }
 
             if (y == 75)
@@ -157,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void MoveCharacter()
     {
-        myRigidbody.MovePosition(transform.position  + Time.deltaTime * speed * change);
+        myRigidbody.MovePosition(transform.position + Time.deltaTime * speed * change);
     }
 
     public void TurnOffMoveButtons()
@@ -189,4 +192,6 @@ public class PlayerMovement : MonoBehaviour
     {
         return moving;
     }
+
 }
+
