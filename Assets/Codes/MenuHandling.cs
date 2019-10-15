@@ -14,6 +14,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandling : MonoBehaviour
 {
+    private int count;
+    private int size = -1;
+    public bool parch;
+    public bool parch2;
     public GameObject cat;
     public Button profileButton;
     public InputField UsernameInputField;
@@ -43,9 +47,25 @@ public class MenuHandling : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckFriendships(_currentUser.UserId);
-        StartCoroutine(FillFriendList());
     }
-    
+
+    private void Update()
+    {
+        if (parch)
+        {
+            CheckFriendsNames();
+            
+            parch = false;
+        }
+
+        if (size == count)
+        {
+            FillFriendList();
+            count = -2;
+        }
+        
+    }
+
 
     public void Profile_picPressed()
     {
@@ -104,15 +124,20 @@ public class MenuHandling : MonoBehaviour
                         friends.Add(asdtemp);
                     }
                 }
-                CheckFriendsNames();
+                
+
+                parch = true;
+
             }
         });
+        
     }
-
+    
     public void CheckFriendsNames()
     {
         var userRefs = FirebaseDatabase.DefaultInstance.GetReference("user");
         //Debug.Log("ACA2");
+        size = friends.Count;
         foreach (ArrayList array in friends)
         {
             userRefs.OrderByChild("id").EqualTo(array[0].ToString()).GetValueAsync().ContinueWith(
@@ -139,23 +164,22 @@ public class MenuHandling : MonoBehaviour
                             friendsNames.Add(asdtemp2);
                         }
                     }
-                    
+                    System.Threading.Interlocked.Increment(ref count);
+
                 });
         }
 
         
     }
     
-    IEnumerator FillFriendList()
+    void FillFriendList()
     {
-        yield return new WaitForSeconds(1);
-        
         RectTransform parent = verticalLayoutGroup.GetComponent<RectTransform>();
         foreach (ArrayList array in friendsNames)
         {
             GameObject friend = Instantiate(FriendsPF, parent.transform, true);
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
-            Debug.Log(array[2]);
+            //Debug.Log(array[2]);
             if (array[2].ToString() == "Friends")
             {
                 script.HideButtons();
