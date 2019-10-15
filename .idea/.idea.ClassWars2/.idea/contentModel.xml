@@ -14,6 +14,7 @@
           <e p="Friendship.cs" t="Include" />
           <e p="GridManager.cs" t="Include" />
           <e p="HeartManager.cs" t="Include" />
+          <e p="LoadPlayers.cs" t="Include" />
           <e p="Login.cs" t="Include" />
           <e p="MenuHandling.cs" t="Include" />
           <e p="MoveWithArrows.cs" t="Include" />

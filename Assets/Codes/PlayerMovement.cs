@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public bool moving;
     private bool movx = false;
     private bool movy = false;
     private int xChange;
@@ -14,7 +15,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject right;
     public GameObject left;
     public GameObject menu;
-    
+    public GameObject skill;
+    public GameObject search;
+    public GameObject move;
+    public GameObject rest;
     
     private int c = 312;
     private int y = 177;
@@ -47,8 +51,9 @@ public class PlayerMovement : MonoBehaviour
         {
             if (c == 0)
             {
+                moving = false;
                 movx = false;
-                TurnOnMoveButtons();
+                TurnOnMenu();
                 c = 312;
                 
             }
@@ -68,8 +73,9 @@ public class PlayerMovement : MonoBehaviour
         {
             if (y == 0)
             {
+                moving = false;
                 movy = false;
-                TurnOnMoveButtons();
+                TurnOnMenu();
                 y = 177;
                 
             }
@@ -93,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void moveLeft()
     {
+        moving = true;
         TurnOffMoveButtons();
         xChange = -1;
         yChange = 0;
@@ -102,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void moveUo()
     {
+        moving = true;
         TurnOffMoveButtons();
         cameraChange.x = 0;
         cameraChange.y = 10;
@@ -111,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void moveDown()
     {
+        moving = true;
         TurnOffMoveButtons();
         cameraChange.x = 0;
         cameraChange.y = -10;
@@ -120,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void moveRight()
     {
+        moving = true;
         TurnOffMoveButtons();
         cameraChange.x = 18;
         cameraChange.y = 0;
@@ -165,5 +175,18 @@ public class PlayerMovement : MonoBehaviour
         down.SetActive(true);
         right.SetActive(true);
         left.SetActive(true);
+    }
+
+    public void TurnOnMenu()
+    {
+        rest.SetActive(true);
+        move.SetActive(true);
+        search.SetActive(true);
+        skill.SetActive(true);
+    }
+
+    public bool isMoving()
+    {
+        return moving;
     }
 }

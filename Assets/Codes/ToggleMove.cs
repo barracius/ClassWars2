@@ -21,6 +21,8 @@ public class ToggleMove : MonoBehaviour
     public GameObject search;
 
     public GameObject menu;
+
+    public GameObject fight;
     // Start is called before the first frame update
     void Start()
     {

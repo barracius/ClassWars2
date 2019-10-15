@@ -8,14 +8,22 @@ public class EventScene : MonoBehaviour
 {
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
-    
+
+    public GameObject player;
     public GameObject enemy;
     public GameObject exlamation;
     public GameObject search;
     public GameObject move;
     public GameObject skill;
     public GameObject rest;
+    public GameObject attack;
+    public GameObject skill1;
     public GameObject dialogBox;
+    public GameObject up;
+    public GameObject down;
+    public GameObject right;
+    public GameObject left;
+    public GameObject menu;
 
     public Text dialogText;
 
@@ -24,6 +32,15 @@ public class EventScene : MonoBehaviour
     public bool dialogActive;
 
     public bool inBox;
+
+    public bool afterFightP;
+    public bool afterFightN;
+    private bool player2In;
+
+    private bool parch;
+
+    private bool beginFightP;
+    private bool beginFightN;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,23 +50,49 @@ public class EventScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player2In && !player.GetComponent<PlayerMovement>().moving && parch)
+        {
+            dialogActive = true;
+            dialogBox.SetActive(true);
+            dialog = "You have encountered another player, get ready to rumble!";
+            dialogText.text = dialog;
+            parch = false;
+            beginFightP = true;
+            TurnOffMenu();
+        }
         if (Input.GetMouseButton(0))
         {
             if (dialogActive)
             {
                 
-                turnOnMenu();
+                TurnOnMenu();
                 dialogActive = false;
                 dialogBox.SetActive(false);
                 if (enemy)
                 {
                     exlamation.SetActive(false);
                     enemy.SetActive(true);
+                    TurnOffMenu();
                     if (currentHealth.initialValue > 0)
                     {
                         currentHealth.initialValue -= 1;
                         playerHealthSignal.Raise();
                     }
+                }
+
+                if (beginFightP)
+                {
+                    TurnOffMenu();
+                    TurnOnFight();
+                    Debug.Log("Fight wih user");
+                }
+
+                if (afterFightN)
+                {
+                    //fight.SetActive(false);
+                    TurnOffFight();
+                    enemy.SetActive(false);
+                    TurnOnMenu();
                 }
             }
         }
@@ -57,19 +100,27 @@ public class EventScene : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.name == "Player")
         {
             
-            Debug.Log(inBox);
+          
             inBox = true;
-            Debug.Log(inBox);
             Debug.Log("player in scene");
+            if (player2In)
+            {
+                parch = true;
+            }
+        }
+
+        if (other.name == "Player2")
+        {
+            player2In = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.name == "Player")
         {
             inBox = false;
             Debug.Log("player out scene");
@@ -86,16 +137,38 @@ public class EventScene : MonoBehaviour
             {
                 exlamation.SetActive(true);
             }
-            turnOffMenu();
-            Debug.Log("coming in");
+            TurnOffMenu();
             dialogActive = true;
             dialogBox.SetActive(true);
             dialogText.text = dialog;
             dialog = "nothing";
         }
     }
-    
-    public void turnOffMenu()
+
+    public void Fight()
+    {
+        //fight.SetActive(false);
+        Debug.Log("Fighting");
+        dialogActive = true;
+        dialogBox.SetActive(true);
+        dialog = "You have defeated the log!";
+        dialogText.text = dialog;
+       
+        afterFightN = true;
+    }
+
+    public void TurnOnFight()
+    {
+        attack.SetActive(true);
+        skill1.SetActive(true);
+    }
+
+    public void TurnOffFight()
+    {
+        attack.SetActive(false);
+        skill1.SetActive(false);
+    }
+    public void TurnOffMenu()
     {
         rest.SetActive(false);
         move.SetActive(false);
@@ -103,7 +176,7 @@ public class EventScene : MonoBehaviour
         search.SetActive(false);
     }
 
-    public void turnOnMenu()
+    public void TurnOnMenu()
     {
         rest.SetActive(true);
         move.SetActive(true);
@@ -111,8 +184,20 @@ public class EventScene : MonoBehaviour
         search.SetActive(true);
     }
 
+    public void TurnOffMovement()
+    {
+        right.SetActive(false);
+        left.SetActive(false);
+        up.SetActive(false);
+        down.SetActive(false);
+        menu.SetActive(false);
+        
+    }
+
     public void Skill()
     {
         Debug.Log("skill");
     }
+    
+    
 }

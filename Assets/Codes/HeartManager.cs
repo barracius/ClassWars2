@@ -24,5 +24,10 @@ public class HeartManager : MonoBehaviour
             hearts[i].sprite = life;
         }
     }
+
+    public void UpdateHearts()
+    {
+        
+    }
     
 }
