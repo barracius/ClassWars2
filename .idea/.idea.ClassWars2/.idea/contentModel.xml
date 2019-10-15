@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\kitor\.Rider2019.2\system\extResources" t="IncludeRecursive" />
@@ -7,13 +7,25 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Codes" t="Include">
+          <e p="CameraMovement.cs" t="Include" />
           <e p="Character.cs" t="Include" />
+          <e p="Context.cs" t="Include" />
+          <e p="EventScene.cs" t="Include" />
           <e p="Friendship.cs" t="Include" />
           <e p="GridManager.cs" t="Include" />
+          <e p="HeartManager.cs" t="Include" />
           <e p="Login.cs" t="Include" />
           <e p="MenuHandling.cs" t="Include" />
+          <e p="MoveWithArrows.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
           <e p="Register.cs" t="Include" />
+          <e p="RoomMove.cs" t="Include" />
+          <e p="Scriptable" t="Include">
+            <e p="FloatValue.cs" t="Include" />
+            <e p="Signal.cs" t="Include" />
+          </e>
+          <e p="SignalListener.cs" t="Include" />
+          <e p="ToggleMove.cs" t="Include" />
           <e p="User.cs" t="Include" />
         </e>
         <e p="Firebase" t="Include">
