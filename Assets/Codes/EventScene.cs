@@ -89,6 +89,13 @@ public class EventScene : MonoBehaviour
                     Debug.Log("Fight wih user");
                 }
 
+                if (beginFightN)
+                {
+                    TurnOffMenu();
+                    TurnOnFight();
+                    Debug.Log("Fight wih NPC");
+                }
+
                 if (afterFightN)
                 {
                     //fight.SetActive(false);
@@ -138,6 +145,7 @@ public class EventScene : MonoBehaviour
             if (enemy)
             {
                 exlamation.SetActive(true);
+                beginFightN = true;
             }
             TurnOffMenu();
             dialogActive = true;
