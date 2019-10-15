@@ -9,6 +9,7 @@ public class EventScene : MonoBehaviour
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
 
+    public int hola;
     public GameObject player;
     public GameObject enemy;
     public GameObject exlamation;
@@ -103,7 +104,7 @@ public class EventScene : MonoBehaviour
         if (other.name == "Player")
         {
             
-          
+            Debug.Log(hola);
             inBox = true;
             Debug.Log("player in scene");
             if (player2In)

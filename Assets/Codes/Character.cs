@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 
     public string CharClass;
     public GameObject Player;
-    //public HealthbarController Healthbar;
+    public int dmg = 0;
 
     public string classname = "";
     public int maxHP = 0;
@@ -71,6 +71,7 @@ public class Character : MonoBehaviour
 
     }
 
+    
     // Update is called once per frame
     void Update()
     {
@@ -78,5 +79,5 @@ public class Character : MonoBehaviour
 
     }
 
-   
+    
 }

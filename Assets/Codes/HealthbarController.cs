@@ -6,25 +6,20 @@ using UnityEngine.UI;
 public class HealthbarController : MonoBehaviour
 {
     public Image HealthBar;
-    public float Health;
+    public int Health;
     public int maxHP;
-    public float maxMP;
+    public int maxMP;
+    public int vida;
+    public GameObject Player;
+    
+    
 
-    // // Health = Characters.curHP;
-    // // maxHP = Characters.maxHP;
-
-    // print(Health);
+    
 
 
-    // public void OnTakeDmg(int dmg)
-    // {
+    //print(Player.GetComponent<Character>().maxHP);
 
-    //     curHealth = Health - dmg;
-    //     HealthBar.fillAmount = curHealth/maxHP;
-
-    // }
-
-    //print(Player.Characters.maxHP);
+    
 
     //Player.OnTakeDmg(24);
 
