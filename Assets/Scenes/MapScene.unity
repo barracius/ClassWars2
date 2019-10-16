@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 0
   canGoUp: 0
@@ -253,6 +254,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &50314938
@@ -1159,6 +1161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 1
@@ -1190,6 +1193,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &299208949
@@ -2334,6 +2338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 0
@@ -2365,6 +2370,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &306302174
@@ -2702,6 +2708,7 @@ RectTransform:
   - {fileID: 1265682365}
   - {fileID: 1498616798}
   - {fileID: 410621140}
+  - {fileID: 1565628017}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2891,6 +2898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 1
@@ -2922,6 +2930,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1001 &371511754
@@ -3026,6 +3035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 0
@@ -3057,6 +3067,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &398754017
@@ -20464,6 +20475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 1
@@ -20495,6 +20507,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &439640086
@@ -20753,6 +20766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 0
@@ -20784,6 +20798,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &485349675 stripped
@@ -20944,6 +20959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 0
   canGoUp: 1
@@ -20975,6 +20991,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1001 &526002749
@@ -21079,6 +21096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 0
   canGoUp: 1
@@ -21110,6 +21128,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &568003783
@@ -34922,6 +34941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 0
   canGoUp: 1
@@ -34953,6 +34973,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &710734870
@@ -35134,6 +35155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 0
   canGoUp: 0
@@ -35165,6 +35187,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1001 &716399778
@@ -35269,6 +35292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 0
   canGoUp: 0
@@ -35300,6 +35324,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &726468137
@@ -36674,6 +36699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 0
   canGoUp: 1
@@ -36705,6 +36731,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1001 &1057324201
@@ -36809,6 +36836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 0
   canGoUp: 1
@@ -36840,6 +36868,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1086428985
@@ -36994,6 +37023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 0
@@ -37025,6 +37055,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1130313649
@@ -38743,6 +38774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 1
@@ -38774,6 +38806,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1299998055
@@ -38955,6 +38988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 0
@@ -38986,6 +39020,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1362296732 stripped
@@ -39006,6 +39041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 1
@@ -39037,6 +39073,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!114 &1362296737
@@ -40767,6 +40804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 0
   canGoUp: 1
@@ -40798,6 +40836,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1439027191
@@ -41464,6 +41503,213 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560739172}
   m_CullTransparentMesh: 0
+--- !u!1 &1565628016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1565628017}
+  - component: {fileID: 1565628020}
+  - component: {fileID: 1565628019}
+  - component: {fileID: 1565628018}
+  m_Layer: 5
+  m_Name: finish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1565628017
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565628016}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1571786061}
+  m_Father: {fileID: 346783246}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -590, y: -1127.8}
+  m_SizeDelta: {x: 295.1, y: 145.82}
+  m_Pivot: {x: 0.85021627, y: -10.614233}
+--- !u!114 &1565628018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565628016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1565628019}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2002270044}
+        m_MethodName: finish
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1565628019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565628016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -2466020301452136916, guid: 5f822bee3e2ee6743a88ea9c2dd4eeb2,
+    type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1565628020
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565628016}
+  m_CullTransparentMesh: 0
+--- !u!1 &1571786060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571786061}
+  - component: {fileID: 1571786063}
+  - component: {fileID: 1571786062}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1571786061
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571786060}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1565628017}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1571786062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571786060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9811321, g: 0.9579922, b: 0.9579922, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 50
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Finish
+--- !u!222 &1571786063
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571786060}
+  m_CullTransparentMesh: 0
 --- !u!1001 &1670603215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41566,6 +41812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 0
@@ -41597,6 +41844,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1707300325
@@ -41716,17 +41964,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1362296733}
         m_MethodName: Search
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2002270044}
-        m_MethodName: sumActions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -41897,6 +42134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 0
@@ -41928,6 +42166,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1001 &1718699758
@@ -42032,6 +42271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 1
   canGoUp: 1
@@ -42063,6 +42303,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1724184376
@@ -42539,6 +42780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 1565628016}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 1
@@ -42570,6 +42812,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &1968209923
@@ -42761,6 +43004,7 @@ MonoBehaviour:
   isplaying: 0
   canvas: {fileID: 346783242}
   pauseScreen: {fileID: 1130313649}
+  cantjugadores: 0
   maxturns: 3
   actions: 0
 --- !u!4 &2002270045
@@ -84985,6 +85229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 1
   canGoRight: 0
   canGoUp: 1
@@ -85016,6 +85261,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &2117951156 stripped
@@ -85036,6 +85282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finiche: {fileID: 0}
   canGoLeft: 0
   canGoRight: 1
   canGoUp: 1
@@ -85067,6 +85314,7 @@ MonoBehaviour:
   afterFightN: 0
   playerDmg: 0
   enemyDmg: 0
+  turnFinished: 0
   healthbar_fg: {fileID: 1260548766}
   manabar_fg: {fileID: 0}
 --- !u!1 &2126259702
