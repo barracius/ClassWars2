@@ -66,14 +66,14 @@ public class GameHandler : MonoBehaviour
 
             canvas.SetActive(true);
 
-            pauseScreen.SetActive(false);
+            //pauseScreen.SetActive(false);
             isplaying = true;
         }
         else
         {
 
             //Pause Game
-            pauseScreen.SetActive(true);
+            //pauseScreen.SetActive(true);
 
             canvas.SetActive(false);
             isplaying = false;

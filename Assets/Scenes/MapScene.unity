@@ -16015,6 +16015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamehandler: {fileID: 0}
   animator: {fileID: 0}
   currentHealth: {fileID: 0}
   playerHealthSignal: {fileID: 0}
@@ -16040,6 +16041,8 @@ MonoBehaviour:
   inBox: 0
   afterFightP: 0
   afterFightN: 0
+  playerDmg: 0
+  enemyDmg: 0
 --- !u!1 &568003783
 GameObject:
   m_ObjectHideFlags: 0
@@ -18898,7 +18901,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670523352}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38105e07cf7e45749831341b1033d6a6, type: 3}
   m_Name: 
@@ -20155,13 +20158,14 @@ GameObject:
   - component: {fileID: 1034373255}
   - component: {fileID: 1034373254}
   - component: {fileID: 1034373256}
+  - component: {fileID: 1034373257}
   m_Layer: 0
   m_Name: log_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1034373254
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20245,6 +20249,25 @@ MonoBehaviour:
   str: 3
   intel: 2
   dex: 2
+--- !u!95 &1034373257
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034373253}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b8ba03a11ea18f943aeca3fcd3e874d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1039321491
 GameObject:
   m_ObjectHideFlags: 0
@@ -21197,6 +21220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamehandler: {fileID: 0}
   animator: {fileID: 0}
   currentHealth: {fileID: 0}
   playerHealthSignal: {fileID: 0}
@@ -21222,6 +21246,8 @@ MonoBehaviour:
   inBox: 0
   afterFightP: 0
   afterFightN: 0
+  playerDmg: 0
+  enemyDmg: 0
 --- !u!114 &1362296737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24025,6 +24051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamehandler: {fileID: 0}
   animator: {fileID: 0}
   currentHealth: {fileID: 11400000, guid: 5d6fb8bbfc5acae4cb916bf281ce328a, type: 2}
   playerHealthSignal: {fileID: 11400000, guid: 43d157ea31884d846bd5f51f734220f0, type: 2}
@@ -24050,6 +24077,8 @@ MonoBehaviour:
   inBox: 0
   afterFightP: 0
   afterFightN: 0
+  playerDmg: 0
+  enemyDmg: 0
 --- !u!1 &1968209923
 GameObject:
   m_ObjectHideFlags: 0
@@ -66278,6 +66307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a58df62bf32ef844a09801933036b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamehandler: {fileID: 0}
   animator: {fileID: 0}
   currentHealth: {fileID: 0}
   playerHealthSignal: {fileID: 0}
@@ -66303,6 +66333,8 @@ MonoBehaviour:
   inBox: 0
   afterFightP: 0
   afterFightN: 0
+  playerDmg: 0
+  enemyDmg: 0
 --- !u!1 &2126259702
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,11 +7,18 @@ using UnityEngine.UI;
 public class EventScene : MonoBehaviour
 {
 
-    private int attackTime = 10;
+    public GameObject gamehandler;
+
+    private int attackTime = 30;
     private bool attacking;
-    private int skilltime = 20;
+    private int skilltime = 60;
+    private int enemyAttackTime = 60;
+    private bool enemyAttack;
+    private int waitTime = 30;
+    private bool wait;
     private bool skilling;
     public Animator animator;
+    private Animator animatorE;
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
 
@@ -48,39 +55,77 @@ public class EventScene : MonoBehaviour
 
     private bool beginFightP;
     private bool beginFightN;
+
+
+    public int playerDmg;
+    public int enemyDmg;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = player.GetComponent<Animator>();
+        animatorE = enemy.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (enemyAttack)
+        {
+            enemyAttackTime -= 1;
+            if (enemyAttackTime == 0)
+            {
+                animatorE.SetBool("attacking", false);
+                enemyAttack = false;
+                enemyAttackTime = 60;
+                TurnOnFight();
+            }
+        }
+        if (wait && !afterFightN)
+        {
+            waitTime -= 1;
+            if (waitTime == 0)
+            {
+                animatorE.SetBool("attacking", true);
+                if (!afterFightN)
+                {
+                    enemyAttack = true;
+                }
+
+                waitTime = 30;
+                wait = false;
+            }
+
+        }
         if (attacking)
         {
-            Debug.Log(attackTime);
+            attackTime -= 1;
+            //Debug.Log(attackTime);
             if (attackTime == 0)
             {
-                Debug.Log("whit");
+                //Debug.Log("whit");
 
                 attacking = false;
                 animator.SetBool("attacking", false);
-                attackTime = 10;
+                attackTime = 30;
+                wait = true;
             }
-            attackTime -= 1;
+
         }
         if (skilling)
         {
+            skilltime -= 1;
             if (skilltime == 0)
             {
-                Debug.Log("whit");
+                //Debug.Log("whit");
 
                 skilling = false;
                 animator.SetBool("skill", false);
                 skilltime = 20;
+                wait = true;
             }
-            skilltime -= 1;
+
         }
         if (player2In && !player.GetComponent<PlayerMovement>().moving && parch)
         {
@@ -129,9 +174,10 @@ public class EventScene : MonoBehaviour
                 if (afterFightN)
                 {
                     //fight.SetActive(false);
-                    TurnOffFight();
                     enemy.SetActive(false);
                     TurnOnMenu();
+                    GameHandler gh = gamehandler.GetComponent<GameHandler>();
+                    gh.actions = gh.maxturns;
                 }
             }
         }
@@ -191,27 +237,79 @@ public class EventScene : MonoBehaviour
         animator.SetFloat("moveY", 0);
         animator.SetBool("attacking", true);
         attacking = true;
+        TurnOffFight();
         //fight.SetActive(false);
         Debug.Log("Fighting");
 
         Character character = player.GetComponent<Character>();
-
         Monsters monster = enemy.GetComponent<Monsters>();
         if (character.curHP >= 0)
         {
+            // Monsters monster = enemy.GetComponent<Monsters>();
+            // Character character = player.GetComponent<Character>();
+            CalculateDmgEnemy(monster);
+            CalculateDmgPlayer(character);
+            if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg <= 0)
+            {
+
+                afterFightN = true;
+                animatorE.SetBool("attacking", false);
+
+                dialogActive = true;
+                TurnOffFight();
+                dialogBox.SetActive(true);
+                dialog = "You have defeated the log!";
+                dialogText.text = dialog;
+
+
+
+            }
+            else
+            {
+                Debug.Log("player:" + playerDmg.ToString());
+                Debug.Log("enemy:" + enemyDmg.ToString());
+                character.curHP -= enemyDmg;
+                monster.curHP -= playerDmg;
+                Debug.Log("player HP:" + character.curHP.ToString());
+                Debug.Log("enemy HP:" + monster.curHP.ToString());
+            }
+
 
         }
-        if (monster.curHP <= 0)
+        // if (monster.curHP <= 0)
+        // {
+        //     dialogActive = true;
+        //     dialogBox.SetActive(true);
+        //     dialog = "You have defeated the log!";
+        //     dialogText.text = dialog;
+
+        //     afterFightN = true;
+
+        // }
+
+
+    }
+
+    void CalculateDmgPlayer(Character p1)
+    {
+        Debug.Log(p1.CharClass.ToString());
+
+        if (p1.CharClass.ToString() == "Mage")
         {
-            dialogActive = true;
-            dialogBox.SetActive(true);
-            dialog = "You have defeated the log!";
-            dialogText.text = dialog;
-
-            afterFightN = true;
-
+            playerDmg = p1.intel * 2 + p1.dex;
         }
-
+        else if (p1.CharClass.ToString() == "Warrior")
+        {
+            playerDmg = p1.str * 2 + p1.dex;
+        }
+        else if (p1.CharClass.ToString() == "Hunter")
+        {
+            playerDmg = p1.dex * 3;
+        }
+    }
+    void CalculateDmgEnemy(Monsters e1)
+    {
+        enemyDmg = e1.str + e1.dex + e1.intel;
 
     }
 
@@ -266,16 +364,37 @@ public class EventScene : MonoBehaviour
         Monsters monster = enemy.GetComponent<Monsters>();
         if (character.curHP >= 0)
         {
+            // Monsters monster = enemy.GetComponent<Monsters>();
+            // Character character = player.GetComponent<Character>();
+            CalculateDmgEnemy(monster);
+            CalculateDmgPlayer(character);
+            if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg * 2 <= 0)
+            {
+                afterFightN = true;
+                animatorE.SetBool("attacking", false);
 
-        }
-        if (monster.curHP <= 0)
-        {
-            dialogActive = true;
-            dialogBox.SetActive(true);
-            dialog = "You have defeated the log!";
-            dialogText.text = dialog;
+                dialogActive = true;
+                TurnOffFight();
 
-            afterFightN = true;
+                dialogActive = true;
+                dialogBox.SetActive(true);
+                dialog = "You have defeated the log!";
+                dialogText.text = dialog;
+
+
+
+            }
+            else
+            {
+                Debug.Log("player:" + playerDmg.ToString());
+                Debug.Log("enemy:" + enemyDmg.ToString());
+                monster.curHP -= playerDmg * 2;
+                character.curMP -= 10;
+                character.curHP -= enemyDmg;
+                Debug.Log("player HP:" + character.curHP.ToString());
+                Debug.Log("enemy HP:" + monster.curHP.ToString());
+            }
+
 
         }
     }
