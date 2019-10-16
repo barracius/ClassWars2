@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Notifications.Android;
+
 
 public class GameHandler : MonoBehaviour
 {
@@ -16,6 +18,14 @@ public class GameHandler : MonoBehaviour
     public int actions;
     void Start()
     {
+        var c = new AndroidNotificationChannel()
+        {
+            Id = "channel_id",
+            Name = "Default Channel",
+            Importance = Importance.High,
+            Description = "Generic notifications",
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(c);
         //Time.timeScale = 1;
         setplayerTurn();
         setglobalRound();
@@ -67,6 +77,8 @@ public class GameHandler : MonoBehaviour
             canvas.SetActive(true);
 
             pauseScreen.SetActive(false);
+            //oye ctm es tu turno
+            cellnotify();
             isplaying = true;
         }
         else
@@ -79,5 +91,14 @@ public class GameHandler : MonoBehaviour
             isplaying = false;
         }
     }
+
+    void cellnotify(){
+        
+      var notification = new AndroidNotification();
+        notification.Title = "SomeTitle";
+        notification.Text = "SomeText";
+        notification.FireTime = System.DateTime.Now.AddSeconds(30);
+
+        AndroidNotificationCenter.SendNotification(notification, "channel_id");}
 
 }
