@@ -120,18 +120,21 @@ public class LoadFriendPFData : MonoBehaviour
 
    public void onAcceptInviteButtonClick()
    {
-      StopCoroutine(updateLobbyRequest());
+      print(friendID);
+      print(userID);
+      StartCoroutine(updateLobbyRequest());
    }
    IEnumerator updateLobbyRequest()
    {
       WWWForm form = new WWWForm();
+      
       form.AddField("lobbystatus","CONFIRMED");
       form.AddField("user1_id", friendID);
       form.AddField("user2_id", userID);
+      
         
       using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/lobbyrequestUpd",form))
       {
-            
          yield return www.SendWebRequest();
          if (www.isNetworkError || www.isHttpError)
          {
@@ -199,6 +202,6 @@ public class LoadFriendPFData : MonoBehaviour
    }
    public void AcceptInviteButtonDisappearance()
    {
-      AcceptInviteButton.SetActive(true);
+      AcceptInviteButton.SetActive(false);
    }
 }
