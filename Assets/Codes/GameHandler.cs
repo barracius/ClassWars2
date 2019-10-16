@@ -10,6 +10,7 @@ public class GameHandler : MonoBehaviour
     public bool isplaying;
     public GameObject canvas;
     public GameObject pauseScreen;
+    public int cantjugadores;
 
     public int maxturns = 3;
 
@@ -19,6 +20,7 @@ public class GameHandler : MonoBehaviour
         //Time.timeScale = 1;
         setplayerTurn();
         setglobalRound();
+        
     }
 
     // Update is called once per frame
@@ -57,6 +59,21 @@ public class GameHandler : MonoBehaviour
     {
         playerturn = 2;
         //Call from DB playerturn 
+        try
+        {
+            cantjugadores = PlayerPrefs.GetInt("cantJugadores");
+        }
+        catch
+        {
+            
+        }
+
+        if (cantjugadores == 1)
+        {
+            playerturn = 1;
+            maxturns = 1;
+        }
+        
     }
 
     void checkisTurn()

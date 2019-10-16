@@ -146,6 +146,7 @@ public class MenuHandling : MonoBehaviour
 
         if (NumberOfPlayers == 1)
         {
+            PlayerPrefs.SetInt("cantJugadores", 1);
             SceneManager.LoadScene("Scenes/MapScene");
         }
     }
