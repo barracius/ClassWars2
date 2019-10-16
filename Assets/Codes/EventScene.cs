@@ -7,6 +7,11 @@ using UnityEngine.UI;
 public class EventScene : MonoBehaviour
 {
 
+    private int attackTime = 10;
+    private bool attacking;
+    private int skilltime = 20;
+    private bool skilling;
+    public Animator animator;
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
 
@@ -46,12 +51,37 @@ public class EventScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        animator = player.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (attacking)
+        {
+            Debug.Log(attackTime);
+            if (attackTime == 0)
+            {
+                Debug.Log("whit");
+
+                attacking = false;
+                animator.SetBool("attacking", false);
+                attackTime = 10;
+            }
+            attackTime -= 1;
+        }
+        if (skilling)
+        {
+            if (skilltime == 0)
+            {
+                Debug.Log("whit");
+
+                skilling = false;
+                animator.SetBool("skill", false);
+                skilltime = 20;
+            }
+            skilltime -= 1;
+        }
         if (player2In && !player.GetComponent<PlayerMovement>().moving && parch)
         {
             dialogActive = true;
@@ -157,6 +187,10 @@ public class EventScene : MonoBehaviour
 
     public void Fight()
     {
+        animator.SetFloat("moveX", -1);
+        animator.SetFloat("moveY", 0);
+        animator.SetBool("attacking", true);
+        attacking = true;
         //fight.SetActive(false);
         Debug.Log("Fighting");
 
@@ -177,6 +211,7 @@ public class EventScene : MonoBehaviour
             afterFightN = true;
 
         }
+
 
     }
 
@@ -219,7 +254,30 @@ public class EventScene : MonoBehaviour
 
     public void Skill()
     {
-        Debug.Log("skill");
+        animator.SetFloat("moveX", -1);
+        animator.SetFloat("moveY", 0);
+        animator.SetBool("skill", true);
+        skilling = true;
+        //fight.SetActive(false);
+        Debug.Log("Fighting");
+
+        Character character = player.GetComponent<Character>();
+
+        Monsters monster = enemy.GetComponent<Monsters>();
+        if (character.curHP >= 0)
+        {
+
+        }
+        if (monster.curHP <= 0)
+        {
+            dialogActive = true;
+            dialogBox.SetActive(true);
+            dialog = "You have defeated the log!";
+            dialogText.text = dialog;
+
+            afterFightN = true;
+
+        }
     }
 
 
