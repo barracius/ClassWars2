@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7544596532665022025}
   - component: {fileID: 7076838751902209383}
   m_Layer: 0
-  m_Name: Invite Button
+  m_Name: Lobby Invite Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -502,7 +502,7 @@ GameObject:
   - component: {fileID: 6616844376768630202}
   - component: {fileID: 6616844376768630203}
   m_Layer: 0
-  m_Name: Aceptar/Invitar Button
+  m_Name: Aceptar Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -964,7 +964,7 @@ GameObject:
   - component: {fileID: 511289520816700645}
   - component: {fileID: 3762325008729397807}
   m_Layer: 0
-  m_Name: Lobby Invite
+  m_Name: Lobby Accept Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1070,7 +1070,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6037925023507515213}
-        m_MethodName: 
+        m_MethodName: onAcceptInviteButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class EventScene : MonoBehaviour
 {
+    public GameObject finiche;
     public bool canGoLeft;
     public bool canGoRight;
     public bool canGoUp;
@@ -66,6 +67,8 @@ public class EventScene : MonoBehaviour
     public int playerDmg;
     public int enemyDmg;
 
+    public bool turnFinished;
+
     public GameObject healthbar_fg;
     public GameObject manabar_fg;
 
@@ -94,7 +97,7 @@ public class EventScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         if (enemyAttack)
         {
             enemyAttackTime -= 1;
@@ -176,7 +179,10 @@ public class EventScene : MonoBehaviour
                 TurnOnMenu();
                 dialogActive = false;
                 dialogBox.SetActive(false);
-                if (reallyHasEnemy)
+                if (!reallyHasEnemy){
+                    gamehandler.GetComponent<GameHandler>().sumActions();
+                }
+                if (reallyHasEnemy && !afterFightN)
                 {
                     exlamation.SetActive(false);
                     enemy.SetActive(true);
@@ -199,22 +205,29 @@ public class EventScene : MonoBehaviour
                 {
                     TurnOffMenu();
                     TurnOnFight();
+                    beginFightN = false;
                     Debug.Log("Fight wih NPC");
                 }
 
                 if (afterFightN)
                 {
                     //fight.SetActive(false);
-                    enemy.SetActive(false);
+                    
                     TurnOnMenu();
                     TurnOffFight();
-                    //beginFightN = false;
-                    //afterFightN = false;
-                    GameHandler gh = gamehandler.GetComponent<GameHandler>();
-                    gh.actions = gh.maxturns;
+                    enemy.SetActive(false);
+                    turnOnEndTurn();
+                    
                 }
             }
         }
+    }
+
+    public void turnOnEndTurn(){
+        TurnOnMenu();
+        TurnOffFight();
+        GameHandler gh = gamehandler.GetComponent<GameHandler>();
+        gh.actions = gh.maxturns;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -307,14 +320,18 @@ public class EventScene : MonoBehaviour
                 if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg <= 0)
                 {
 
-                    afterFightN = true;
+                    
                     animatorE.SetBool("attacking", false);
 
                     dialogActive = true;
                     TurnOffFight();
+                    enemy.SetActive(false);
+                    dialogActive = true;
                     dialogBox.SetActive(true);
                     dialog = "You have defeated the log!";
                     dialogText.text = dialog;
+                    turnFinished = true;
+                    afterFightN = true;
 
 
 
@@ -432,18 +449,17 @@ public class EventScene : MonoBehaviour
                 CalculateDmgPlayer(character);
                 if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg * 2 <= 0)
                 {
-                    afterFightN = true;
                     animatorE.SetBool("attacking", false);
 
                     dialogActive = true;
                     TurnOffFight();
-
+                    enemy.SetActive(false);
                     dialogActive = true;
                     dialogBox.SetActive(true);
                     dialog = "You have defeated the log!";
                     dialogText.text = dialog;
-
-
+                    turnFinished = true;
+                    afterFightN = true;
 
                 }
                 else

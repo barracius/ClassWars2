@@ -30,6 +30,7 @@ public class MenuHandling : MonoBehaviour
     public ArrayList dbNotRejectedFriends = new ArrayList();
     public ArrayList dbFriendRequests = new ArrayList();
     public ArrayList friends = new ArrayList();
+    public ArrayList invitations = new ArrayList();
 
     public VerticalLayoutGroup content;
     public GameObject FriendsPF;
@@ -41,6 +42,7 @@ public class MenuHandling : MonoBehaviour
     public InputField LobbyNameInputField;
     public Dropdown MaxTurnsDropdown;
     public Dropdown MaxTurnDurationDropdown;
+    public Dropdown NumberOfPlayersDropdown;
 
     private int invitedPlayerId;
     private string invitedPlayerName;
@@ -48,6 +50,7 @@ public class MenuHandling : MonoBehaviour
     private int MaxTurns;
     private int MaxTurnDuration;
     private string LobbyName;
+    private int NumberOfPlayers;
 
     public Friendship friendship;
     public User user;
@@ -113,6 +116,7 @@ public class MenuHandling : MonoBehaviour
         MaxTurns = int.Parse(MaxTurnsDropdown.options[MaxTurnsDropdown.value].text);
         MaxTurnDuration = int.Parse(MaxTurnDurationDropdown.options[MaxTurnDurationDropdown.value].text);
         LobbyName = LobbyNameInputField.text;
+        NumberOfPlayers = int.Parse(NumberOfPlayersDropdown.options[NumberOfPlayersDropdown.value].text);
         
         //Post LobbyRequest
         Debug.Log("Max Turns: " + MaxTurns);
@@ -120,6 +124,11 @@ public class MenuHandling : MonoBehaviour
         Debug.Log("Lobby Name: " + LobbyName);
         Debug.Log("Usuario 1: " + currentUserId);
         Debug.Log("Usuario 2: " + invitedPlayerId);
+
+        if (NumberOfPlayers == 1)
+        {
+            SceneManager.LoadScene("Scenes/MapScene");
+        }
     }
     
     
@@ -306,6 +315,7 @@ public class MenuHandling : MonoBehaviour
     {
         for (int i = 0; i < dbFriendRequests.Count; i++)
         {
+            print(dbFriendRequests.Count);
             ArrayList sublista = (ArrayList) dbFriendRequests[i];
             if (sublista[2].ToString() == "FRIENDS")
             {
@@ -322,10 +332,62 @@ public class MenuHandling : MonoBehaviour
                         Debug.Log(www.error);
                     }
                     else
-                    {
+                    {    
+                        if (www.downloadHandler.text.Length == 2)
+                        {
+                                Debug.Log("No Invitations ;(");
+                                yield break;
+                        }
                         if (www.downloadHandler.isDone)
                         {
                             string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
+                            int temp5 = Regex.Matches(temp, "user1_id").Count;
+                            if (temp5 > 1)
+                            {
+                                string[] splitArray =  temp.Split(new string[]{"},{"},StringSplitOptions.None);
+                                for (int j = 0; j < splitArray.Length; j++)
+                                {
+                                    string temp2;
+                                    string temp3;
+                                    if (j == 0)
+                                    {
+                                        temp2 = splitArray[j].Insert(splitArray[j].Length, "}");
+                                    }
+
+                                    else if (j == splitArray.Length - 1)
+                                    {
+                                        temp2 = splitArray[j].Insert(0, "{");
+                                    }
+                                    else
+                                    {
+                                        temp3 = splitArray[j].Insert(splitArray[j].Length, "}");
+                                        temp2 = temp3.Insert(0, "{");
+                                    }
+
+                                    print(temp2);
+                                    invitations.Add(temp2);
+                                }
+                                foreach (string asd in invitations)
+                                {
+                                    lobbyInvite = JsonUtility.FromJson<LobbyInvite>(asd);
+                                    /*print(friendship.friend_status);
+                                    print(friendship.user1_id);
+                                    print(friendship.user2_id);*/
+                                    lobbyInvites.Add(lobbyInvite);
+                                }
+                            }
+                            else if(temp5 == 1)
+                            {
+                                lobbyInvite = JsonUtility.FromJson<LobbyInvite>(temp);
+                                lobbyInvites.Add(lobbyInvite);
+                            }
+                           
+                            invitations.Clear();
+                        }
+                        /*if (www.downloadHandler.isDone)
+                        {
+                            string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
+                            print(temp);
                             if (temp == "")
                             {
                                 break;
@@ -333,7 +395,8 @@ public class MenuHandling : MonoBehaviour
                             lobbyInvite = JsonUtility.FromJson<LobbyInvite>(temp);
                             lobbyInvites.Add(lobbyInvite);
                             
-                        }
+                        }*/
+                        
                     }
                 }
             }
@@ -347,9 +410,10 @@ public class MenuHandling : MonoBehaviour
             for (int i = 0; i < lobbyInvites.Count; i++)
             {
                 LobbyInvite li = (LobbyInvite)lobbyInvites[i];
-                if (li.user1_id == usernameText.text && li.user2_id == currentUserId.ToString())
+                if (li.user1_id == usernameText.text && li.user2_id == currentUserId.ToString() && li.lobbystatus == "STANDBY")
                 {
                     script.AcceptInviteButtonAppearance();
+                    
                 }
             }
             

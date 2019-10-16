@@ -118,6 +118,37 @@ public class LoadFriendPFData : MonoBehaviour
       }
    }
 
+   public void onAcceptInviteButtonClick()
+   {
+      print(friendID);
+      print(userID);
+      StartCoroutine(updateLobbyRequest());
+   }
+   IEnumerator updateLobbyRequest()
+   {
+      WWWForm form = new WWWForm();
+      
+      form.AddField("lobbystatus","CONFIRMED");
+      form.AddField("user1_id", friendID);
+      form.AddField("user2_id", userID);
+      
+        
+      using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/lobbyrequestUpd",form))
+      {
+         yield return www.SendWebRequest();
+         if (www.isNetworkError || www.isHttpError)
+         {
+            Debug.Log(www.error);
+         }
+         else
+         {
+            Debug.Log("Invitation to join lobby accepted!");
+            AcceptInviteButtonDisappearance();
+         }
+      }
+   }
+   
+
    public void onInviteButtonClick()
    {
       Debug.Log("friend username: " + friendUsername + ", friend ID: " + friendID);
@@ -125,7 +156,6 @@ public class LoadFriendPFData : MonoBehaviour
       invitedFriendUsername = friendUsername;
       StartCoroutine(newLobbyRequest());
       OnInviteButtonClass = true;
-      StartCoroutine(newLobbyRequest());
 
    }
    IEnumerator newLobbyRequest()
@@ -169,5 +199,9 @@ public class LoadFriendPFData : MonoBehaviour
    public void AcceptInviteButtonAppearance()
    {
       AcceptInviteButton.SetActive(true);
+   }
+   public void AcceptInviteButtonDisappearance()
+   {
+      AcceptInviteButton.SetActive(false);
    }
 }

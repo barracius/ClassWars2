@@ -10,6 +10,9 @@ public class GameHandler : MonoBehaviour
     public bool isplaying;
     public GameObject canvas;
     public GameObject pauseScreen;
+    public GameObject ev;
+
+
 
     public int maxturns = 3;
 
@@ -32,12 +35,16 @@ public class GameHandler : MonoBehaviour
             if (playerturn == 2)
             {
                 globalRound++;
-
+                //ev.TurnOnMenu();
+                
             }
         }
 
     }
 
+    public void finish(){
+        actions = maxturns;
+    }
     public void sumActions()
     {
         actions++;
