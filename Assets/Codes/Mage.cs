@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mage : MonoBehaviour
 {
     public bool alive;
-    
+
     public string classname = "Mage";
     public int maxHP = 100;
     public int maxMP = 40;
@@ -22,10 +22,16 @@ public class Mage : MonoBehaviour
     //     HBPlayer.OnGUI();
     // }
     // Start is called before the first frame update 
+
+    void Awake()
+    {
+        setfirst();
+    }
     void Start()
     {
-        // HBPlayer.currentHp = curHP;
-        // HBPlayer.fullHp = maxHP;
+
+        curHP = maxHP;
+        curMP = maxMP;
         if (curHP <= 0)
         {
             alive = false;
@@ -45,5 +51,11 @@ public class Mage : MonoBehaviour
     {
         // HBPlayer.currentHp = curHP;
         // HBPlayer.fullHp = maxHP;
+    }
+
+    public void setfirst()
+    {
+        curHP = maxHP;
+        curMP = maxMP;
     }
 }

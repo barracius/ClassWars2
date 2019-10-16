@@ -6,7 +6,7 @@ public class Hunter : MonoBehaviour
 {
 
     public bool alive;
-    
+
     public string classname = "Hunter";
     public int maxHP = 100;
     public int maxMP = 40;
@@ -20,6 +20,10 @@ public class Hunter : MonoBehaviour
     public HealthBar HBPlayer;
 
     // Start is called before the first frame update
+    void Awake()
+    {
+        setfirst();
+    }
     void Start()
     {
         if (curHP <= 0)
@@ -42,19 +46,15 @@ public class Hunter : MonoBehaviour
 
     }
 
-    void DmgRecibed(int dmg)
-    {
-        curHP -= dmg;
-    }
-    void SpendMana(int mana)
-    {
-        curMP -= mana;
-    }
-
     // public int dealDmg()
     // {
     //     return 
     // }
+    public void setfirst()
+    {
+        curHP = maxHP;
+        curMP = maxMP;
+    }
 
 
 }

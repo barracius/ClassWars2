@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class EventScene : MonoBehaviour
 {
+
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
 
@@ -45,7 +46,7 @@ public class EventScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -65,7 +66,7 @@ public class EventScene : MonoBehaviour
         {
             if (dialogActive)
             {
-                
+
                 TurnOnMenu();
                 dialogActive = false;
                 dialogBox.SetActive(false);
@@ -88,6 +89,13 @@ public class EventScene : MonoBehaviour
                     Debug.Log("Fight wih user");
                 }
 
+                if (beginFightN)
+                {
+                    TurnOffMenu();
+                    TurnOnFight();
+                    Debug.Log("Fight wih NPC");
+                }
+
                 if (afterFightN)
                 {
                     //fight.SetActive(false);
@@ -103,8 +111,8 @@ public class EventScene : MonoBehaviour
     {
         if (other.name == "Player")
         {
-            
-            Debug.Log(hola);
+
+
             inBox = true;
             Debug.Log("player in scene");
             if (player2In)
@@ -131,12 +139,13 @@ public class EventScene : MonoBehaviour
     public void Search()
     {
         Debug.Log(inBox);
-        
+
         if (inBox)
         {
             if (enemy)
             {
                 exlamation.SetActive(true);
+                beginFightN = true;
             }
             TurnOffMenu();
             dialogActive = true;
@@ -150,12 +159,25 @@ public class EventScene : MonoBehaviour
     {
         //fight.SetActive(false);
         Debug.Log("Fighting");
-        dialogActive = true;
-        dialogBox.SetActive(true);
-        dialog = "You have defeated the log!";
-        dialogText.text = dialog;
-       
-        afterFightN = true;
+
+        Character character = player.GetComponent<Character>();
+
+        Monsters monster = enemy.GetComponent<Monsters>();
+        if (character.curHP >= 0)
+        {
+
+        }
+        if (monster.curHP <= 0)
+        {
+            dialogActive = true;
+            dialogBox.SetActive(true);
+            dialog = "You have defeated the log!";
+            dialogText.text = dialog;
+
+            afterFightN = true;
+
+        }
+
     }
 
     public void TurnOnFight()
@@ -192,13 +214,13 @@ public class EventScene : MonoBehaviour
         up.SetActive(false);
         down.SetActive(false);
         menu.SetActive(false);
-        
+
     }
 
     public void Skill()
     {
         Debug.Log("skill");
     }
-    
-    
+
+
 }
