@@ -2129,6 +2129,8 @@ MonoBehaviour:
   newGameCanvas: {fileID: 2147034644}
   profileButton: {fileID: 1122064651}
   UsernameInputField: {fileID: 1873989148}
+  currentUserUsername: 
+  currentUserId: 0
   friendCodeText: {fileID: 1431986073}
   content: {fileID: 2123514247}
   FriendsPF: {fileID: 6616844377208701116, guid: 5a1b42978103f7540bcef1bae57ce35e,
@@ -2138,6 +2140,12 @@ MonoBehaviour:
   LobbyNameInputField: {fileID: 2060389246}
   MaxTurnsDropdown: {fileID: 838188000}
   MaxTurnDurationDropdown: {fileID: 567898247}
+  splitArrayNew: []
+  user:
+    id: 0
+    username: 
+    pass: 
+    email: 
 --- !u!1 &662627451
 GameObject:
   m_ObjectHideFlags: 0
@@ -5969,7 +5977,7 @@ MonoBehaviour:
     m_Top: -95
     m_Bottom: 15
   m_ChildAlignment: 0
-  m_Spacing: 1
+  m_Spacing: 2
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0

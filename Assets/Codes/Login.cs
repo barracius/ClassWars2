@@ -13,6 +13,8 @@ public class Login : MonoBehaviour
     private void Update()
     {
         if (isLoggedin) {
+            PlayerPrefs.SetInt("UserId",user.id);
+            PlayerPrefs.SetString("UserUsername", user.username);
             SceneManager.LoadScene("Scenes/MenuScene");
             isLoggedin = false;
         }

@@ -5,11 +5,8 @@ using System.Linq;
 using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Database;
-using Firebase;
-using Firebase.Auth;
-using Firebase.Unity.Editor;
 using UnityEditor;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class MenuHandling : MonoBehaviour
@@ -22,12 +19,12 @@ public class MenuHandling : MonoBehaviour
     public GameObject newGameCanvas;
     public Button profileButton;
     public InputField UsernameInputField;
-    private static string OtherFriendCode;
+    private static int OtherFriendCode;
+
+    public string currentUserUsername;
+    public int currentUserId;
 
     public Text friendCodeText;
-    private FirebaseAuth _auth;
-    private FirebaseUser _currentUser;
-    public DatabaseReference reference;
 
     public ArrayList dbNotRejectedFriends = new ArrayList();
     public ArrayList dbFriendRequests = new ArrayList();
@@ -43,43 +40,46 @@ public class MenuHandling : MonoBehaviour
     public Dropdown MaxTurnsDropdown;
     public Dropdown MaxTurnDurationDropdown;
 
-    private string invitedPlayerId;
+    private int invitedPlayerId;
     private string invitedPlayerName;
 
     private int MaxTurns;
     private int MaxTurnDuration;
     private string LobbyName;
 
+    public Friendship friendship;
+    public string[] splitArrayNew;
+    public User user;
+    public ArrayList asdtemp2;
+
 
 
     void Start()
     {
-        _auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        _currentUser = _auth.CurrentUser;
+        currentUserId = PlayerPrefs.GetInt("UserId");
+        currentUserUsername = PlayerPrefs.GetString("UserUsername");
         cat.SetActive(false);
-        profileButton.GetComponentInChildren<Text>().text = _currentUser.DisplayName;
-        friendCodeText.text = "Your friend code is: " + _currentUser.UserId;
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-        CheckFriendships1(_currentUser.UserId);
+        profileButton.GetComponentInChildren<Text>().text = currentUserUsername;
+        friendCodeText.text = "Your friend code is: " + currentUserId;
+        StartCoroutine(CheckFriendships());
     }
 
     private void Update()
     {
         if (parch)
         {
-            CheckFriendships2(_currentUser.UserId);
+            //CheckFriendships2(currentUserId);
             parch = false;
         }
         if (parch2)
         {
-            CheckFriendsNames();
+            //CheckFriendsNames();
             parch2 = false;
         }
 
         if (size == count)
         {
-            FillFriendList();
+            //FillFriendList();
             count = -2;
         }
         
@@ -99,7 +99,7 @@ public class MenuHandling : MonoBehaviour
 
     public void onNewGameButton()
     {
-        Player1Text.text = "Player 1: " + _currentUser.DisplayName;
+        Player1Text.text = "Player 1: " + currentUserUsername;
         newGameCanvas.SetActive(true);
         foreach (GameObject friend in friends)
         {
@@ -118,7 +118,7 @@ public class MenuHandling : MonoBehaviour
         Debug.Log("Max Turns: " + MaxTurns);
         Debug.Log("Max Turn Duration: " + MaxTurnDuration);
         Debug.Log("Lobby Name: " + LobbyName);
-        Debug.Log("Usuario 1: " + _currentUser.UserId);
+        Debug.Log("Usuario 1: " + currentUserId);
         Debug.Log("Usuario 2: " + invitedPlayerId);
     }
     
@@ -136,146 +136,140 @@ public class MenuHandling : MonoBehaviour
 
     public void onClickAddFriendButton()
     {
-        OtherFriendCode = UsernameInputField.text;
-        AddFriendDB();
+        OtherFriendCode = int.Parse(UsernameInputField.text);
+        StartCoroutine(AddFriendDB());
     }
 
     public void Logout_btn()
     {
-        _auth.SignOut();
         SceneManager.LoadScene("Scenes/LoginScene");
     }
 
-    private void AddFriendDB()
+    IEnumerator AddFriendDB()
     {
-        Friendship friendship = new Friendship(_currentUser.UserId, OtherFriendCode,"Stand By");
-        string json = JsonUtility.ToJson(friendship);
-        reference.Child("friendship").Child(_currentUser.UserId + " | " + OtherFriendCode).SetRawJsonValueAsync(json);
-    }
-
-    public void CheckFriendships1(string u)
-    {
-        var friendshipRefs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
-        friendshipRefs.OrderByChild("user2_id").EqualTo(u).GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                // Handle the error...
-                Debug.Log("Error");
-            }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                foreach (DataSnapshot friendship in snapshot.Children.ToArray())
-                {
-                    IDictionary dictFriend = (IDictionary) friendship.Value;
-                    //Debug.Log(dictFriend["user1_id"] + "<- User1");
-                    //Debug.Log(dictFriend["user2_id"] + "<- User2");
-                    //Debug.Log(dictFriend["status"] + "<- status");
-                    ArrayList asdtemp = new ArrayList();
-                    if (dictFriend["status"].ToString() != "Rejected")
-                    {
-                        asdtemp.Add(dictFriend["user1_id"]);
-                        asdtemp.Add(dictFriend["user2_id"]);
-                        asdtemp.Add(dictFriend["status"]);
-                        dbNotRejectedFriends.Add(asdtemp);
-                    }
-                }
-                
-
-                parch = true;
-
-            }
-        });
+        WWWForm form = new WWWForm();
+        form.AddField("user1_id", currentUserId);
+        form.AddField("user2_id",OtherFriendCode);
+        form.AddField("status","STANDBY");
         
-    }
-    public void CheckFriendships2(string u)
-    {
-        var friendshipRefs = FirebaseDatabase.DefaultInstance.GetReference("friendship");
-        friendshipRefs.OrderByChild("user1_id").EqualTo(u).GetValueAsync().ContinueWith(task =>
+        using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/friendships",form))
         {
-            if (task.IsFaulted)
+            
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
             {
-                // Handle the error...
-                Debug.Log("Error");
+                Debug.Log(www.error);
             }
-            else if (task.IsCompleted)
+            else
             {
-                DataSnapshot snapshot = task.Result;
-                foreach (DataSnapshot friendship in snapshot.Children.ToArray())
-                {
-                    IDictionary dictFriend = (IDictionary) friendship.Value;
-                    //Debug.Log(dictFriend["user1_id"] + "<- User1");
-                    //Debug.Log(dictFriend["user2_id"] + "<- User2");
-                    //Debug.Log(dictFriend["status"] + "<- status");
-                    ArrayList asdtemp = new ArrayList();
-                    if (dictFriend["status"].ToString() == "Friends" )
-                    {
-                        asdtemp.Add(dictFriend["user2_id"]);
-                        asdtemp.Add(dictFriend["user1_id"]);
-                        asdtemp.Add(dictFriend["status"]);
-                        dbNotRejectedFriends.Add(asdtemp);
-                    }
-                }
-                
-
-                parch2 = true;
-
+                Debug.Log("Friend Invitation Sent!");
             }
-        });
-        
-    }
-    
-    public void CheckFriendsNames()
-    {
-        var userRefs = FirebaseDatabase.DefaultInstance.GetReference("user");
-        //Debug.Log("ACA2");
-        size = dbNotRejectedFriends.Count;
-        foreach (ArrayList array in dbNotRejectedFriends)
-        {
-            userRefs.OrderByChild("id").EqualTo(array[0].ToString()).GetValueAsync().ContinueWith(
-                task =>
-                {
-                    if (task.IsFaulted)
-                    {
-                        // Handle the error...
-                        Debug.Log("Error");
-                    }
-                    else if (task.IsCompleted)
-                    {
-                        DataSnapshot snapshot2 = task.Result;
-                        foreach (DataSnapshot user in snapshot2.Children)
-                        {
-                            IDictionary dictUser = (IDictionary) user.Value;
-                            //Debug.Log(dictUser["username"] + " <- Username");
-                            //Debug.Log(dictUser["id"] + " <- Id");
-                            //Debug.Log(array[2]);
-                            ArrayList asdtemp2 = new ArrayList();
-                            asdtemp2.Add(dictUser["username"]);
-                            asdtemp2.Add(dictUser["id"]);
-                            asdtemp2.Add(array[2]);
-                            dbFriendRequests.Add(asdtemp2);
-                        }
-                    }
-                    System.Threading.Interlocked.Increment(ref count);
-
-                });
         }
+    }
+    IEnumerator CheckFriendships()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/friendships/" + currentUserId))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                if (www.downloadHandler.text.Length == 2)
+                {
+                    Debug.Log("No Friends ;(");
+                    yield break;
+                }
+                if (www.downloadHandler.isDone)
+                {
+                    string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
+                    string[] splitArray =  temp.Split(new string[]{"},{"},StringSplitOptions.None);
+                    for (int i = 0; i < splitArray.Length; i++)
+                    {
+                        string temp2;
+                        string temp3;
+                        if (i == 0)
+                        {
+                            temp2 = splitArray[i].Insert(splitArray[i].Length, "}");
+                        }
 
-        
+                        else if (i == splitArray.Length - 1)
+                        {
+                            temp2 = splitArray[i].Insert(0, "{");
+                        }
+                        else
+                        {
+                            temp3 = splitArray[i].Insert(splitArray[i].Length, "}");
+                            temp2 = temp3.Insert(0, "{");
+                        }
+                        dbFriendRequests.Add(temp2);
+                    }
+                    foreach (string asd in dbFriendRequests)
+                    {
+                        friendship = JsonUtility.FromJson<Friendship>(asd);
+                        /*print(friendship.friend_status);
+                        print(friendship.user1_id);
+                        print(friendship.user2_id);*/
+                        dbNotRejectedFriends.Add(friendship);
+                    }
+                    dbFriendRequests.Clear();
+                    StartCoroutine(CheckFriendsNames());
+                }
+            }
+        }
     }
     
-    void FillFriendList()
+    IEnumerator CheckFriendsNames()
+    {
+        foreach (Friendship friendship in dbNotRejectedFriends)
+        {
+            using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/users/" + friendship.user1_id))
+            {
+                yield return www.SendWebRequest();
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    if (www.downloadHandler.text.Length == 2)
+                    {
+                        Debug.Log("Vacio");
+                        yield break;
+                    }
+                    if (www.downloadHandler.isDone)
+                    {
+                        string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2); 
+                        user = JsonUtility.FromJson<User>(temp);
+                        ArrayList asdtemp2 = new ArrayList();
+                        asdtemp2.Add(user.username);
+                        asdtemp2.Add(user.id);
+                        asdtemp2.Add(friendship.friend_status);
+                        dbFriendRequests.Add(asdtemp2);
+                        
+                    }
+                }
+            }
+        }
+        FillFriendList();
+    }
+
+   void FillFriendList()
     {
         RectTransform parent = content.GetComponent<RectTransform>();
         foreach (ArrayList array in dbFriendRequests)
         {
             GameObject friend = Instantiate(FriendsPF, parent.transform, true);
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
-            //Debug.Log(array[2]);
-            script.AssignData(array[1].ToString(), array[0].ToString(), _currentUser.UserId);
+            //print(array[0]);
+            //print(array[1]);
+            //print(array[2]);
+            
+            script.AssignData(array[1].ToString(), array[0].ToString(), currentUserId);
             script.ChangeUsernameText();
-            if (array[2].ToString() == "Friends")
+            if (array[2].ToString() == "FRIENDS")
             {
                 script.HideButtons();
                 friends.Add(friend);
@@ -284,7 +278,7 @@ public class MenuHandling : MonoBehaviour
         }
     }
 
-    public void GetPlayerInfo(string player2name, string player2id)
+    public void GetPlayerInfo(string player2name, int player2id)
     {
         invitedPlayerId = player2id;
         invitedPlayerName = player2name;

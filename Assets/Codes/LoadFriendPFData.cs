@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Firebase;
-using Firebase.Database;
-using Firebase.Unity.Editor;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class LoadFriendPFData : MonoBehaviour
 {
-   private string friendID;
+   private int friendID;
    private string friendUsername;
-   private string userID;
+   private int userID;
    public Text UsernameText;
    private string status;
    public GameObject AcceptButton;
@@ -19,7 +17,7 @@ public class LoadFriendPFData : MonoBehaviour
    public GameObject InviteButton;
 
    public string invitedFriendUsername;
-   public string invitedFriendId;
+   public int invitedFriendId;
    public bool onInvite = false;
    
    //lobby invites
@@ -49,34 +47,71 @@ public class LoadFriendPFData : MonoBehaviour
       UsernameText.text = friendUsername;
    }
 
-   public void AssignData(string friendID2, string friendUsername2, string userID2)
+   public void AssignData(string friendID2, string friendUsername2, int userID2)
    {
       friendUsername = friendUsername2;
-      friendID = friendID2;
+      friendID = int.Parse(friendID2);
       userID = userID2;
       //Debug.Log("friend username: " + friendUsername + ", friend ID: " + friendID + ", current user ID: " + userID);
    }
-
    public void onConfirmButtonClick()
    {
-      FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
-      DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-      //Debug.Log("friend username: " + friendUsername + ", friend ID: " + friendID + ", current user ID: " + userID);
-      Friendship friendship = new Friendship(friendID, userID,"Friends");
-      string json = JsonUtility.ToJson(friendship);
-      reference.Child("friendship").Child(friendID + " | " + userID).SetRawJsonValueAsync(json);
-      HideButtons();
+      StartCoroutine(Confirm());
+   }
+   IEnumerator Confirm()
+   {
+      WWWForm form = new WWWForm();
+      form.AddField("friend_status","FRIENDS");
+      form.AddField("user1_id", friendID);
+      form.AddField("user2_id", userID);
+        
+      using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/friendshipUpd",form))
+      {
+            
+         yield return www.SendWebRequest();
+         if (www.isNetworkError || www.isHttpError)
+         {
+            Debug.Log(www.error);
+         }
+         else
+         {
+            Debug.Log("Friendship Accepted!");
+            if (www.downloadHandler.isDone)
+            {
+               HideButtons();
+            }
+         }
+      }
    }
 
    public void onRejectButtonClick()
    {
-      FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
-      DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-      //Debug.Log("friend username: " + friendUsername + ", friend ID: " + friendID + ", current user ID: " + userID);
-      Friendship friendship = new Friendship(friendID, userID,"Rejected");
-      string json = JsonUtility.ToJson(friendship);
-      reference.Child("friendship").Child(friendID + " | " + userID).SetRawJsonValueAsync(json);
-      FriendsPF.SetActive(false);
+      StartCoroutine(Reject());
+   }
+   IEnumerator Reject()
+   {
+      WWWForm form = new WWWForm();
+      form.AddField("friend_status","REJECTED");
+      form.AddField("user1_id", friendID);
+      form.AddField("user2_id", userID);
+        
+      using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/friendshipUpd",form))
+      {
+            
+         yield return www.SendWebRequest();
+         if (www.isNetworkError || www.isHttpError)
+         {
+            Debug.Log(www.error);
+         }
+         else
+         {
+            Debug.Log("Friendship Accepted!");
+            if (www.downloadHandler.isDone)
+            {
+               FriendsPF.SetActive(false);
+            }
+         }
+      }
    }
 
    public void onInviteButtonClick()
