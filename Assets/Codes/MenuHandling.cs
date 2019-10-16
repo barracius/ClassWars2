@@ -81,7 +81,7 @@ public class MenuHandling : MonoBehaviour
         var notification = new AndroidNotification();
         notification.Title = title;
         notification.Text = subtitle;
-        notification.FireTime = System.DateTime.Now.AddSeconds(10);
+        notification.FireTime = System.DateTime.Now.AddSeconds(5);
 
         AndroidNotificationCenter.SendNotification(notification, "channel_id");
 
@@ -287,6 +287,10 @@ public class MenuHandling : MonoBehaviour
                             asdtemp2.Add(user.username);
                             asdtemp2.Add(user.id);
                             asdtemp2.Add(friendship.friend_status);
+                            if (friendship.friend_status == "STANDBY")
+                            {
+                                sendNot("Solicitud de Amistad",  user.username + " te ha agregado como amig@!");
+                            }
                             dbFriendRequests.Add(asdtemp2);
                         
                         }
@@ -317,6 +321,10 @@ public class MenuHandling : MonoBehaviour
                             asdtemp2.Add(user.username);
                             asdtemp2.Add(user.id);
                             asdtemp2.Add(friendship.friend_status);
+                            if (friendship.friend_status == "STANDBY")
+                            {
+                                sendNot("Solicitud de Amistad",  user.username + " te ha agregado como amig@!");
+                            }
                             dbFriendRequests.Add(asdtemp2);
                         
                         }
@@ -334,8 +342,10 @@ public class MenuHandling : MonoBehaviour
     {
         for (int i = 0; i < dbFriendRequests.Count; i++)
         {
+            
             print(dbFriendRequests.Count);
             ArrayList sublista = (ArrayList) dbFriendRequests[i];
+            sendNot("Nueva Partida!",sublista[0] + " te ha invitado a una partida!");
             if (sublista[2].ToString() == "FRIENDS")
             {
                 WWWForm form = new WWWForm();
@@ -359,6 +369,7 @@ public class MenuHandling : MonoBehaviour
                         }
                         if (www.downloadHandler.isDone)
                         {
+                            
                             string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
                             int temp5 = Regex.Matches(temp, "user1_id").Count;
                             if (temp5 > 1)
@@ -434,8 +445,7 @@ public class MenuHandling : MonoBehaviour
                 if (li.user1_id == idText.text && li.user2_id == currentUserId.ToString() && li.lobbystatus == "STANDBY")
                 {
                     script.AcceptInviteButtonAppearance();
-                    sendNot("Class Wars", usernameText.text + " te ha invitado a una partida!");
-                    
+
                 }
             }
             
