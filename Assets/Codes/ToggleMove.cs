@@ -38,10 +38,19 @@ public class ToggleMove : MonoBehaviour
     public void turnOnMove()
     {
         turnOffMenu();
-        up.SetActive(true);
-        down.SetActive(true);
-        left.SetActive(true);
-        right.SetActive(true);
+        
+        if(up.GetComponent<buttonToggle>().canMove){
+            up.SetActive(true);
+        }
+        if(down.GetComponent<buttonToggle>().canMove){
+            down.SetActive(true);
+        }
+        if(right.GetComponent<buttonToggle>().canMove){
+            right.SetActive(true);
+        }
+        if(left.GetComponent<buttonToggle>().canMove){
+            left.SetActive(true);
+        }  
     }
 
     public void turnOffMove()
