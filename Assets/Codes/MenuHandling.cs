@@ -51,6 +51,8 @@ public class MenuHandling : MonoBehaviour
 
     public Friendship friendship;
     public User user;
+    public LobbyInvite lobbyInvite;
+    public ArrayList lobbyInvites = new ArrayList();
 
     void Start()
     {
@@ -97,11 +99,6 @@ public class MenuHandling : MonoBehaviour
 
     public void onNewGameButton()
     {
-        /*RectTransform parent = content.GetComponent<RectTransform>();
-        var children = new List<GameObject>();
-        foreach (Transform child in parent) children.Add(child.gameObject);
-        children.ForEach(child => Destroy(child));*/
-        
         Player1Text.text = "Player 1: " + currentUserUsername;
         newGameCanvas.SetActive(true);
         foreach (GameObject friend in friends)
@@ -300,7 +297,64 @@ public class MenuHandling : MonoBehaviour
             }
             
         }
+
+        StartCoroutine(CheckLobbyInvitations());
         FillFriendList();
+    }
+    
+    IEnumerator CheckLobbyInvitations()
+    {
+        for (int i = 0; i < dbFriendRequests.Count; i++)
+        {
+            ArrayList sublista = (ArrayList) dbFriendRequests[i];
+            if (sublista[2].ToString() == "FRIENDS")
+            {
+                WWWForm form = new WWWForm();
+                form.AddField("user1_id", currentUserId);
+                form.AddField("user2_id", int.Parse(sublista[1].ToString()));
+
+                using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/lobbyrequestUsers",form))
+                {
+            
+                    yield return www.SendWebRequest();
+                    if (www.isNetworkError || www.isHttpError)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        if (www.downloadHandler.isDone)
+                        {
+                            string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
+                            if (temp == "")
+                            {
+                                break;
+                            }
+                            lobbyInvite = JsonUtility.FromJson<LobbyInvite>(temp);
+                            lobbyInvites.Add(lobbyInvite);
+                            
+                        }
+                    }
+                }
+            }
+            
+        }
+        foreach (GameObject friend in friends)
+        {
+            LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
+            Transform transform = friend.gameObject.transform.GetChild(1);
+            Text usernameText = transform.GetComponent<Text>();
+            for (int i = 0; i < lobbyInvites.Count; i++)
+            {
+                LobbyInvite li = (LobbyInvite)lobbyInvites[i];
+                if (li.user1_id == usernameText.text && li.user2_id == currentUserId.ToString())
+                {
+                    script.AcceptInviteButtonAppearance();
+                }
+            }
+            
+        }
+        
     }
 
    void FillFriendList()
