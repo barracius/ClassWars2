@@ -322,10 +322,62 @@ public class MenuHandling : MonoBehaviour
                         Debug.Log(www.error);
                     }
                     else
-                    {
+                    {    
+                        if (www.downloadHandler.text.Length == 2)
+                        {
+                                Debug.Log("No Invitations ;(");
+                                yield break;
+                        }
                         if (www.downloadHandler.isDone)
                         {
                             string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
+                            int temp5 = Regex.Matches(temp, "user1_id").Count;
+                            if (temp5 > 1)
+                            {
+                                string[] splitArray =  temp.Split(new string[]{"},{"},StringSplitOptions.None);
+                                for (int j = 0; j < splitArray.Length; j++)
+                                {
+                                    string temp2;
+                                    string temp3;
+                                    if (j == 0)
+                                    {
+                                        temp2 = splitArray[j].Insert(splitArray[j].Length, "}");
+                                    }
+
+                                    else if (j == splitArray.Length - 1)
+                                    {
+                                        temp2 = splitArray[j].Insert(0, "{");
+                                    }
+                                    else
+                                    {
+                                        temp3 = splitArray[j].Insert(splitArray[j].Length, "}");
+                                        temp2 = temp3.Insert(0, "{");
+                                    }
+                                    dbFriendRequests.Add(temp2);
+                                }
+                                foreach (string asd in dbFriendRequests)
+                                {
+                                    lobbyInvite = JsonUtility.FromJson<LobbyInvite>(asd);
+                                    /*print(friendship.friend_status);
+                                    print(friendship.user1_id);
+                                    print(friendship.user2_id);*/
+                                    lobbyInvites.Add(lobbyInvite);
+                                }
+                            }
+                            else if(temp5 == 1)
+
+                            {
+                                lobbyInvite = JsonUtility.FromJson<LobbyInvite>(temp);
+                                lobbyInvites.Add(lobbyInvite);
+                            }
+                           
+                            dbFriendRequests.Clear();
+                            StartCoroutine(CheckFriendsNames());
+                        }
+                        /*if (www.downloadHandler.isDone)
+                        {
+                            string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
+                            print(temp);
                             if (temp == "")
                             {
                                 break;
@@ -333,7 +385,8 @@ public class MenuHandling : MonoBehaviour
                             lobbyInvite = JsonUtility.FromJson<LobbyInvite>(temp);
                             lobbyInvites.Add(lobbyInvite);
                             
-                        }
+                        }*/
+                        
                     }
                 }
             }
@@ -350,6 +403,7 @@ public class MenuHandling : MonoBehaviour
                 if (li.user1_id == usernameText.text && li.user2_id == currentUserId.ToString())
                 {
                     script.AcceptInviteButtonAppearance();
+                    
                 }
             }
             
