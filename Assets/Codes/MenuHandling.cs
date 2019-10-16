@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using Unity.Notifications.Android;
 
 public class MenuHandling : MonoBehaviour
 {
@@ -65,8 +66,26 @@ public class MenuHandling : MonoBehaviour
         profileButton.GetComponentInChildren<Text>().text = currentUserUsername;
         friendCodeText.text = "Your friend code is: " + currentUserId;
         StartCoroutine(CheckFriendships());
-    }
+        var c = new AndroidNotificationChannel()
+        {
+            Id = "channel_id",
+            Name = "Default Channel",
+            Importance = Importance.High,
+            Description = "Generic notifications",
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(c);
 
+    }
+    public void sendNot(string title, string subtitle)
+    {
+        var notification = new AndroidNotification();
+        notification.Title = title;
+        notification.Text = subtitle;
+        notification.FireTime = System.DateTime.Now.AddSeconds(10);
+
+        AndroidNotificationCenter.SendNotification(notification, "channel_id");
+
+    }
     private void Update()
     {
         if (parch)
@@ -405,14 +424,17 @@ public class MenuHandling : MonoBehaviour
         foreach (GameObject friend in friends)
         {
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
-            Transform transform = friend.gameObject.transform.GetChild(1);
-            Text usernameText = transform.GetComponent<Text>();
+            Transform transformId = friend.gameObject.transform.GetChild(1);
+            Transform transformNombre = friend.gameObject.transform.GetChild(0);
+            Text idText = transformId.GetComponent<Text>();
+            Text usernameText = transformNombre.GetComponent<Text>();
             for (int i = 0; i < lobbyInvites.Count; i++)
             {
                 LobbyInvite li = (LobbyInvite)lobbyInvites[i];
-                if (li.user1_id == usernameText.text && li.user2_id == currentUserId.ToString() && li.lobbystatus == "STANDBY")
+                if (li.user1_id == idText.text && li.user2_id == currentUserId.ToString() && li.lobbystatus == "STANDBY")
                 {
                     script.AcceptInviteButtonAppearance();
+                    sendNot("Class Wars", usernameText.text + " te ha invitado a una partida!");
                     
                 }
             }
