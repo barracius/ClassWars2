@@ -10,12 +10,13 @@ public class LoadFriendPFData : MonoBehaviour
    private string friendUsername;
    private int userID;
    public Text UsernameText;
+   public Text IDText;
    private string status;
    public GameObject AcceptButton;
    public GameObject RejectButton;
    public GameObject FriendsPF;
    public GameObject InviteButton;
-   public ArrayList ArrayAmigos;
+   public GameObject AcceptInviteButton;
 
    public string invitedFriendUsername;
    public int invitedFriendId;
@@ -46,6 +47,7 @@ public class LoadFriendPFData : MonoBehaviour
    public void ChangeUsernameText()
    {
       UsernameText.text = friendUsername;
+      IDText.text = friendID.ToString();
    }
 
    public void AssignData(string friendID2, string friendUsername2, int userID2)
@@ -122,6 +124,29 @@ public class LoadFriendPFData : MonoBehaviour
       invitedFriendId = friendID;
       invitedFriendUsername = friendUsername;
       OnInviteButtonClass = true;
+      StartCoroutine(newLobbyRequest());
+
+   }
+   IEnumerator newLobbyRequest()
+   {
+      WWWForm form = new WWWForm();
+      form.AddField("user1_id", userID);
+      form.AddField("user2_id", friendID);
+      form.AddField("lobbystatus","STANDBY");
+        
+      using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/lobbyrequests",form))
+      {
+            
+         yield return www.SendWebRequest();
+         if (www.isNetworkError || www.isHttpError)
+         {
+            Debug.Log(www.error);
+         }
+         else
+         {
+            Debug.Log("Lobby Invitation Sent!");
+         }
+      }
    }
 
    public void HideButtons()
@@ -138,5 +163,10 @@ public class LoadFriendPFData : MonoBehaviour
    public void InviteButtonDisappearance()
    {
       InviteButton.SetActive(false);
+   }
+
+   public void AcceptInviteButtonAppearance()
+   {
+      AcceptInviteButton.SetActive(true);
    }
 }
