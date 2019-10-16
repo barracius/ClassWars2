@@ -16042,6 +16042,7 @@ MonoBehaviour:
   playerDmg: 0
   enemyDmg: 0
   healthbar_fg: {fileID: 0}
+  manabar_fg: {fileID: 0}
 --- !u!1 &568003783
 GameObject:
   m_ObjectHideFlags: 0
@@ -16074,6 +16075,7 @@ RectTransform:
   m_Children:
   - {fileID: 60846880}
   - {fileID: 1260548767}
+  - {fileID: 1683765881}
   m_Father: {fileID: 346783246}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19940,6 +19942,79 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4015167616297960665}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &857897860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 857897861}
+  - component: {fileID: 857897863}
+  - component: {fileID: 857897862}
+  m_Layer: 5
+  m_Name: ManaBar_fg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &857897861
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857897860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1683765881}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -2.37, y: 2.66}
+  m_SizeDelta: {x: 322.83, y: 43.82}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &857897862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857897860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.46918714, b: 0.9811321, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 1bc986e48d80a7247a678c20afffdd1f, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &857897863
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857897860}
+  m_CullTransparentMesh: 0
 --- !u!1 &997478667
 GameObject:
   m_ObjectHideFlags: 0
@@ -20165,7 +20240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1034373254
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21246,6 +21321,7 @@ MonoBehaviour:
   playerDmg: 0
   enemyDmg: 0
   healthbar_fg: {fileID: 0}
+  manabar_fg: {fileID: 0}
 --- !u!114 &1362296737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23415,6 +23491,96 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560739172}
   m_CullTransparentMesh: 0
+--- !u!1 &1683765880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1683765881}
+  - component: {fileID: 1683765884}
+  - component: {fileID: 1683765883}
+  - component: {fileID: 1683765882}
+  m_Layer: 5
+  m_Name: ManaBar_bg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1683765881
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683765880}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 857897861}
+  m_Father: {fileID: 568003784}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 95.70001, y: 20.6}
+  m_SizeDelta: {x: 298, y: 38.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1683765882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683765880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc56370fffe338c45a4161f9c5bf23ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBar: {fileID: 857897862}
+  Health: 0
+  maxHP: 0
+--- !u!114 &1683765883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683765880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.3018868, g: 0.26343894, b: 0.26343894, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1683765884
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683765880}
+  m_CullTransparentMesh: 0
 --- !u!1 &1707300325
 GameObject:
   m_ObjectHideFlags: 0
@@ -24078,6 +24244,7 @@ MonoBehaviour:
   playerDmg: 0
   enemyDmg: 0
   healthbar_fg: {fileID: 1260548766}
+  manabar_fg: {fileID: 1683765880}
 --- !u!1 &1968209923
 GameObject:
   m_ObjectHideFlags: 0
@@ -66335,6 +66502,7 @@ MonoBehaviour:
   playerDmg: 0
   enemyDmg: 0
   healthbar_fg: {fileID: 0}
+  manabar_fg: {fileID: 0}
 --- !u!1 &2126259702
 GameObject:
   m_ObjectHideFlags: 0

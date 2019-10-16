@@ -61,6 +61,7 @@ public class EventScene : MonoBehaviour
     public int enemyDmg;
 
     public GameObject healthbar_fg;
+    public GameObject manabar_fg;
 
 
     // Start is called before the first frame update
@@ -70,11 +71,15 @@ public class EventScene : MonoBehaviour
         animatorE = enemy.GetComponent<Animator>();
 
         HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
+        HealthbarController mbController = manabar_fg.GetComponent<HealthbarController>();
 
         Character character = player.GetComponent<Character>();
         hbController.maxHP = character.maxHP;
         hbController.Health = character.curHP;
         hbController.onTakeDmg(0);
+        mbController.maxHP = character.maxMP;
+        mbController.Health = character.curMP;
+        mbController.onTakeDmg(0);
         print(hbController.Health.ToString());
 
     }
@@ -375,6 +380,7 @@ public class EventScene : MonoBehaviour
         //fight.SetActive(false);
         Debug.Log("Fighting");
         HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
+        HealthbarController mbController = manabar_fg.GetComponent<HealthbarController>();
 
         Character character = player.GetComponent<Character>();
 
@@ -407,6 +413,7 @@ public class EventScene : MonoBehaviour
                 Debug.Log("enemy:" + enemyDmg.ToString());
                 monster.curHP -= playerDmg * 2;
                 character.curMP -= 10;
+                mbController.onTakeDmg(10);
                 character.curHP -= enemyDmg;
                 hbController.onTakeDmg(enemyDmg);
 
