@@ -6,6 +6,7 @@ public class BattleHandler : MonoBehaviour
 {
     public GameObject gamehandler;
     public GameObject player;
+    public GameObject healthbar_fg;
 
     public GameObject enemy;
 
@@ -15,7 +16,12 @@ public class BattleHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
+        HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
+        
+        Character character = player.GetComponent<Character>();
+        hbController.maxHP = character.maxHP;
+        hbController.Health = character.curHP;
     }
 
     // Update is called once per frame
@@ -28,6 +34,8 @@ public class BattleHandler : MonoBehaviour
     {
         Monsters monster = enemy.GetComponent<Monsters>();
         Character character = player.GetComponent<Character>();
+        
+        HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
         CalculateDmgEnemy(monster);
         CalculateDmgPlayer(character);
         if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg <= 0)
@@ -40,8 +48,11 @@ public class BattleHandler : MonoBehaviour
         {
             Debug.Log("player:" + playerDmg.ToString());
             Debug.Log("enemy:" + enemyDmg.ToString());
+            //GameObject HB = character.GetComponent<GameObject>();
+            
             character.curHP -= enemyDmg;
             monster.curHP -= playerDmg;
+            hbController.onTakeDmg(enemyDmg);
             Debug.Log("player HP:" + character.curHP.ToString());
             Debug.Log("enemy HP:" + monster.curHP.ToString());
         }

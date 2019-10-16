@@ -18,10 +18,6 @@
       <Path>.idea</Path>
       <Path>.vscode</Path>
       <Path>Library</Path>
-<<<<<<< HEAD
-      <Path>Logs</Path>
-=======
->>>>>>> tilemap
       <Path>Temp</Path>
       <Path>obj</Path>
     </explicitExcludes>
