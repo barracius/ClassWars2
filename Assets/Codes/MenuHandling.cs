@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using Unity.Notifications.Android;
 
 public class MenuHandling : MonoBehaviour
 {
@@ -65,8 +66,26 @@ public class MenuHandling : MonoBehaviour
         profileButton.GetComponentInChildren<Text>().text = currentUserUsername;
         friendCodeText.text = "Your friend code is: " + currentUserId;
         StartCoroutine(CheckFriendships());
-    }
+        var c = new AndroidNotificationChannel()
+        {
+            Id = "channel_id",
+            Name = "Default Channel",
+            Importance = Importance.High,
+            Description = "Generic notifications",
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(c);
 
+    }
+    public void sendNot(string title, string subtitle)
+    {
+        var notification = new AndroidNotification();
+        notification.Title = title;
+        notification.Text = subtitle;
+        notification.FireTime = System.DateTime.Now.AddSeconds(5);
+
+        AndroidNotificationCenter.SendNotification(notification, "channel_id");
+
+    }
     private void Update()
     {
         if (parch)
@@ -127,6 +146,7 @@ public class MenuHandling : MonoBehaviour
 
         if (NumberOfPlayers == 1)
         {
+            PlayerPrefs.SetInt("cantJugadores", 1);
             SceneManager.LoadScene("Scenes/MapScene");
         }
     }
@@ -268,6 +288,10 @@ public class MenuHandling : MonoBehaviour
                             asdtemp2.Add(user.username);
                             asdtemp2.Add(user.id);
                             asdtemp2.Add(friendship.friend_status);
+                            if (friendship.friend_status == "STANDBY")
+                            {
+                                sendNot("Solicitud de Amistad",  user.username + " te ha agregado como amig@!");
+                            }
                             dbFriendRequests.Add(asdtemp2);
                         
                         }
@@ -298,6 +322,10 @@ public class MenuHandling : MonoBehaviour
                             asdtemp2.Add(user.username);
                             asdtemp2.Add(user.id);
                             asdtemp2.Add(friendship.friend_status);
+                            if (friendship.friend_status == "STANDBY")
+                            {
+                                sendNot("Solicitud de Amistad",  user.username + " te ha agregado como amig@!");
+                            }
                             dbFriendRequests.Add(asdtemp2);
                         
                         }
@@ -315,8 +343,10 @@ public class MenuHandling : MonoBehaviour
     {
         for (int i = 0; i < dbFriendRequests.Count; i++)
         {
+            
             print(dbFriendRequests.Count);
             ArrayList sublista = (ArrayList) dbFriendRequests[i];
+            sendNot("Nueva Partida!",sublista[0] + " te ha invitado a una partida!");
             if (sublista[2].ToString() == "FRIENDS")
             {
                 WWWForm form = new WWWForm();
@@ -340,6 +370,7 @@ public class MenuHandling : MonoBehaviour
                         }
                         if (www.downloadHandler.isDone)
                         {
+                            
                             string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
                             int temp5 = Regex.Matches(temp, "user1_id").Count;
                             if (temp5 > 1)
@@ -405,15 +436,17 @@ public class MenuHandling : MonoBehaviour
         foreach (GameObject friend in friends)
         {
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
-            Transform transform = friend.gameObject.transform.GetChild(1);
-            Text usernameText = transform.GetComponent<Text>();
+            Transform transformId = friend.gameObject.transform.GetChild(1);
+            Transform transformNombre = friend.gameObject.transform.GetChild(0);
+            Text idText = transformId.GetComponent<Text>();
+            Text usernameText = transformNombre.GetComponent<Text>();
             for (int i = 0; i < lobbyInvites.Count; i++)
             {
                 LobbyInvite li = (LobbyInvite)lobbyInvites[i];
-                if (li.user1_id == usernameText.text && li.user2_id == currentUserId.ToString() && li.lobbystatus == "STANDBY")
+                if (li.user1_id == idText.text && li.user2_id == currentUserId.ToString() && li.lobbystatus == "STANDBY")
                 {
                     script.AcceptInviteButtonAppearance();
-                    
+
                 }
             }
             

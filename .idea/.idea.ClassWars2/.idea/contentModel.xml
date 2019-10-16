@@ -11,6 +11,7 @@
           <e p="APITEST.cs" t="Include" />
           <e p="BattleHandler.cs" t="Include" />
           <e p="BattleManager.cs" t="Include" />
+          <e p="buttonToggle.cs" t="Include" />
           <e p="CameraMovement.cs" t="Include" />
           <e p="Character.cs" t="Include" />
           <e p="Context.cs" t="Include" />
@@ -23,6 +24,7 @@
           <e p="HeartManager.cs" t="Include" />
           <e p="Hunter.cs" t="Include" />
           <e p="Instantiate.cs" t="Include" />
+          <e p="Items.cs" t="Include" />
           <e p="LoadFriendPFData.cs" t="Include" />
           <e p="LoadPlayers.cs" t="Include" />
           <e p="LobbyInvite.cs" t="Include" />
