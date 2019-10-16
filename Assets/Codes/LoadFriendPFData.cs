@@ -15,6 +15,7 @@ public class LoadFriendPFData : MonoBehaviour
    public GameObject RejectButton;
    public GameObject FriendsPF;
    public GameObject InviteButton;
+   public ArrayList ArrayAmigos;
 
    public string invitedFriendUsername;
    public int invitedFriendId;
@@ -79,6 +80,7 @@ public class LoadFriendPFData : MonoBehaviour
             if (www.downloadHandler.isDone)
             {
                HideButtons();
+               InviteButtonAppearance();
             }
          }
       }

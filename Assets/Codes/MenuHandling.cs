@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,8 @@ public class MenuHandling : MonoBehaviour
 
     public VerticalLayoutGroup content;
     public GameObject FriendsPF;
-
+    public GameObject content2;
+    
     public Text Player1Text;
     public Text Player2Text;
 
@@ -48,11 +50,7 @@ public class MenuHandling : MonoBehaviour
     private string LobbyName;
 
     public Friendship friendship;
-    public string[] splitArrayNew;
     public User user;
-    public ArrayList asdtemp2;
-
-
 
     void Start()
     {
@@ -99,6 +97,11 @@ public class MenuHandling : MonoBehaviour
 
     public void onNewGameButton()
     {
+        /*RectTransform parent = content.GetComponent<RectTransform>();
+        var children = new List<GameObject>();
+        foreach (Transform child in parent) children.Add(child.gameObject);
+        children.ForEach(child => Destroy(child));*/
+        
         Player1Text.text = "Player 1: " + currentUserUsername;
         newGameCanvas.SetActive(true);
         foreach (GameObject friend in friends)
@@ -136,7 +139,6 @@ public class MenuHandling : MonoBehaviour
 
     public void onClickAddFriendButton()
     {
-        OtherFriendCode = int.Parse(UsernameInputField.text);
         StartCoroutine(AddFriendDB());
     }
 
@@ -149,8 +151,8 @@ public class MenuHandling : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("user1_id", currentUserId);
-        form.AddField("user2_id",OtherFriendCode);
-        form.AddField("status","STANDBY");
+        form.AddField("user2_id",int.Parse(UsernameInputField.text));
+        form.AddField("friend_status","STANDBY");
         
         using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/friendships",form))
         {
@@ -185,35 +187,46 @@ public class MenuHandling : MonoBehaviour
                 if (www.downloadHandler.isDone)
                 {
                     string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);
-                    string[] splitArray =  temp.Split(new string[]{"},{"},StringSplitOptions.None);
-                    for (int i = 0; i < splitArray.Length; i++)
+                    int temp5 = Regex.Matches(temp, "user1_id").Count;
+                    if (temp5 > 1)
                     {
-                        string temp2;
-                        string temp3;
-                        if (i == 0)
+                        string[] splitArray =  temp.Split(new string[]{"},{"},StringSplitOptions.None);
+                        for (int i = 0; i < splitArray.Length; i++)
                         {
-                            temp2 = splitArray[i].Insert(splitArray[i].Length, "}");
-                        }
+                            string temp2;
+                            string temp3;
+                            if (i == 0)
+                            {
+                                temp2 = splitArray[i].Insert(splitArray[i].Length, "}");
+                            }
 
-                        else if (i == splitArray.Length - 1)
-                        {
-                            temp2 = splitArray[i].Insert(0, "{");
+                            else if (i == splitArray.Length - 1)
+                            {
+                                temp2 = splitArray[i].Insert(0, "{");
+                            }
+                            else
+                            {
+                                temp3 = splitArray[i].Insert(splitArray[i].Length, "}");
+                                temp2 = temp3.Insert(0, "{");
+                            }
+                            dbFriendRequests.Add(temp2);
                         }
-                        else
+                        foreach (string asd in dbFriendRequests)
                         {
-                            temp3 = splitArray[i].Insert(splitArray[i].Length, "}");
-                            temp2 = temp3.Insert(0, "{");
+                            friendship = JsonUtility.FromJson<Friendship>(asd);
+                            /*print(friendship.friend_status);
+                            print(friendship.user1_id);
+                            print(friendship.user2_id);*/
+                            dbNotRejectedFriends.Add(friendship);
                         }
-                        dbFriendRequests.Add(temp2);
                     }
-                    foreach (string asd in dbFriendRequests)
+                    else if(temp5 == 1)
+
                     {
-                        friendship = JsonUtility.FromJson<Friendship>(asd);
-                        /*print(friendship.friend_status);
-                        print(friendship.user1_id);
-                        print(friendship.user2_id);*/
+                        friendship = JsonUtility.FromJson<Friendship>(temp);
                         dbNotRejectedFriends.Add(friendship);
                     }
+                   
                     dbFriendRequests.Clear();
                     StartCoroutine(CheckFriendsNames());
                 }
@@ -225,33 +238,67 @@ public class MenuHandling : MonoBehaviour
     {
         foreach (Friendship friendship in dbNotRejectedFriends)
         {
-            using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/users/" + friendship.user1_id))
+            if (friendship.user1_id == currentUserId)
             {
-                yield return www.SendWebRequest();
-                if (www.isNetworkError || www.isHttpError)
+                using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/users/" + friendship.user2_id))
                 {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    if (www.downloadHandler.text.Length == 2)
+                    yield return www.SendWebRequest();
+                    if (www.isNetworkError || www.isHttpError)
                     {
-                        Debug.Log("Vacio");
-                        yield break;
+                        Debug.Log(www.error);
                     }
-                    if (www.downloadHandler.isDone)
+                    else
                     {
-                        string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2); 
-                        user = JsonUtility.FromJson<User>(temp);
-                        ArrayList asdtemp2 = new ArrayList();
-                        asdtemp2.Add(user.username);
-                        asdtemp2.Add(user.id);
-                        asdtemp2.Add(friendship.friend_status);
-                        dbFriendRequests.Add(asdtemp2);
+                        if (www.downloadHandler.text.Length == 2)
+                        {
+                            Debug.Log("Vacio");
+                            yield break;
+                        }
+                        if (www.downloadHandler.isDone)
+                        {
+                            string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2); 
+                            user = JsonUtility.FromJson<User>(temp);
+                            ArrayList asdtemp2 = new ArrayList();
+                            asdtemp2.Add(user.username);
+                            asdtemp2.Add(user.id);
+                            asdtemp2.Add(friendship.friend_status);
+                            dbFriendRequests.Add(asdtemp2);
                         
+                        }
                     }
                 }
             }
+            else if (friendship.user2_id == currentUserId)
+            {
+                using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/users/" + friendship.user1_id))
+                {
+                    yield return www.SendWebRequest();
+                    if (www.isNetworkError || www.isHttpError)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        if (www.downloadHandler.text.Length == 2)
+                        {
+                            Debug.Log("Vacio");
+                            yield break;
+                        }
+                        if (www.downloadHandler.isDone)
+                        {
+                            string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2); 
+                            user = JsonUtility.FromJson<User>(temp);
+                            ArrayList asdtemp2 = new ArrayList();
+                            asdtemp2.Add(user.username);
+                            asdtemp2.Add(user.id);
+                            asdtemp2.Add(friendship.friend_status);
+                            dbFriendRequests.Add(asdtemp2);
+                        
+                        }
+                    }
+                }  
+            }
+            
         }
         FillFriendList();
     }
@@ -263,9 +310,9 @@ public class MenuHandling : MonoBehaviour
         {
             GameObject friend = Instantiate(FriendsPF, parent.transform, true);
             LoadFriendPFData script = friend.GetComponent<LoadFriendPFData>();
-            //print(array[0]);
-            //print(array[1]);
-            //print(array[2]);
+            //print("Array 0: " + array[0]);
+            //print("Array 1: " + array[1]);
+            //print("Array 2: " + array[2]);
             
             script.AssignData(array[1].ToString(), array[0].ToString(), currentUserId);
             script.ChangeUsernameText();
