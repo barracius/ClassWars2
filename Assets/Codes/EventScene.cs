@@ -248,6 +248,17 @@ public class EventScene : MonoBehaviour
         }
     }
 
+    public void Rest()
+    {
+        HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
+        Character character = player.GetComponent<Character>();
+        character.curHP += character.maxHP / 4;
+        hbController.onTakeDmg(-character.maxHP / 4);
+        TurnOnMenu();
+        GameHandler gh = gamehandler.GetComponent<GameHandler>();
+        gh.actions = gh.maxturns;
+    }
+
     public void Fight()
     {
         animator.SetFloat("moveX", -1);
