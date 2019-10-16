@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 6bc109b9b488def4e963ee5fe466be0b
+=======
+guid: 67eed42d9b2b1a946a27f9862b81a775
+>>>>>>> tilemap
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

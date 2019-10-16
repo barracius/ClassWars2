@@ -5,6 +5,8 @@ using UnityEngine;
 public class Warrior : MonoBehaviour
 {
     public bool alive;
+    
+    public string classname = "Warrior";
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;

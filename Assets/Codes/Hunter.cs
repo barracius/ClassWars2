@@ -6,11 +6,12 @@ public class Hunter : MonoBehaviour
 {
 
     public bool alive;
+    
+    public string classname = "Hunter";
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;
     public int curMP = 22;
-
     public int str = 3;
     public int intel = 2;
     public int dex = 5;

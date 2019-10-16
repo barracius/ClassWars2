@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 5bd2abcf9a18b6143aeb00f3ce83a404
+=======
+guid: 00f4349c274cbb449ac21865e02ad9ee
+>>>>>>> tilemap
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
