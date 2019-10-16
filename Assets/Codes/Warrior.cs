@@ -5,11 +5,8 @@ using UnityEngine;
 public class Warrior : MonoBehaviour
 {
     public bool alive;
-<<<<<<< HEAD
-=======
     
     public string classname = "Warrior";
->>>>>>> tilemap
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;
@@ -41,8 +38,4 @@ public class Warrior : MonoBehaviour
     {
 
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> tilemap

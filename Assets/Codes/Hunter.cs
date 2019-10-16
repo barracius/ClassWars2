@@ -6,29 +6,18 @@ public class Hunter : MonoBehaviour
 {
 
     public bool alive;
-<<<<<<< HEAD
-=======
     
     public string classname = "Hunter";
->>>>>>> tilemap
     public int maxHP = 100;
     public int maxMP = 40;
     public int curHP = 80;
     public int curMP = 22;
-<<<<<<< HEAD
-
-=======
->>>>>>> tilemap
     public int str = 3;
     public int intel = 2;
     public int dex = 5;
     public ArrayList skills;
 
-<<<<<<< HEAD
     public HealthBar HBPlayer;
-=======
-    //public HealthBar HBPlayer;
->>>>>>> tilemap
 
     // Start is called before the first frame update
     void Start()
@@ -68,8 +57,4 @@ public class Hunter : MonoBehaviour
     // }
 
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> tilemap
