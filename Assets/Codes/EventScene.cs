@@ -6,7 +6,13 @@ using UnityEngine.UI;
 
 public class EventScene : MonoBehaviour
 {
+    public bool canGoLeft;
+    public bool canGoRight;
+    public bool canGoUp;
+    public bool canGoDown;
 
+    public bool hasEnemy;
+    private bool reallyHasEnemy;
     public GameObject gamehandler;
 
     private int attackTime = 30;
@@ -19,8 +25,8 @@ public class EventScene : MonoBehaviour
     private bool skilling;
     public Animator animator;
     private Animator animatorE;
-    public FloatValue currentHealth;
-    public Signal playerHealthSignal;
+    //public FloatValue currentHealth;
+    //public Signal playerHealthSignal;
 
     public int hola;
     public GameObject player;
@@ -67,20 +73,21 @@ public class EventScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = player.GetComponent<Animator>();
-        animatorE = enemy.GetComponent<Animator>();
+        if(hasEnemy){
+            animator = player.GetComponent<Animator>();
+            animatorE = enemy.GetComponent<Animator>();
+        }
 
-        HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
-        HealthbarController mbController = manabar_fg.GetComponent<HealthbarController>();
+        if(hasEnemy){
+            HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
 
-        Character character = player.GetComponent<Character>();
-        hbController.maxHP = character.maxHP;
-        hbController.Health = character.curHP;
-        hbController.onTakeDmg(0);
-        mbController.maxHP = character.maxMP;
-        mbController.Health = character.curMP;
-        mbController.onTakeDmg(0);
-        print(hbController.Health.ToString());
+            Character character = player.GetComponent<Character>();
+            hbController.maxHP = character.maxHP;
+            hbController.Health = character.curHP;
+            hbController.onTakeDmg(0);
+            print(hbController.Health.ToString());
+        }
+        
 
     }
 
@@ -146,6 +153,13 @@ public class EventScene : MonoBehaviour
         }
         if (player2In && !player.GetComponent<PlayerMovement>().moving && parch)
         {
+            HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
+
+            Character character = player.GetComponent<Character>();
+            hbController.maxHP = character.maxHP;
+            hbController.Health = character.curHP;
+            hbController.onTakeDmg(0);
+            print(hbController.Health.ToString());
             dialogActive = true;
             dialogBox.SetActive(true);
             dialog = "You have encountered another player, get ready to rumble!";
@@ -162,16 +176,16 @@ public class EventScene : MonoBehaviour
                 TurnOnMenu();
                 dialogActive = false;
                 dialogBox.SetActive(false);
-                if (enemy)
+                if (reallyHasEnemy)
                 {
                     exlamation.SetActive(false);
                     enemy.SetActive(true);
                     TurnOffMenu();
-                    if (currentHealth.initialValue > 0)
+                    /*if (currentHealth.initialValue > 0)
                     {
                         currentHealth.initialValue -= 1;
                         playerHealthSignal.Raise();
-                    }
+                    }*/
                 }
 
                 if (beginFightP)
@@ -193,6 +207,9 @@ public class EventScene : MonoBehaviour
                     //fight.SetActive(false);
                     enemy.SetActive(false);
                     TurnOnMenu();
+                    TurnOffFight();
+                    //beginFightN = false;
+                    //afterFightN = false;
                     GameHandler gh = gamehandler.GetComponent<GameHandler>();
                     gh.actions = gh.maxturns;
                 }
@@ -204,8 +221,16 @@ public class EventScene : MonoBehaviour
     {
         if (other.name == "Player")
         {
+            afterFightN = false;
+            beginFightN = false;
+            up.GetComponent<buttonToggle>().canMove = canGoUp;
+            down.GetComponent<buttonToggle>().canMove = canGoDown;
+            right.GetComponent<buttonToggle>().canMove = canGoRight;
+            left.GetComponent<buttonToggle>().canMove = canGoLeft;
 
 
+            Debug.Log(hasEnemy);
+            reallyHasEnemy = hasEnemy;
             inBox = true;
             Debug.Log("player in scene");
             if (player2In)
@@ -235,7 +260,7 @@ public class EventScene : MonoBehaviour
 
         if (inBox)
         {
-            if (enemy)
+            if (reallyHasEnemy)
             {
                 exlamation.SetActive(true);
                 beginFightN = true;
@@ -261,53 +286,56 @@ public class EventScene : MonoBehaviour
 
     public void Fight()
     {
-        animator.SetFloat("moveX", -1);
-        animator.SetFloat("moveY", 0);
-        animator.SetBool("attacking", true);
-        attacking = true;
-        TurnOffFight();
-        //fight.SetActive(false);
-        Debug.Log("Fighting");
+        if(reallyHasEnemy){
+            animator.SetFloat("moveX", -1);
+            animator.SetFloat("moveY", 0);
+            animator.SetBool("attacking", true);
+            attacking = true;
+            TurnOffFight();
+            //fight.SetActive(false);
+            Debug.Log("Fighting");
 
-        HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
-        Character character = player.GetComponent<Character>();
-        Monsters monster = enemy.GetComponent<Monsters>();
-        if (character.curHP >= 0)
-        {
-            // Monsters monster = enemy.GetComponent<Monsters>();
-            // Character character = player.GetComponent<Character>();
-            CalculateDmgEnemy(monster);
-            CalculateDmgPlayer(character);
-            if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg <= 0)
+            HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
+            Character character = player.GetComponent<Character>();
+            Monsters monster = enemy.GetComponent<Monsters>();
+            if (character.curHP >= 0)
             {
+                // Monsters monster = enemy.GetComponent<Monsters>();
+                // Character character = player.GetComponent<Character>();
+                CalculateDmgEnemy(monster);
+                CalculateDmgPlayer(character);
+                if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg <= 0)
+                {
 
-                afterFightN = true;
-                animatorE.SetBool("attacking", false);
+                    afterFightN = true;
+                    animatorE.SetBool("attacking", false);
 
-                dialogActive = true;
-                TurnOffFight();
-                dialogBox.SetActive(true);
-                dialog = "You have defeated the log!";
-                dialogText.text = dialog;
+                    dialogActive = true;
+                    TurnOffFight();
+                    dialogBox.SetActive(true);
+                    dialog = "You have defeated the log!";
+                    dialogText.text = dialog;
 
+
+
+                }
+                else
+                {
+                    Debug.Log("player:" + playerDmg.ToString());
+                    Debug.Log("enemy:" + enemyDmg.ToString());
+                    character.curHP -= enemyDmg;
+                    hbController.onTakeDmg(enemyDmg);
+
+                    monster.curHP -= playerDmg;
+
+                    Debug.Log("player HP:" + character.curHP.ToString());
+                    Debug.Log("enemy HP:" + monster.curHP.ToString());
+                }
 
 
             }
-            else
-            {
-                Debug.Log("player:" + playerDmg.ToString());
-                Debug.Log("enemy:" + enemyDmg.ToString());
-                character.curHP -= enemyDmg;
-                hbController.onTakeDmg(enemyDmg);
-
-                monster.curHP -= playerDmg;
-
-                Debug.Log("player HP:" + character.curHP.ToString());
-                Debug.Log("enemy HP:" + monster.curHP.ToString());
-            }
-
-
         }
+        
         // if (monster.curHP <= 0)
         // {
         //     dialogActive = true;
@@ -384,56 +412,57 @@ public class EventScene : MonoBehaviour
 
     public void Skill()
     {
-        animator.SetFloat("moveX", -1);
-        animator.SetFloat("moveY", 0);
-        animator.SetBool("skill", true);
-        skilling = true;
-        //fight.SetActive(false);
-        Debug.Log("Fighting");
-        HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
-        HealthbarController mbController = manabar_fg.GetComponent<HealthbarController>();
+        if(reallyHasEnemy){
+            animator.SetFloat("moveX", -1);
+            animator.SetFloat("moveY", 0);
+            animator.SetBool("skill", true);
+            skilling = true;
+            //fight.SetActive(false);
+            Debug.Log("Fighting");
+            HealthbarController hbController = healthbar_fg.GetComponent<HealthbarController>();
 
-        Character character = player.GetComponent<Character>();
+            Character character = player.GetComponent<Character>();
 
-        Monsters monster = enemy.GetComponent<Monsters>();
-        if (character.curHP >= 0)
-        {
-            // Monsters monster = enemy.GetComponent<Monsters>();
-            // Character character = player.GetComponent<Character>();
-            CalculateDmgEnemy(monster);
-            CalculateDmgPlayer(character);
-            if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg * 2 <= 0)
+            Monsters monster = enemy.GetComponent<Monsters>();
+            if (character.curHP >= 0)
             {
-                afterFightN = true;
-                animatorE.SetBool("attacking", false);
+                // Monsters monster = enemy.GetComponent<Monsters>();
+                // Character character = player.GetComponent<Character>();
+                CalculateDmgEnemy(monster);
+                CalculateDmgPlayer(character);
+                if (character.curHP - enemyDmg <= 0 || monster.curHP - playerDmg * 2 <= 0)
+                {
+                    afterFightN = true;
+                    animatorE.SetBool("attacking", false);
 
-                dialogActive = true;
-                TurnOffFight();
+                    dialogActive = true;
+                    TurnOffFight();
 
-                dialogActive = true;
-                dialogBox.SetActive(true);
-                dialog = "You have defeated the log!";
-                dialogText.text = dialog;
+                    dialogActive = true;
+                    dialogBox.SetActive(true);
+                    dialog = "You have defeated the log!";
+                    dialogText.text = dialog;
 
+
+
+                }
+                else
+                {
+                    Debug.Log("player:" + playerDmg.ToString());
+                    Debug.Log("enemy:" + enemyDmg.ToString());
+                    monster.curHP -= playerDmg * 2;
+                    character.curMP -= 10;
+                    character.curHP -= enemyDmg;
+                    hbController.onTakeDmg(enemyDmg);
+
+                    Debug.Log("player HP:" + character.curHP.ToString());
+                    Debug.Log("enemy HP:" + monster.curHP.ToString());
+                }
 
 
             }
-            else
-            {
-                Debug.Log("player:" + playerDmg.ToString());
-                Debug.Log("enemy:" + enemyDmg.ToString());
-                monster.curHP -= playerDmg * 2;
-                character.curMP -= 10;
-                mbController.onTakeDmg(10);
-                character.curHP -= enemyDmg;
-                hbController.onTakeDmg(enemyDmg);
-
-                Debug.Log("player HP:" + character.curHP.ToString());
-                Debug.Log("enemy HP:" + monster.curHP.ToString());
-            }
-
-
         }
+            
     }
 
 
