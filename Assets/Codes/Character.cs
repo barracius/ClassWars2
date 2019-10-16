@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     {
 
         //OBTENER DE BD
-        CharClass = "Mage";
+        CharClass = "Warrior";
 
         if (CharClass == "Mage")
         {
