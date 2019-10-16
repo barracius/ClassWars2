@@ -7,23 +7,11 @@ using UnityEngine.UI;
 using Firebase.Database;
 using Firebase;
 using Firebase.Unity.Editor;
+using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Register : MonoBehaviour
 {
-    public DatabaseReference reference;
-    private Firebase.Auth.FirebaseUser _newUser;
-
-    private void awake()
-    {
-        //Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-    }
-    private void Start()
-    {
-
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://class-wars.firebaseio.com/.json");
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-    }
 
     public InputField RegisterUsernameText;
     public InputField RegisterPasswordText;
@@ -33,79 +21,74 @@ public class Register : MonoBehaviour
     public static string PlayerPassword;
     public static string PlayerEmail = null;
 
+    public User user;
+
     public void OnSubmitRegisterButton()
     {
         PlayerUsername = RegisterUsernameText.text;
         PlayerPassword = RegisterPasswordText.text;
         PlayerEmail = RegisterEmailText.text;
-        PostToDatabase();
+        StartCoroutine(PostToDatabase());
     }
-    private void PostToDatabase()
+    IEnumerator PostToDatabase()
     {
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        auth.CreateUserWithEmailAndPasswordAsync(PlayerEmail, PlayerPassword).ContinueWith(task =>
+        WWWForm form = new WWWForm();
+        form.AddField("pass",PlayerPassword);
+        form.AddField("username",PlayerUsername);
+        form.AddField("email",PlayerEmail);
+        
+        using (UnityWebRequest www = UnityWebRequest.Post("https://afternoon-spire-83789.herokuapp.com/users",form))
         {
-            if (task.IsCanceled)
+            
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
-                return;
+                Debug.Log(www.error);
             }
-            if (task.IsFaulted)
+            else
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+               Debug.Log("User successfully created!");
+               if (www.downloadHandler.isDone)
+               {
+                   StartCoroutine(getUser());
+               }
+               
             }
-
-            //Firebase user has been created.
-            _newUser = task.Result;
-            Debug.LogFormat("Firebase user created successfully: {0} ({1})"
-                    , _newUser.DisplayName, _newUser.UserId);
-        });
-
-        Firebase.Auth.Credential credential = Firebase.Auth.EmailAuthProvider.GetCredential(PlayerEmail, PlayerPassword);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        }
+    }
+    
+    IEnumerator getUser()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get("https://afternoon-spire-83789.herokuapp.com/login/" + PlayerEmail))
         {
-            if (task.IsCanceled)
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
             {
-                Debug.LogError("SignInWithCredentialAsync was canceled.");
-                return;
+                Debug.Log(www.error);
             }
-            if (task.IsFaulted)
+            else
             {
-                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            _newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                _newUser.DisplayName, _newUser.UserId);
-            if (_newUser != null)
-            {
-                User user = new User(PlayerUsername, _newUser.UserId);
-                string json = JsonUtility.ToJson(user);
-                reference.Child("user").Child(_newUser.UserId).SetRawJsonValueAsync(json);
-                Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
+                if (www.downloadHandler.text.Length == 2)
                 {
-                    DisplayName = PlayerUsername
-                };
-                _newUser.UpdateUserProfileAsync(profile).ContinueWith(tarea =>
+                    Debug.Log("Wrong email or password");
+                    yield break;
+                }
+                if (www.downloadHandler.isDone)
                 {
-                    if (tarea.IsCanceled)
+                    string temp = www.downloadHandler.text.Substring(1, www.downloadHandler.text.Length-2);; 
+                    user = JsonUtility.FromJson<User>(temp);
+                    if (user.pass != PlayerPassword)
                     {
-                        Debug.LogError("UpdateUserProfileAsync was canceled.");
-                        return;
+                        Debug.Log("Wrong email or password");
                     }
-
-                    if (tarea.IsFaulted)
+                    else
                     {
-                        Debug.LogError("UpdateUserProfileAsync encountered an error: " + tarea.Exception);
-                        return;
+                        PlayerPrefs.SetInt("UserId",user.id);
+                        PlayerPrefs.SetString("UserUsername", user.username);
+                        SceneManager.LoadScene("Scenes/MenuScene");
                     }
-
-                    Debug.Log("User profile updated successfully.");
-                    Debug.Log(_newUser.DisplayName);
-                });
+                }
             }
-        });
+        }
     }
 }
